@@ -110,19 +110,19 @@ const Component = ({ imageSrc, componentName, to }) => {
 const ComponentGrid = () => {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '10px 10px' }}>
-      {/* Row 1 */}
+
       <Component imageSrc={frame} componentName="Outlet Recruitment" to="/outlet-recruitment" />
       <Component imageSrc={frame1} componentName="Product Merchandising" to="/product-merchandising" />
       <Component imageSrc={frame7} componentName="Product Ordering" to="/product-ordering" />
-      {/* Row 2 */}
+    
       <Component imageSrc={frame3} componentName="POSM" to="/posm" />
       <Component imageSrc={NrjTjl} componentName="Competition Tracking" to="/competition-tracking" />
       <Component imageSrc={frame4} componentName="Products Freshness" to="/products-freshness" />
-      {/* Row 3 */}
+    
       <Component imageSrc={frame5} componentName="Out-of-stock-tracking" to="/OOF-tracking" />
       <Component imageSrc={frame6} componentName="Planogram Checks" to="/planogram-checks" />
       <Component imageSrc={frame7} componentName="Pricing Checks" to="/pricing-checks" />
-      {/* Row 4 */}
+    
       <Component imageSrc={frame2} componentName="Store Detailing" to="/store-detailing" />
     </div>
   );
