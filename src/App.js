@@ -14,6 +14,11 @@ import PricingChecks from './components/pricing-checks';
 import ProductsFreshness from './components/products-freshness';
 import ProductMerchandising from './components/product-merchandising';
 import ProductOrdering from './components/product-ordering';
+import RoutePlan from './components/routeplan';
+import OutletList from './components/outletlist';
+import VisitSchedule from './components/visitschedule';
+import Inbox from './components/inbox';
+import Help from './components/help';
 
 const App = () => {
   return (
@@ -31,7 +36,11 @@ const App = () => {
         <Route path="/Product-ordering" element={<ProductOrdering />} />
         <Route path="/Products-freshness" element={<ProductsFreshness />} />
         <Route path="/store-detailing" element={<StoreDetailing />} />
-        <Route path="/POSM" element={<POSM />} />
+        <Route path="/route-plan" element={<RoutePlan />} />
+        <Route path="/outlet-list" element={<OutletList />} />
+        <Route path="/visit-schedule" element={<VisitSchedule />} />
+        <Route path="/inbox" element={<Inbox />} />
+        <Route path="/help" element={<Help />} />
       </Routes>
     </Router>
   );

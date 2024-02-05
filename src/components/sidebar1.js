@@ -8,7 +8,7 @@ import Inbox from '../assets/images/inbox.png';
 import Help from '../assets/images/help.png';
 import Sync from '../assets/images/sync.png';
 
-  const Sidebar = () => {
+  const Sidebar1 = () => {
 
     const [burger_class, setBurgerClass] = useState("burger-bar unclicked")
     const [menu_class, setMenuClass] = useState("menu hidden")
@@ -51,19 +51,10 @@ import Sync from '../assets/images/sync.png';
           <a href="/outlet-recruitment" className="menu-item">
           <img src={Dash} alt="Dash" style={{ width: '20px', marginRight: '10px' }} />
             Dashboard</a>
-          <a href="/route-plan" className="menu-item">
-          <img src="dummy-image-url" alt="Dummy Image" style={{ width: '20px', marginRight: '10px' }} />
-            Route Plan</a>
-          <a href="/outlet-list" className="menu-item">
-          <img src={frame2} alt="outlet" style={{ width: '20px', marginRight: '10px' }} />
-            Outlet List</a>
-          <a href="/visit-schedule" className="menu-item">
-          <img src={Visit} alt="visit" style={{ width: '20px', marginRight: '10px' }} />
-            Visit Schedule</a>
-          <a href="/inbox" className="menu-item">
+          <a href="#" className="menu-item">
           <img src={Inbox} alt="inbox" style={{ width: '20px', marginRight: '10px' }} />
             Inbox</a>
-          <a href="/help" className="menu-item">
+          <a href="#" className="menu-item">
           <img src={Help} alt="help" style={{ width: '20px', marginRight: '10px' }} />
             Help</a>
           <a href="#" className="menu-item">
@@ -76,21 +67,6 @@ import Sync from '../assets/images/sync.png';
     );
   };
 
-  //   return (
-  //     <div style={{width: '100%', height: '17vh',}}>
-  //         <nav>
-  //           <div className='burger-menu'onClick={handleBurgerClick}>
-  //               <div className={burger_class}></div>
-  //               <div className={burger_class}></div>
-  //               <div className={burger_class}></div>
-  //           </div>
-  //         </nav>
+ 
 
-  //         <div className={menu_class}>
-
-  //         </div>
-  //     </div>
-  //   )
-  // }
-
-export default Sidebar;
+export default Sidebar1;

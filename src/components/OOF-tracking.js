@@ -1,15 +1,15 @@
 import React from 'react';
-import Sidebar from './sidebar'
 import Outlet from '../assets/images/outlet.png'
 import Product from '../assets/images/product.png'
 import User from '../assets/images/user.png'
+import Sidebar1 from './sidebar1';
 
 const OOFTracking = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '50vh' }}>
       {/* Sidebar */}
       <div>
-        <Sidebar />
+        <Sidebar1 />
       </div>
 
       {/* Grid containing 4 items */}
