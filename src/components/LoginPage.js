@@ -50,10 +50,21 @@ const LoginPage = () => {
               padding: '10px',
               border: '1px solid #ccc',
               borderRadius: '5px',
-              backgroundImage: {User},
               backgroundPosition: '10px 50%',
               backgroundSize: '20px 20px',
               paddingLeft: '40px'
+             }}
+          />
+           <img 
+             src={User}
+             alt="user"
+             style={{
+               position: 'absolute',
+               top: '50%',
+               left: '10px',
+               transform: 'translateY(-50%)',
+               width: '20px', // Adjust the width of the icon
+               height: 'auto' // Maintain aspect ratio
              }}
           />
           <i className="fa fa-envelope" style={{ position: 'absolute', top: '50%', right: '10px', transform: 'translateY(-50%)' }}></i>
@@ -70,7 +81,6 @@ const LoginPage = () => {
               padding: '10px',
               border: '1px solid #ccc',
               borderRadius: '5px',
-              backgroundImage: {Lock},
               backgroundPosition: '10px 50%',
               backgroundSize: '20px 20px',
               paddingLeft: '40px'
@@ -85,11 +95,19 @@ const LoginPage = () => {
               )
             }}
           />
-          {/* <i
-            className={showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'}
-            onClick={handleShowPasswordToggle}
-            style={{ position: 'absolute', top: '50%', right: '10px', transform: 'translateY(-50%)' }}
-          ></i> */}
+          <img 
+             src={Lock}
+             alt="Lock"
+             style={{
+               position: 'absolute',
+               top: '50%',
+               left: '10px',
+               transform: 'translateY(-50%)',
+               width: '20px', // Adjust the width of the icon
+               height: 'auto' // Maintain aspect ratio
+             }}
+          />
+        
         </div>
         <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Login</button>
       </form>

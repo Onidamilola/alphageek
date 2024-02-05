@@ -1,56 +1,48 @@
-import React from 'react';
-import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
-import * as IoIcons from 'react-icons/io';
+import React from 'react'
 
-   export const SidebarData = [
+ const Sidebardata = [
     {
-        tittle: 'Dashboard',
-        path: '/',
-        icon: <AiIcons.AiFillHome />,
-        cName: 'nav-text'
+       title: "Dashboard",
+    //    Icon: <Icon />,
+       Link: "./Homepage",
     },
 
     {
-        tittle: 'Route Plan',
-        path: '/route_plan',
-        icon: <AiIcons.AiFillHome />,
-        cName: 'nav-text'
-    },
+        title: "Route Plan",
+        // Icon: <Icon />,
+        Link: "./Homepage",
+     },
 
-    {
-        tittle: 'Outlet List',
-        path: '/outletlist',
-        icon: <AiIcons.AiFillHome />,
-        cName: 'nav-text'
-    },
+     {
+        title: "Outlet List",
+        // Icon: <Icon />,
+        Link: "./Homepage",
+     },
 
-    {
-        tittle: 'Visit Schedule',
-        path: '/visitschedule',
-        icon: <AiIcons.AiFillHome />,
-        cName: 'nav-text'
-    },
+     {
+        title: "Visit Schedule",
+        // Icon: <Icon />,
+        Link: "./Homepage",
+     },
 
-    {
-        tittle: 'Inbox',
-        path: '/inbox',
-        icon: <AiIcons.AiFillHome />,
-        cName: 'nav-text'
-    },
+     {
+        title: "Inbox",
+        // Icon: <Icon />,
+        Link: "./Homepage",
+     },
 
-    {
-        tittle: 'Help',
-        path: '/help',
-        icon: <AiIcons.AiFillHome />,
-        cName: 'nav-text'
-    },
+     {
+        title: "Help",
+        // Icon: <Icon />,
+        Link: "./Homepage",
+     },
 
-    {
-        tittle: 'Sync',
-        path: '/sync',
-        icon: <AiIcons.AiFillHome />,
-        cName: 'nav-text'
-    },
-    
-   ]
+     {
+        title: "Sync",
+        // Icon: <Icon />,
+        Link: "./Homepage",
+     },
+      
+] 
+
+export default Sidebardata;

@@ -1,5 +1,6 @@
 import React from 'react';
 import Sidebar from './sidebar'
+// import sidebardata from './sidebardata';
 import Outlet from '../assets/images/outlet.png'
 import Product from '../assets/images/product.png'
 import User from '../assets/images/user.png'
