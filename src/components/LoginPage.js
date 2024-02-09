@@ -4,6 +4,7 @@ import { IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import User from '../assets/images/user.png'
 import Lock from '../assets/images/lock.png'
+import Open from '../assets/images/open.png'
 
 
 const LoginPage = () => {
@@ -34,10 +35,21 @@ const LoginPage = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px' }}>
-      <img src={logoImage} alt="Alpha" style={{ width: '200px', height: '200px', borderRadius: '50%', marginBottom: '40px' }} />
+    <div style={{
+      backgroundImage: `url(${Open})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      minHeight: '100vh', 
+      justifyContent: 'center', 
+      '@media only screen and (max-width: 600px)': {
+        padding: '10px',
+        marginTop: '50px'
+    },
+      display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px' }}>
+      <img src={logoImage} alt="" style={{ width: '200px', height: '200px', borderRadius: '50%', marginBottom: '40px' }} />
       <h2>User Login</h2>
-      <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '300px' }}>
+      <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '300px', justifyContent: 'center' }}>
         <div style={{ position: 'relative', marginBottom: '15px' }}>
           <input
             type="email"
@@ -63,8 +75,8 @@ const LoginPage = () => {
                top: '50%',
                left: '10px',
                transform: 'translateY(-50%)',
-               width: '20px', // Adjust the width of the icon
-               height: 'auto' // Maintain aspect ratio
+               width: '20px', 
+               height: 'auto'
              }}
           />
           <i className="fa fa-envelope" style={{ position: 'absolute', top: '50%', right: '10px', transform: 'translateY(-50%)' }}></i>
@@ -103,13 +115,13 @@ const LoginPage = () => {
                top: '50%',
                left: '10px',
                transform: 'translateY(-50%)',
-               width: '20px', // Adjust the width of the icon
-               height: 'auto' // Maintain aspect ratio
+               width: '20px', 
+               height: 'auto' 
              }}
           />
         
         </div>
-        <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Login</button>
+        <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', left: '50%' }}>Login</button>
       </form>
       <div style={{  textAlign: 'center', marginBottom: '15px' }}>
         <a href="#" style={{ color: '#007bff', textDecoration: 'none' }}>Forgot Password?</a>

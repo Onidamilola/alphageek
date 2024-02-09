@@ -3,6 +3,7 @@ import Sidebar1 from './sidebar1'
 import Outlet from '../assets/images/outlet.png'
 import Product from '../assets/images/product.png'
 import User from '../assets/images/user.png'
+import Calender from '../assets/images/calender.png'
 
 const POSM = () => {
   return (
@@ -51,6 +52,17 @@ const POSM = () => {
           </div>
         </div>
       </div>
+
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start',  marginLeft: '20px' }}>
+    <h5 style={{ margin: '0' }}>Your Schedule</h5>
+    <p style={{ margin: '0' }}>You have 0 store visit Today</p>
+  </div>
+  <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingRight: '20px' }}>
+    <img src={Calender} alt="calender" style={{ width: '30px', height: '30px', margin: '0' }} />
+  </div>
+</div>
+
     </div>
   );
 };

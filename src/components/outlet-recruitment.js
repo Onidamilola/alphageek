@@ -1,13 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Sidebar from './sidebar'
-// import sidebardata from './sidebardata';
 import Outlet from '../assets/images/outlet.png'
 import Product from '../assets/images/product.png'
 import User from '../assets/images/user.png'
+import Calender from '../assets/images/calender.png'
 
 
 
 const OutletRecruitment = () => {
+
+  const [isMenuClicked, setIsMenuClicked] = useState(false);
+
+  const handleBurgerClick = () => {
+    setIsMenuClicked(!isMenuClicked);
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '50vh' }}>
       <div>
@@ -53,10 +60,18 @@ const OutletRecruitment = () => {
           </div>
         </div>
       </div>
-      <div>
-        <h5>Your Schedule</h5>
-        <p>You have 0 store visit Today</p>
-      </div>
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start',  marginLeft: '20px' }}>
+    <h5 style={{ margin: '0' }}>Your Schedule</h5>
+    <p style={{ margin: '0' }}>You have 0 store visit Today</p>
+  </div>
+  <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingRight: '20px' }}>
+    <img src={Calender} alt="calender" style={{ width: '30px', height: '30px', margin: '0' }} />
+  </div>
+</div>
+
+
+
     </div>
   );
 };

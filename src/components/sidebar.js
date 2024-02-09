@@ -7,6 +7,7 @@ import Visit from '../assets/images/visit.png';
 import Inbox from '../assets/images/inbox.png';
 import Help from '../assets/images/help.png';
 import Sync from '../assets/images/sync.png';
+import Route from '../assets/images/Route.png'
 
   const Sidebar = () => {
 
@@ -48,11 +49,11 @@ import Sync from '../assets/images/sync.png';
              <div className="image-container">
                 <img src={logoImage} alt="Alpha" />
               </div>
-          <a href="/outlet-recruitment" className="menu-item">
+          <a href="/homepage" className="menu-item">
           <img src={Dash} alt="Dash" style={{ width: '20px', marginRight: '10px' }} />
             Dashboard</a>
           <a href="/route-plan" className="menu-item">
-          <img src="dummy-image-url" alt="Dummy Image" style={{ width: '20px', marginRight: '10px' }} />
+          <img src={Route} alt="route" style={{ width: '20px', marginRight: '10px',  filter: 'brightness(0) saturate(100%) hue-rotate(174deg)' }} />
             Route Plan</a>
           <a href="/outlet-list" className="menu-item">
           <img src={frame2} alt="outlet" style={{ width: '20px', marginRight: '10px' }} />
