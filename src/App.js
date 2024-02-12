@@ -21,6 +21,7 @@ import VisitSchedule from './components/visitschedule';
 import Inbox from './components/inbox';
 import Help from './components/help';
 import CreateOutlet from './components/createoutlet';
+import CreateSchedule from './components/createschedule';
 
 const App = () => {
   return (
@@ -46,6 +47,7 @@ const App = () => {
         <Route path="/inbox" element={<Inbox />} />
         <Route path="/help" element={<Help />} />
         <Route path="/createoutlet" element={<CreateOutlet/>} />
+        <Route path="/createschedule" element={<CreateSchedule/>} />
       </Routes>
     </Router>
   );

@@ -7,6 +7,7 @@ import Lock from '../assets/images/lock.png'
 import Open from '../assets/images/open.png'
 
 
+
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,12 +43,13 @@ const LoginPage = () => {
       backgroundRepeat: 'no-repeat',
       minHeight: '100vh', 
       justifyContent: 'center', 
+      alignContent: 'center',
       '@media only screen and (max-width: 600px)': {
         padding: '10px',
         marginTop: '50px'
     },
       display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px' }}>
-      <img src={logoImage} alt="" style={{ width: '200px', height: '200px', borderRadius: '50%', marginBottom: '40px' }} />
+      <img src={logoImage} alt="" style={{ width: '200px', height: '200px', borderRadius: '50%', marginBottom: '10px' }} />
       <h2>User Login</h2>
       <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '300px', justifyContent: 'center' }}>
         <div style={{ position: 'relative', marginBottom: '15px' }}>
@@ -58,7 +60,7 @@ const LoginPage = () => {
             onChange={handleEmailChange}
             required
             style={{ 
-              width: '100%',
+              width: '83%',
               padding: '10px',
               border: '1px solid #ccc',
               borderRadius: '5px',
@@ -89,7 +91,7 @@ const LoginPage = () => {
             onChange={handlePasswordChange}
             required
             style={{ 
-              width: '100%',
+              width: '83%',
               padding: '10px',
               border: '1px solid #ccc',
               borderRadius: '5px',
@@ -121,7 +123,8 @@ const LoginPage = () => {
           />
         
         </div>
-        <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', left: '50%' }}>Login</button>
+        {/* <ButtonLogin /> */}
+        <button type="submit" style={{ width: '100%', padding: '10px 20px', justifyContent: 'center', alignItems: 'center', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Login</button>
       </form>
       <div style={{  textAlign: 'center', marginBottom: '15px' }}>
         <a href="#" style={{ color: '#007bff', textDecoration: 'none' }}>Forgot Password?</a>

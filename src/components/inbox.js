@@ -1,5 +1,4 @@
 import React from 'react';
-import Lock from '../assets/images/lock.png'
 import Sidebar1 from './sidebar1';
 import { FaBell } from "react-icons/fa";
 

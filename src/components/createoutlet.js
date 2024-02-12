@@ -1,8 +1,22 @@
-import React from 'react'
+import React, {useState, useRef} from 'react'
 import Sidebar from './sidebar'
 
 
 const CreateOutlet = () => {
+  const [imageObject, setImageObect] = useState(null);
+
+  const handleFileInput = useRef(null);
+
+  const handleClick = () => {
+    handleFileInput.current.click();
+  };
+
+  const handleImageChange = (event) => {
+    setImageObect({
+      imagePreview: URL.createObjectURL(event.target.files[0]),
+      imageFile: event.target.files[0],
+    });
+  }
   return (
     <div>
       <div style={{ width: '100%', marginBottom: '20px' }}>
@@ -67,6 +81,17 @@ const CreateOutlet = () => {
         <input type="text" id="firstName" name="firstName" placeholder="First Name" style={{ marginBottom: '10px' }} />
         <input type="text" id="lastName" name="lastName" placeholder="Last Name" style={{ marginBottom: '10px' }} />
         <input type="text" id="contactPhoneNumber" name="contactPhoneNumber" placeholder="Phone Number" style={{ marginBottom: '10px' }} />
+
+        <label htmlFor="Image" style={{ color: 'blue' }}>Outlet Image</label>
+        <input 
+            type="file"
+            accept="image/*"
+            capture="environment"
+            ref={handleFileInput}
+            onChange={handleImageChange}
+        />
+        {imageObject && <img src={imageObject.imagePreview} />}
+
 
         {/* <label htmlFor="outletImage">Outlet Image</label>
         <input type="file" accept="image/*" id="outletImage" name="outletImage" style={{ marginBottom: '10px' }} /> */}
