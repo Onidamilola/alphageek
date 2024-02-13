@@ -1,5 +1,10 @@
 import React from 'react';
-import Sidebar1 from './sidebar1'; // Import your Sidebar component
+import Sidebar1 from './sidebar1';
+import { Document, Page } from 'react-pdf';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import PDF from '../assets/pdf/help.pdf'
+
+
 
 const Help = () => {
   return (
@@ -18,6 +23,7 @@ const Help = () => {
       {/* Content with custom scrollbar */}
       <div style={{ overflowY: 'scroll', flex: '1', padding: '0 20px' }}>
         <p><strong>Note:</strong> The -webkit-scrollbar is not supported in Firefox or in Edge, prior version 79.</p>
+        
       </div>
     </div>
   );
