@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Sidebar1 from './sidebar1';
 import Button1 from './button1';
 import Calender from '../assets/images/calender.png';
+import Calendar from './calendar'
 
 const VisitSchedule = () => {
   const [activeTab, setActiveTab] = useState('Today'); // Default active tab is 'Today'
@@ -52,10 +53,10 @@ const VisitSchedule = () => {
         </div>
         {/* Pop-up calendar component */}
         {showCalendar && (
-          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#fff', padding: '20px', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', zIndex: '999' }}>
+          <div style={{ position: 'absolute', top: '80%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#fff', padding: '20px', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', zIndex: '999' }}>
             {/* Your calendar component code goes here */}
             {/* Example: <YourCalendarComponent /> */}
-            Pop-up Calendar
+            <Calendar />
           </div>
         )}
       </div>
