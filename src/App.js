@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-// import Welcome from './components/welcome';
 import LoginPage from './components/LoginPage';
 import HomePage from './components/HomePage';
 import OutletRecruitment from './components/outlet-recruitment';
