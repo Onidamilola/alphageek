@@ -2,7 +2,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Container, Grid, Typography, Avatar } from '@mui/material';
-import Paper from '@mui/material/Paper';
 // import { makeStyles } from '@mui/styles';
 import ComponentGrid from './componentgrid';
 import alpha from '../assets/images/alpha.png';
@@ -53,24 +52,3 @@ const HomePage = () => {
   };
   
   export default HomePage;
-
-
-
-// const HomePage = () => {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src="path/to/profile-picture.jpg" alt="Profile" className="App-profile-image" />
-//         <div className="App-text-container">
-//           <h1>Welcome to My App</h1>
-//           <h2>This is some intro text</h2>
-//         </div>
-//         <button className="App-sync-button">
-//           <img src="path/to/sync-icon.png" alt="Sync" className="App-sync-icon" />
-//         </button>
-//       </header>
-//     </div>
-//   );
-// };
-
-// export default HomePage;

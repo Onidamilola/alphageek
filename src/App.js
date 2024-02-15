@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Welcome from './components/welcome';
 import LoginPage from './components/LoginPage';
 import HomePage from './components/HomePage';
 import OutletRecruitment from './components/outlet-recruitment';
@@ -27,9 +26,8 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route index element={<Welcome />} />
-        <Route path="/" element={<Welcome />} />
-        <Route path="/loginpage" element={<LoginPage />} />
+        <Route index element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
         <Route path="/homepage" element={<HomePage />} />
         <Route path="/outlet-recruitment" element={<OutletRecruitment />} />
         <Route path="/competition-tracking" element={<CompetitionTracking />} />

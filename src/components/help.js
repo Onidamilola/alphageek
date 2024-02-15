@@ -1,5 +1,10 @@
 import React from 'react';
-import Sidebar1 from './sidebar1'; // Import your Sidebar component
+import Sidebar1 from './sidebar1';
+import { Document, Page } from 'react-pdf';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import PDF from '../assets/pdf/help.pdf'
+
+
 
 const Help = () => {
   return (
@@ -12,12 +17,13 @@ const Help = () => {
       {/* Custom Scrollbar Example */}
       <h2 style={{ textAlign: 'center',
        textDecoration: 'underline',
+       padding: '10px',
        marginBottom: '20px' }}>User Manual For Alphageek merchandising Mobile Application</h2>
 
       {/* Content with custom scrollbar */}
       <div style={{ overflowY: 'scroll', flex: '1', padding: '0 20px' }}>
         <p><strong>Note:</strong> The -webkit-scrollbar is not supported in Firefox or in Edge, prior version 79.</p>
-        {/* Repeat the Lorem Ipsum paragraphs or replace them with your content */}
+        
       </div>
     </div>
   );
