@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import logoImage from '../assets/images/alpha.png';
 import { IconButton, InputAdornment } from '@mui/material';
@@ -13,11 +14,13 @@ import Open from '../assets/images/open.png'
 
 
 
+
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState('');
+  const history = useHistory();
  
 
 
@@ -41,10 +44,11 @@ const LoginPage = () => {
     .then(response => {
       // Handle successful login
       console.log(response.data);
+      history.push('/homePage');
     })
     .catch(error => {
       // Handle login error
-      console.error('Error:', error);
+      console.log('Error:', error);
       setLoginError('Failed to login. Please check your credentials.');
     });
   };
