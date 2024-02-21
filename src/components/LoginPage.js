@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import logoImage from '../assets/images/alpha.png';
 import { IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -8,10 +9,17 @@ import Open from '../assets/images/open.png'
 
 
 
+
+
+
+
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState('');
+ 
+
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -21,9 +29,6 @@ const LoginPage = () => {
     setPassword(e.target.value);
   };
 
-  // const handleShowPasswordToggle = () => {
-  //   setShowPassword(!showPassword);
-  // };
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
@@ -32,7 +37,16 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add your login logic here
+    axios.post('YOUR_API_ENDPOINT', { email, password })
+    .then(response => {
+      // Handle successful login
+      console.log(response.data);
+    })
+    .catch(error => {
+      // Handle login error
+      console.error('Error:', error);
+      setLoginError('Failed to login. Please check your credentials.');
+    });
   };
 
   return (
@@ -126,6 +140,7 @@ const LoginPage = () => {
         {/* <ButtonLogin /> */}
         <button type="submit" style={{ width: '100%', padding: '10px 20px', justifyContent: 'center', alignItems: 'center', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Login</button>
       </form>
+      {loginError && <div>{loginError}</div>}
       <div style={{  textAlign: 'center', marginBottom: '15px' }}>
         <a href="#" style={{ color: '#007bff', textDecoration: 'none' }}>Forgot Password?</a>
       </div>
