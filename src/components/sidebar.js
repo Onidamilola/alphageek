@@ -62,10 +62,10 @@ const Sidebar = () => {
             />
             Dashboard
           </Link>
-          {/* <a href="/homepage" >
+          {/* <Link to="/homepage" >
            
           </a> */}
-          <a href="/route-plan" className="menu-item">
+          <Link to="/route-plan" className="menu-item">
             <img
               src={Route}
               alt="route"
@@ -76,47 +76,47 @@ const Sidebar = () => {
               }}
             />
             Route Plan
-          </a>
-          <a href="/outlet-list" className="menu-item">
+          </Link>
+          <Link to="/outlet-list" className="menu-item">
             <img
               src={frame2}
               alt="outlet"
               style={{ width: "20px", marginRight: "10px" }}
             />
             Outlet List
-          </a>
-          <a href="/visit-schedule" className="menu-item">
+          </Link>
+          <Link to="/visit-schedule" className="menu-item">
             <img
               src={Visit}
               alt="visit"
               style={{ width: "20px", marginRight: "10px" }}
             />
             Visit Schedule
-          </a>
-          <a href="/inbox" className="menu-item">
+          </Link>
+          <Link to="/inbox" className="menu-item">
             <img
               src={Inbox}
               alt="inbox"
               style={{ width: "20px", marginRight: "10px" }}
             />
             Inbox
-          </a>
-          <a href="/help" className="menu-item">
+          </Link>
+          <Link to="/help" className="menu-item">
             <img
               src={Help}
               alt="help"
               style={{ width: "20px", marginRight: "10px" }}
             />
             Help
-          </a>
-          <a href="#" className="menu-item">
+          </Link>
+          <Link to="#" className="menu-item">
             <img
               src={Sync}
               alt="sync"
               style={{ width: "20px", marginRight: "10px" }}
             />
             Sync
-          </a>
+          </Link>
         </div>
       </div>
     </div>

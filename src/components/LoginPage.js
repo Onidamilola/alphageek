@@ -37,7 +37,7 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('YOUR_API_ENDPOINT', { email, password })
+    axios.post('https://d-aggregate.com/Alphageekbackend/api/login', { email, password })
     .then(response => {
       // Handle successful login
       console.log(response.data);

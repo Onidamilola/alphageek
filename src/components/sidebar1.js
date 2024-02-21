@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import './sidebar.css';
 import logoImage from '../assets/images/alpha.png';
 import Dash from '../assets/images/dash.png';
@@ -30,22 +31,22 @@ const Sidebar1 = () => {
         <div className="image-container">
           <img src={logoImage} alt="Alpha" />
         </div>
-        <a href="/homepage" className="menu-item">
+        <Link to="/homepage" className="menu-item">
           <img src={Dash} alt="Dash" style={{ width: '20px', marginRight: '10px' }} />
           Dashboard
-        </a>
-        <a href="/inbox" className="menu-item">
+        </Link>
+        <Link to="/inbox" className="menu-item">
           <img src={Inbox} alt="inbox" style={{ width: '20px', marginRight: '10px' }} />
           Inbox
-        </a>
-        <a href="help" className="menu-item">
+        </Link>
+        <Link to="help" className="menu-item">
           <img src={Help} alt="help" style={{ width: '20px', marginRight: '10px' }} />
           Help
-        </a>
-        <a href="sync" className="menu-item">
+        </Link>
+        <Link to="sync" className="menu-item">
           <img src={Sync} alt="sync" style={{ width: '20px', marginRight: '10px' }} />
           Sync
-        </a>
+        </Link>
       </div>
     </div>
   );
