@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logoImage from '../assets/images/alpha.png';
-import { IconButton, InputAdornment } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
 import User from '../assets/images/user.png'
 import Lock from '../assets/images/lock.png'
 import Open from '../assets/images/open.png'
@@ -20,7 +18,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState('');
-  const history = useHistory();
+  const Navigate = useNavigate();
  
 
 
@@ -44,7 +42,7 @@ const LoginPage = () => {
     .then(response => {
       // Handle successful login
       console.log(response.data);
-      history.push('/homePage');
+      Navigate.push('/homePage');
     })
     .catch(error => {
       // Handle login error
