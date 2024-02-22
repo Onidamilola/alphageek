@@ -62,7 +62,7 @@ const Login = () => {
             onChange={handleEmailChange}
             required
             style={{ 
-              width: '83%',
+              width: '100%',
               padding: '10px',
               border: '1px solid #ccc',
               borderRadius: '5px',
@@ -93,7 +93,7 @@ const Login = () => {
             onChange={handlePasswordChange}
             required
             style={{ 
-              width: '83%',
+              width: '100%',
               padding: '10px',
               border: '1px solid #ccc',
               borderRadius: '5px',

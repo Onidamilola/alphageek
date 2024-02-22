@@ -16,12 +16,24 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Lazy load pages/components
 const Home = lazy(() => import(".././src/pages/home/Home.jsx"));
 const Login = lazy(() => import("./pages/login/Login.jsx"));
-// const Contact = lazy(() => import("./pages/contact"));
-// const Agent = lazy(() => import("./pages/agent"));
-// const FAQ = lazy(() => import("./pages/faq"));
-// const Get = lazy(() => import("./pages/get-started"));
-// const POS = lazy(() => import("./pages/get-pos"));
-// const Coming = lazy(() => import("./pages/coming-soon"));
+const OutletRecruitment = lazy(() => import("./pages/outlet-recruitment.jsx"));
+const CompetitionTracking = lazy(() => import("./pages/competition-tracking.jsx"));
+const OOFTracking = lazy(() => import("./pages/OOF-tracking.jsx"));
+const PlanogramChecks = lazy(() => import("./pages/planogram-checks.jsx"));
+const PricingChecks = lazy(() => import("./pages/pricing-checks.jsx"));
+const ProductMerchandising = lazy(() => import("./pages/product-merchandising.jsx"));
+const ProductOrdering = lazy(() => import("./pages/product-ordering.jsx"));
+const ProductsFreshness = lazy(() => import("./pages/products-freshness.jsx"));
+const POSM = lazy(() => import("./pages/POSM.jsx"));
+const StoreDetailing = lazy(() => import("./pages/store-detailing.jsx"));
+const RoutePlan = lazy(() => import("./pages/routeplan.jsx"));
+const OutletList = lazy(() => import("./pages/outletlist.jsx"));
+const VisitSchedule = lazy(() => import("./pages/visitschedule.jsx"));
+const Inbox = lazy(() => import("./pages/inbox.jsx"));
+const Help = lazy(() => import("./pages/help.jsx"));
+const CreateOutlet = lazy(() => import("./pages/createoutlet.jsx"));
+const CreateSchedule = lazy(() => import("./pages/createschedule.jsx"));
+
 
 function App() {
   return (
@@ -37,13 +49,26 @@ function App() {
 
           {/* <Route path="/" element={<Home />}  /> */}
           <Route path="/" element={<Login />} />
+          <Route path="/homepage" element={<Home />} />
+        <Route path="/outlet-recruitment" element={<OutletRecruitment />} />
+        <Route path="/competition-tracking" element={<CompetitionTracking />} />
+        <Route path="/OOF-tracking" element={<OOFTracking />} />
+        <Route path="/planogram-checks" element={<PlanogramChecks />} />
+        <Route path="/pricing-checks" element={<PricingChecks />} />
+        <Route path="/Product-merchandising" element={<ProductMerchandising />} />
+        <Route path="/Product-ordering" element={<ProductOrdering />} />
+        <Route path="/Products-freshness" element={<ProductsFreshness />} />
+        <Route path="/Posm" element={<POSM />} />
+        <Route path="/store-detailing" element={<StoreDetailing />} />
+        <Route path="/route-plan" element={<RoutePlan />} />
+        <Route path="/outlet-list" element={<OutletList />} />
+        <Route path="/visit-schedule" element={<VisitSchedule />} />
+        <Route path="/inbox" element={<Inbox />} />
+        <Route path="/help" element={<Help />} />
+        <Route path="/createoutlet" element={<CreateOutlet/>} />
+        <Route path="/createschedule" element={<CreateSchedule/>} />
           {/* <Route path="/contact" element={<Contact />}  />
-          <Route path="/agent" element={<Agent />}  />
-          <Route path="/faq" element={<FAQ />}  />
-          <Route path="/get-started" element={<Get />}  />
-          <Route path="/get-pos" element={<POS />}  />
-          <Route path="/coming-soon" element={<Coming />}  />
-          <Route path="/" element={<Home />}  /> */}
+          
 
           {/* Catch-all route for 404 */}
 
