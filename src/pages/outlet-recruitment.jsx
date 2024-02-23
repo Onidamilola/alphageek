@@ -1,15 +1,12 @@
-import React, {useState} from 'react';
-import Sidebar from '../components/sidebar'
-import Outlet from '../assets/images/outlet.png'
-import Product from '../assets/images/product.png'
-import User from '../assets/images/user.png'
-import Calender from '../assets/images/calender.png'
-import Calendar from '../components/calendar'
-
-
+import React, { useState } from 'react';
+import Sidebar from '../components/Sidebar';
+import Outlet from '../assets/images/outlet.png';
+import Product from '../assets/images/product.png';
+import User from '../assets/images/user.png';
+import Calender from '../assets/images/calender.png';
+import Calendar from '../components/calendar';
 
 const OutletRecruitment = () => {
-
   const [isMenuClicked, setIsMenuClicked] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
 
@@ -23,8 +20,8 @@ const OutletRecruitment = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '50vh' }}>
-      <div>
-        <Sidebar />
+      <div className='bg-blue-400'>
+        <Sidebar/>
       </div>
 
       {/* Grid containing 4 items */}
@@ -66,25 +63,28 @@ const OutletRecruitment = () => {
           </div>
         </div>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start',  marginLeft: '20px' }}>
-    <h5 style={{ margin: '0' }}>Your Schedule</h5>
-    <p style={{ margin: '0' }}>You have 0 store visit Today</p>
-  </div>
-  <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingRight: '20px' }}>
-    <img src={Calender} alt="calender" style={{ width: '30px', height: '30px', margin: '0' }} onClick={handleCalendarClick} />
-  </div>
 
-   {/* Pop-up calendar component */}
-   {showCalendar && (
-          <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#fff', padding: '20px', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', zIndex: '999' }}>
-            {/* Your calendar component code goes here */}
-            {/* Example: <YourCalendarComponent /> */}
-           <Calendar />
-          </div>
-        )}
-</div>
+      {/* Your Schedule */}
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '20px' }}>
+          <h5 style={{ margin: '0' }}>Your Schedule</h5>
+          <p style={{ margin: '0' }}>You have 0 store visit Today</p>
+        </div>
+        <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingRight: '20px' }}>
+          <img src={Calender} alt="calender" style={{ width: '30px', height: '30px', margin: '0' }} onClick={handleCalendarClick} />
+        </div>
+      </div>
+
+      {/* Pop-up calendar component */}
+      {showCalendar && (
+        <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#fff', padding: '20px', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', zIndex: '999' }}>
+          {/* Your calendar component code goes here */}
+          {/* Example: <YourCalendarComponent /> */}
+          <Calendar />
+        </div>
+      )}
     </div>
   );
 };
+
 export default OutletRecruitment;

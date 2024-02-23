@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react'
-import Sidebar from '../components/sidebar';
+import Sidebar from '../components/Sidebar';
 
 
 const CreateOutlet = () => {
