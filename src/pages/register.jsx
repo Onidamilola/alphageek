@@ -3,19 +3,24 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import logoImage from '../../assets/images/alpha.png';
-import User from '../../assets/images/user.png';
-import Lock from '../../assets/images/lock.png';
-import Open from '../../assets/images/open.png';
+import logoImage from '../assets/images/alpha.png';
+import User from '../assets/images/user.png';
+import Lock from '../assets/images/lock.png';
+import Open from '../assets/images/open.png';
 import { useNavigate } from 'react-router';
 
-const Login = () => {
+const Register = () => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const Navigate = useNavigate();
-  const [loginError, setLoginError] = useState("");
-  const notify = () => toast("Failed to login. Please check your credentials.");
+  const [registerError, setRegisterError] = useState("");
+  const notify = () => toast("Failed to register. Please try again.");
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -31,18 +36,18 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://d-aggregate.com/Alphageekbackend/api/login', { email, password })
+    axios.post('https://d-aggregate.com/Alphageekbackend/api/create-user', { name, email, password })
       .then(response => {
-        // Handle successful login
+        // Handle successful registration
         console.log(response.data);
-        toast.success('Login successful!');
-        Navigate.push('/homepage');
+        toast.success('Registration successful!');
+        Navigate.push('/login');
 
       })
       .catch(error => {
-        // Handle login error
+        // Handle registration error
         console.log('Error:', error);
-        toast.error("Failed to Login. Please check credentials");
+        toast.error("Failed to register. Please try again.");
       });
   };
 
@@ -62,8 +67,39 @@ const Login = () => {
     },
       display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px' }}>
       <img src={logoImage} alt="" style={{ width: '200px', height: '200px', borderRadius: '50%', marginBottom: '10px' }} />
-      <h2 style={{ fontWeight: 'bold', fontSize: '24px' }}>User Login</h2>
+      <h2 style={{ fontWeight: 'bold', fontSize: '24px' }}>User Registration</h2>
       <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '300px', justifyContent: 'center' }}>
+        <div style={{ position: 'relative', marginBottom: '15px' }}>
+          <input
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={handleNameChange}
+            required
+            style={{ 
+              width: '100%',
+              padding: '10px',
+              border: '1px solid #ccc',
+              borderRadius: '5px',
+              backgroundPosition: '10px 50%',
+              backgroundSize: '20px 20px',
+              paddingLeft: '40px'
+             }}
+          />
+          <img 
+             src={User}
+             alt="user"
+             style={{
+               position: 'absolute',
+               top: '50%',
+               left: '10px',
+               transform: 'translateY(-50%)',
+               width: '20px', 
+               height: 'auto'
+             }}
+          />
+       
+        </div>
         <div style={{ position: 'relative', marginBottom: '15px' }}>
           <input
             type="email"
@@ -93,7 +129,6 @@ const Login = () => {
                height: 'auto'
              }}
           />
-          <i className="fa fa-envelope" style={{ position: 'absolute', top: '50%', right: '10px', transform: 'translateY(-50%)' }}></i>
         </div>
         <div style={{ position: 'relative', marginBottom: '15px' }}>
           <input
@@ -127,24 +162,20 @@ const Login = () => {
           />
         
         </div>
-        {/* <ButtonLogin /> */}
-        <button type="submit" style={{ width: '100%', padding: '10px 20px', justifyContent: 'center', alignItems: 'center', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Login</button>
+        {/* <ButtonRegister /> */}
+        <button type="submit" style={{ width: '100%', padding: '10px 20px', justifyContent: 'center', alignItems: 'center', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Register</button>
       </form>
       <ToastContainer position="top-right" autoClose={2000} hideProgressBar newestOnTop closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
-      {/* Display login error message */}
 
-      {loginError && <div>{loginError}</div>}
+      {registerError && <div>{registerError}</div>}
       <div style={{  textAlign: 'center', marginBottom: '15px' }}>
-        <a href="#" style={{ color: '#007bff', textDecoration: 'none' }}>Forgot Password?</a>
-      </div>
-      <div style={{ textAlign: 'center', marginBottom: '15px' }}>
-        <span style={{ color: '#007bff', textDecoration: 'none' }}>Don't have an account? </span>
-        <Link to="/register" style={{ color: '#007bff', textDecoration: 'none' }}>
-        Sign Up
+        <span style={{ color: '#007bff', textDecoration: 'none' }}>Already have an account? </span>
+        <Link to="/" style={{ color: '#007bff', textDecoration: 'none' }}>
+        Login
         </Link>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Register;
