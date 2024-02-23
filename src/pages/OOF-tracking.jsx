@@ -2,9 +2,9 @@ import React,  {useState} from 'react';
 import Outlet from '../assets/images/outlet.png'
 import Product from '../assets/images/product.png'
 import User from '../assets/images/user.png'
-import Sidebar1 from '../components/sidebar1';
+import { Sidebar1 } from '../components/sidebar1';
 import Calender from '../assets/images/calender.png'
-import Calendar from '../components/calendar';
+import Calendar from '../components/calendar'
 
 const OOFTracking = () => {
   const [isMenuClicked, setIsMenuClicked] = useState(false);
