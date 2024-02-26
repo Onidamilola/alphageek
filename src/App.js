@@ -17,6 +17,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 const Home = lazy(() => import(".././src/pages/home/Home.jsx"));
 const Login = lazy(() => import("./pages/login/Login.jsx"));
 const Register = lazy(() => import("./pages/register.jsx"));
+const Verify = lazy(() => import("./pages/verify.jsx"));
 const OutletRecruitment = lazy(() => import("./pages/outlet-recruitment.jsx"));
 const CompetitionTracking = lazy(() => import("./pages/competition-tracking.jsx"));
 const OOFTracking = lazy(() => import("./pages/OOF-tracking.jsx"));
@@ -50,8 +51,9 @@ function App() {
 
           {/* <Route path="/" element={<Home />}  /> */}
           <Route path="/" element={<Login />} />
-          <Route path="/homepage" element={<Home />} />
+          <Route path="/homepage" element={<Home />} /> 
           <Route path="/register" element={<Register />} />
+          <Route path="/verify" element={<Verify />} />
         <Route path="/outlet-recruitment" element={<OutletRecruitment />} />
         <Route path="/competition-tracking" element={<CompetitionTracking />} />
         <Route path="/OOF-tracking" element={<OOFTracking />} />

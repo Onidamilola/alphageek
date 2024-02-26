@@ -8,6 +8,11 @@ import User from '../assets/images/user.png';
 import Lock from '../assets/images/lock.png';
 import Open from '../assets/images/open.png';
 import { useNavigate } from 'react-router';
+import { v4 as uuidv4 } from 'uuid'; // Import uuid
+import { REGISTER } from '../utils/constant';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -16,7 +21,6 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const Navigate = useNavigate();
   const [registerError, setRegisterError] = useState("");
-  const notify = () => toast("Failed to register. Please try again.");
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -36,143 +40,84 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://d-aggregate.com/Alphageekbackend/api/create-user', { name, email, password })
+    const device_id = uuidv4(); // Generate random UUID
+    axios.post(REGISTER, { name, email, password, device_id })
       .then(response => {
         // Handle successful registration
         console.log(response.data);
-        toast.success('Registration successful!');
-        Navigate.push('/login');
-
+        if (response.status === 201) {
+          toast.success('Registration successful!');
+          Navigate('/login');
+        }
       })
       .catch(error => {
         // Handle registration error
         console.log('Error:', error);
-        toast.error("Failed to register. Please try again.");
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("Failed to register. Please try again.");
+        }
       });
   };
 
   return (
-    <div style={{
-      backgroundImage: `url(${Open})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      minHeight: '100vh', 
-      position: 'relative',
-      justifyContent: 'center', 
-      alignContent: 'center',
-      '@media only screen and (max-width: 600px)': {
-        padding: '10px',
-        marginTop: '50px'
-    },
-      display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px' }}>
-      <img src={logoImage} alt="" style={{ width: '200px', height: '200px', borderRadius: '50%', marginBottom: '10px' }} />
-      <h2 style={{ fontWeight: 'bold', fontSize: '24px' }}>User Registration</h2>
-      <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '300px', justifyContent: 'center' }}>
-        <div style={{ position: 'relative', marginBottom: '15px' }}>
+    <div className="bg-cover bg-center bg-no-repeat min-h-screen relative flex flex-col items-center justify-center px-2" style={{ backgroundImage: `url(${Open})` }}>
+      <img src={logoImage} alt="" className="w-48 h-48 rounded-full mb-5" />
+      <h2 className="font-bold text-3xl mb-5">User Registration</h2>
+      <form onSubmit={handleSubmit} className="w-full max-w-sm">
+        <div className="relative mb-5">
           <input
             type="text"
             placeholder="Name"
             value={name}
             onChange={handleNameChange}
             required
-            style={{ 
-              width: '100%',
-              padding: '10px',
-              border: '1px solid #ccc',
-              borderRadius: '5px',
-              backgroundPosition: '10px 50%',
-              backgroundSize: '20px 20px',
-              paddingLeft: '40px'
-             }}
+            className="w-full py-2 px-10 border border-gray-300 rounded bg-gray-50 focus:outline-none focus:border-blue-500"
           />
-          <img 
-             src={User}
-             alt="user"
-             style={{
-               position: 'absolute',
-               top: '50%',
-               left: '10px',
-               transform: 'translateY(-50%)',
-               width: '20px', 
-               height: 'auto'
-             }}
-          />
-       
+          <img src={User} alt="user" className="absolute top-1/2 left-4 transform -translate-y-1/2 w-5 h-auto" />
         </div>
-        <div style={{ position: 'relative', marginBottom: '15px' }}>
+        <div className="relative mb-5">
           <input
             type="email"
             placeholder="Email"
             value={email}
             onChange={handleEmailChange}
             required
-            style={{ 
-              width: '100%',
-              padding: '10px',
-              border: '1px solid #ccc',
-              borderRadius: '5px',
-              backgroundPosition: '10px 50%',
-              backgroundSize: '20px 20px',
-              paddingLeft: '40px'
-             }}
+            className="w-full py-2 px-10 border border-gray-300 rounded bg-gray-50 focus:outline-none focus:border-blue-500"
           />
-           <img 
-             src={User}
-             alt="user"
-             style={{
-               position: 'absolute',
-               top: '50%',
-               left: '10px',
-               transform: 'translateY(-50%)',
-               width: '20px', 
-               height: 'auto'
-             }}
-          />
+          <FontAwesomeIcon icon={faEnvelope} className="absolute top-1/2 left-4 transform -translate-y-1/2 text-[#7563d0] text-xl" />
         </div>
-        <div style={{ position: 'relative', marginBottom: '15px' }}>
+        <div className="relative mb-5">
           <input
             type={showPassword ? 'text' : 'password'}
             placeholder="Password"
             value={password}
             onChange={handlePasswordChange}
             required
-            style={{ 
-              width: '100%',
-              padding: '10px',
-              border: '1px solid #ccc',
-              borderRadius: '5px',
-              backgroundPosition: '10px 50%',
-              backgroundSize: '20px 20px',
-              paddingLeft: '40px'
-             }}
+            className="w-full py-2 px-10 border border-gray-300 rounded bg-gray-50 focus:outline-none focus:border-blue-500"
           />
-          
-          <img 
-             src={Lock}
-             alt="Lock"
-             style={{
-               position: 'absolute',
-               top: '50%',
-               left: '10px',
-               transform: 'translateY(-50%)',
-               width: '20px', 
-               height: 'auto' 
-             }}
-          />
-        
+          <img src={Lock} alt="Lock" className="absolute top-1/2 left-4 transform -translate-y-1/2 w-5 h-auto" />
+          {showPassword ? (
+            <FontAwesomeIcon icon={faEye}
+              onClick={handleTogglePassword}
+              className="absolute top-1/2 right-3 transform -translate-y-1/2 w-5 h-auto cursor-pointer text-[#7563d0]"
+            />
+          ) : (
+            <FontAwesomeIcon icon={faEyeSlash}
+              onClick={handleTogglePassword}
+              className="absolute top-1/2 right-3 transform -translate-y-1/2 w-5 h-auto cursor-pointer text-[#7563d0]"
+            />
+          )}
         </div>
-        {/* <ButtonRegister /> */}
-        <button type="submit" style={{ width: '100%', padding: '10px 20px', justifyContent: 'center', alignItems: 'center', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Register</button>
+        <button type="submit" className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Register</button>
       </form>
       <ToastContainer position="top-right" autoClose={2000} hideProgressBar newestOnTop closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
 
       {registerError && <div>{registerError}</div>}
-      <div style={{  textAlign: 'center', marginBottom: '15px' }}>
-        <span style={{ color: '#007bff', textDecoration: 'none' }}>Already have an account? </span>
-        <Link to="/" style={{ color: '#007bff', textDecoration: 'none' }}>
-        Login
-        </Link>
+      <div className="text-center mt-6">
+        <span className="">Already have an account? </span>
+        <Link to="/" className="text-blue-500">Login</Link>
       </div>
     </div>
   );
