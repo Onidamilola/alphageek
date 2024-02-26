@@ -1,82 +1,114 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Personal from './personal';
+import Unique from './unique'
+import Bank from './bank'
+import Guarantor from './guarantor'
+import Capture from './capture'
 
-const Tab1 = ({ onNext }) => (
-  <div className="w-full">
-    <h2 className="text-lg font-bold">Personal Information</h2>
-    <input type="text" placeholder="Input 1" className="w-full py-2 px-4 rounded border border-gray-300 my-2" />
-    <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" onClick={onNext}>Next</button>
-  </div>
-);
+const MultiStepForm = () => {
+    const navigate = useNavigate()
+  const [step, setStep] = useState(1);
 
-const Tab2 = ({ onNext }) => (
-  <div className="w-full">
-    <h2 className="text-lg font-bold">Unique Identification</h2>
-    <input type="text" placeholder="Input 2" className="w-full py-2 px-4 rounded border border-gray-300 my-2" />
-    <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" onClick={onNext}>Next</button>
-  </div>
-);
+  const formTitles = ['Personal Information', 'Unique Identification', 'Bank Account', 'Guarantor Information', 'Capture Image'];
 
-const Tab3 = ({ onNext }) => (
-  <div className="w-full">
-    <h2 className="text-lg font-bold">Bank Account</h2>
-    <input type="text" placeholder="Input 3" className="w-full py-2 px-4 rounded border border-gray-300 my-2" />
-    <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" onClick={onNext}>Next</button>
-  </div>
-);
-
-const Tab4 = ({ onNext }) => (
-  <div className="w-full">
-    <h2 className="text-lg font-bold">Guarantor Information</h2>
-    <input type="text" placeholder="Input 4" className="w-full py-2 px-4 rounded border border-gray-300 my-2" />
-    <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" onClick={onNext}>Next</button>
-  </div>
-);
-
-const LastPage = () => (
-  <div className="w-full">
-    <h2 className="text-lg font-bold">Capture Image</h2>
-    <input type="file" accept="image/*" capture="camera" className="w-full py-2 px-4 rounded border border-gray-300 my-2" />
-    <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" onClick={() => console.log('Submit clicked')}>Submit</button>
-  </div>
-);
-
-const TabComponent = ({ tab, onNext }) => {
-  switch (tab) {
-    case 1:
-      return <Tab1 onNext={onNext} />;
-    case 2:
-      return <Tab2 onNext={onNext} />;
-    case 3:
-      return <Tab3 onNext={onNext} />;
-    case 4:
-      return <Tab4 onNext={onNext} />;
-    default:
-      return null;
-  }
-};
-
-const Tabs = () => {
-  const [currentTab, setCurrentTab] = useState(1);
-
-  const handleNext = () => {
-    setCurrentTab(currentTab + 1);
+  const nextStep = () => {
+    if(step === 3){
+      navigate("Personal Information/Unique Identification/Bank Account/Guarantor Information/Capture Image")
+    }
+    else{
+      setStep(step + 1);
+    }
+    
   };
 
+  const prevStep = () => {
+    if(step === 1){
+        navigate("Personal Information/Unique Identification/Bank Account/Guarantor Information/Capture Image")
+    }
+    else{
+       setStep(step - 1); 
+    }
+    
+  };
+
+  const isLastStep = step === formTitles.length;
+  const isFirstStep = step === 1;
+
+  let currentStepComponent;
+
+  switch (step) {
+    case 1:
+      currentStepComponent = (
+        <Personal nextStep={nextStep} prevStep={prevStep} />
+      );
+      break;
+    case 2:
+      currentStepComponent = (
+        <Unique nextStep={nextStep} prevStep={prevStep}/>
+      );
+      break;
+    case 3:
+      currentStepComponent = (
+        <Bank nextStep={nextStep} prevStep={prevStep}/>
+      );
+      break;
+      case 4:
+        currentStepComponent = (
+          <Guarantor nextStep={nextStep} prevStep={prevStep}/>
+        );
+        break;
+        case 5:
+            currentStepComponent = (
+              <Capture nextStep={nextStep} prevStep={prevStep}/>
+            );
+            break;
+    default:
+      currentStepComponent = null;
+      break;
+  }
+
   return (
-    <div className="p-8">
-      <h1 className="text-2xl mb-4">Tab {currentTab}</h1>
-      <div className="flex gap-4 mb-4">
-        {currentTab === 4 ? (
-          <LastPage />
-        ) : (
-          <TabComponent tab={currentTab} onNext={handleNext} />
-        )}
+    <div className="mt-10 px-14">
+      <div className="mb-20">
+        <div className="relative pt-1">
+          <div className="flex items-start">
+            <div className="flex flex-row w-full gap-2 justify-center">
+              {formTitles.map((title, index) => (
+                <div
+                  key={index}
+                  className={`${
+                    index < step - 1
+                      ? 'bg-text-semiblack h-1'
+                      : index === step - 1
+                      ? 'bg-text-semiblack h-1'
+                      : 'bg-step-gray h-1'
+                  } rounded-lg transition-all ease-in-out duration-300`}
+                >
+                  <div
+                    className={`text-sm font-semibold capitalize ${
+                      index < step - 1 ? 'text-black' : 'text-black'
+                    } mt-2`}
+                  >
+                    {title}
+                  </div>
+                  <div className="text-left py-1.5 pl-2 pr-4 h-2 w-[118px]"></div>
+                </div>
+              ))}
+            </div>
+            <Link to='/dashboard/transactions/make-a-transfer'>
+            </Link>
+          </div>
+        </div>
       </div>
-      {currentTab !== 4 && (
-        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" onClick={handleNext}>Next</button>
-      )}
+      <div className=" w-full">
+        <div className="mx-auto">
+          {currentStepComponent}
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Tabs;
+export default MultiStepForm;
