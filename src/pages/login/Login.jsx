@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import logoImage from '../../assets/images/alpha.png';
 import User from '../../assets/images/user.png';
 import Lock from '../../assets/images/lock.png';
 import Open from '../../assets/images/open.png';
-import { useNavigate } from 'react-router';
+import { LOGIN } from '../../utils/constant';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const [loginError, setLoginError] = useState("");
-  const notify = () => toast("Failed to login. Please check your credentials.");
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -30,20 +33,42 @@ const Login = () => {
   };
 
   const handleSubmit = (e) => {
+    const app_type = 1;
     e.preventDefault();
-    axios.post('https://d-aggregate.com/Alphageekbackend/api/login', { email, password })
+    axios.post(LOGIN, { email, password, app_type })
       .then(response => {
         // Handle successful login
         console.log(response.data);
-        toast.success('Login successful!');
-        localStorage.setItem('accessToken', response.data.accessToken);
-        Navigate.push('/homepage');
-
+        toast.success(response.data.message);
+        navigate('/verify');
       })
       .catch(error => {
         // Handle login error
-        console.log('Error:', error);
-        toast.error("Failed to Login. Please check credentials");
+        console.error("Error saving changes:", error);
+        if (error.response) {
+          const { status, data } = error.response;
+          if (status === 400 || status === 404 || status === 422) {
+            // Bad Request (400)
+            if (data && data.errors) {
+              Object.values(data.errors).flat().forEach(errorMessage => {
+                toast.error(`${errorMessage}`);
+              });
+            } else if (status && data && data.message) {
+              toast.error(`${data.message}`);
+            } else {
+              toast.error('Bad Request. Please check your input.');
+            }
+          } else if (status === 500) {
+            // Internal Server Error (500)
+            toast.error('Internal Server Error. Please try again later.');
+          } else {
+            // Display an error toast with the API response message for other status codes
+            toast.error(data.message || 'An unexpected error occurred.');
+          }
+        } else {
+          // Handle other errors
+          toast.error('An unexpected error occurred.');
+        }
       });
   };
 
@@ -82,18 +107,8 @@ const Login = () => {
               paddingLeft: '40px'
              }}
           />
-           <img 
-             src={User}
-             alt="user"
-             style={{
-               position: 'absolute',
-               top: '50%',
-               left: '10px',
-               transform: 'translateY(-50%)',
-               width: '20px', 
-               height: 'auto'
-             }}
-          />
+           
+          <FontAwesomeIcon icon={faEnvelope} className="absolute top-1/2 left-4 transform -translate-y-1/2 text-[#7563d0] text-xl" />
           <i className="fa fa-envelope" style={{ position: 'absolute', top: '50%', right: '10px', transform: 'translateY(-50%)' }}></i>
         </div>
         <div style={{ position: 'relative', marginBottom: '15px' }}>
@@ -126,20 +141,30 @@ const Login = () => {
                height: 'auto' 
              }}
           />
-        
+        {showPassword ? (
+            <FontAwesomeIcon icon={faEye}
+              onClick={handleTogglePassword}
+              className="absolute top-1/2 right-3 transform -translate-y-1/2 w-5 h-auto cursor-pointer text-[#7563d0]"
+            />
+          ) : (
+            <FontAwesomeIcon icon={faEyeSlash}
+              onClick={handleTogglePassword}
+              className="absolute top-1/2 right-3 transform -translate-y-1/2 w-5 h-auto cursor-pointer text-[#7563d0]"
+            />
+          )}
         </div>
         {/* <ButtonLogin /> */}
         <button type="submit" style={{ width: '100%', padding: '10px 20px', justifyContent: 'center', alignItems: 'center', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Login</button>
       </form>
-      <ToastContainer position="top-right" autoClose={2000} hideProgressBar newestOnTop closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar newestOnTop closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
       {/* Display login error message */}
 
       {loginError && <div>{loginError}</div>}
-      <div style={{  textAlign: 'center', marginBottom: '15px' }}>
+      <div style={{  textAlign: 'center', marginTop: '15px' }}>
         <a href="#" style={{ color: '#007bff', textDecoration: 'none' }}>Forgot Password?</a>
       </div>
       <div style={{ textAlign: 'center', marginBottom: '15px' }}>
-        <span style={{ color: '#007bff', textDecoration: 'none' }}>Don't have an account? </span>
+        <span style={{ textDecoration: 'none' }}>Don't have an account? </span>
         <Link to="/register" style={{ color: '#007bff', textDecoration: 'none' }}>
         Sign Up
         </Link>
