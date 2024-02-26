@@ -36,6 +36,7 @@ const Login = () => {
         // Handle successful login
         console.log(response.data);
         toast.success('Login successful!');
+        localStorage.setItem('accessToken', response.data.accessToken);
         Navigate.push('/homepage');
 
       })

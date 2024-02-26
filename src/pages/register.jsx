@@ -74,6 +74,7 @@ const Register = () => {
             type="text"
             placeholder="Name"
             value={name}
+            autoComplete="off"
             onChange={handleNameChange}
             required
             style={{ 
