@@ -16,6 +16,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Lazy load pages/components
 const Home = lazy(() => import(".././src/pages/home/Home.jsx"));
 const Login = lazy(() => import("./pages/login/Login.jsx"));
+const Unique = lazy(() => import("./pages/unique.jsx"));
+const Personal = lazy(() => import("./pages/personal.jsx"));
+const Guarantor = lazy(() => import("./pages/guarantor.jsx"));
+const Bank = lazy(() => import("./pages/bank.jsx"));
+const Capture = lazy(() => import("./pages/capture.jsx"));
 const Register = lazy(() => import("./pages/register.jsx"));
 const Tabs = lazy(() => import("./pages/tabs.jsx"));
 const Verify = lazy(() => import("./pages/verify.jsx"));
@@ -53,6 +58,11 @@ function App() {
           {/* <Route path="/" element={<Home />}  /> */}
           <Route path="/" element={<Login />} />
           <Route path="/homepage" element={<Home />} /> 
+          <Route path="/unique" element={< Unique />} /> 
+          <Route path="/personal" element={<Personal />} /> 
+          <Route path="/guarantor" element={<Guarantor />} /> 
+          <Route path="/bank" element={<Bank />} /> 
+          <Route path="/capture" element={<Capture />} /> 
           <Route path="/register" element={<Register />} />
           <Route path="/tabs" element={<Tabs />} />
           <Route path="/verify" element={<Verify />} />

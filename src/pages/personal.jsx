@@ -1,6 +1,11 @@
 import React from 'react'
 
-const Personal = () => {
+const Personal = ({nextStep}) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+  
+    nextStep()
+  };
   return (
     <div>
 
@@ -22,7 +27,7 @@ const Personal = () => {
         </select>
 
 
-        <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#502ef1', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>NEXT</button>
+        <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#502ef1', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }} onClick={handleSubmit}>NEXT</button>
       </div>
 
       <style jsx>{`

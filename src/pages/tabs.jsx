@@ -1,36 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { fa1, fa2, fa3, fa4, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import Personal from './personal';
-import Unique from './unique'
-import Bank from './bank'
-import Guarantor from './guarantor'
-import Capture from './capture'
+import Unique from './unique';
+import Bank from './bank';
+import Guarantor from './guarantor';
+import Capture from './capture';
 
 const MultiStepForm = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
 
-  const formTitles = ['Personal Information', 'Unique Identification', 'Bank Account', 'Guarantor Information', 'Capture Image'];
+  const formTitles = [
+    { title: 'Personal', icon: fa1 },
+    { title: 'Identification', icon: fa2 },
+    { title: 'Accounts', icon: fa3 },
+    { title: 'Guarantor', icon: fa4 },
+  ];
 
   const nextStep = () => {
-    if(step === 3){
-      navigate("Personal Information/Unique Identification/Bank Account/Guarantor Information/Capture Image")
-    }
-    else{
+    if (step < formTitles.length) {
       setStep(step + 1);
+    } else {
+      // Handle form submission or completion logic
     }
-    
   };
 
   const prevStep = () => {
-    if(step === 1){
-        navigate("Personal Information/Unique Identification/Bank Account/Guarantor Information/Capture Image")
+    if (step > 1) {
+      setStep(step - 1);
     }
-    else{
-       setStep(step - 1); 
-    }
-    
   };
 
   const isLastStep = step === formTitles.length;
@@ -46,66 +47,90 @@ const MultiStepForm = () => {
       break;
     case 2:
       currentStepComponent = (
-        <Unique nextStep={nextStep} prevStep={prevStep}/>
+        <Unique nextStep={nextStep} prevStep={prevStep} />
       );
       break;
     case 3:
       currentStepComponent = (
-        <Bank nextStep={nextStep} prevStep={prevStep}/>
+        <Bank nextStep={nextStep} prevStep={prevStep} />
       );
       break;
-      case 4:
-        currentStepComponent = (
-          <Guarantor nextStep={nextStep} prevStep={prevStep}/>
-        );
-        break;
-        case 5:
-            currentStepComponent = (
-              <Capture nextStep={nextStep} prevStep={prevStep}/>
-            );
-            break;
+    case 4:
+      currentStepComponent = (
+        <Guarantor nextStep={nextStep} prevStep={prevStep} />
+      );
+      break;
+    case 5:
+      currentStepComponent = (
+        <Capture nextStep={nextStep} prevStep={prevStep} />
+      );
+      break;
     default:
       currentStepComponent = null;
       break;
   }
 
   return (
-    <div className="mt-10 px-14">
-      <div className="mb-20">
+    <div className="">
+      <div className="mb-20 bg-blue-600 p-4">
         <div className="relative pt-1">
           <div className="flex items-start">
-            <div className="flex flex-row w-full gap-2 justify-center">
-              {formTitles.map((title, index) => (
-                <div
-                  key={index}
-                  className={`${
-                    index < step - 1
-                      ? 'bg-text-semiblack h-1'
-                      : index === step - 1
-                      ? 'bg-text-semiblack h-1'
-                      : 'bg-step-gray h-1'
-                  } rounded-lg transition-all ease-in-out duration-300`}
-                >
+            <div className="flex flex-row w-full justify-between bg-white">
+              {formTitles.map((item, index) => (
+                <div key={index} className="flex flex-col items-center ">
+                  {index > 0 && (
+                    <div
+                      className={`${
+                        index < step
+                          ? 'bg-text-semiblack'
+                          : 'bg-step-gray'
+                      } h-1 w-12`}
+                    ></div>
+                  )}
                   <div
-                    className={`text-sm font-semibold capitalize ${
-                      index < step - 1 ? 'text-black' : 'text-black'
-                    } mt-2`}
+                    key={index}
+                    className={` mt-4 text-sm ${
+                      index < step
+                        ? 'text-[#7563d0]'
+                        : 'text-gray-500'
+                    } flex flex-col items-center`}
                   >
-                    {title}
+                    <div className='flex gap-2 justify-center align-center py-3'>
+                      {index < step ? (
+                        <FontAwesomeIcon
+                          icon={faCheckCircle}
+                          className="mr-2 text-[#7563d0]"
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={item.icon}
+                          className="mr-2 text-white bg-[#7563d0] rounded-full text-sm p-[5px]"
+                        />
+                      )}
+                      <div>
+                        <div className='w-[30px] text-[#7563d0] border border-bottom border-[#7563d0] mt-3'></div>
+                      </div>
+                    </div>
+                    {item.title}
                   </div>
-                  <div className="text-left py-1.5 pl-2 pr-4 h-2 w-[118px]"></div>
+                  {index < formTitles.length - 1 && (
+                    <div
+                      className={`${
+                        index < step - 1
+                          ? 'bg-text-semiblack'
+                          : 'bg-step-gray'
+                      } h-1 w-12`}
+                    ></div>
+                  )}
                 </div>
               ))}
             </div>
-            <Link to='/dashboard/transactions/make-a-transfer'>
-            </Link>
+            <Link to="/personal/unique/bank/guarantor"></Link>
           </div>
         </div>
       </div>
-      <div className=" w-full">
-        <div className="mx-auto">
-          {currentStepComponent}
-        </div>
+      <div className="w-full">
+        <div className="mx-auto">{currentStepComponent}</div>
       </div>
     </div>
   );
