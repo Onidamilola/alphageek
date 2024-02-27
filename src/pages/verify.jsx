@@ -2,17 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import logoImage from '../assets/images/alpha.png';
-import Open from '../assets/images/open.png';
 import { useNavigate } from 'react-router';
 import { VERIFY_CODE } from '../utils/constant';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 
 const Verify = () => {
   const [code, setCode] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const Navigate = useNavigate();
 
 
@@ -20,9 +15,7 @@ const Verify = () => {
     setCode(e.target.value);
   };
 
-  const handleTogglePassword = () => {
-    setShowPassword(!showPassword);
-  };
+ 
 
   const handleSubmit = (e) => {
     e.preventDefault();

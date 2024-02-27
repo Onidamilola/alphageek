@@ -17,13 +17,13 @@ const Personal = ({nextStep}) => {
       <input type="text" id="homeaddress" name="homeaddress" placeholder="Home Address" style={{ marginBottom: '10px' }} />
       <input type="text" id="phonenumber" name="phonenumber" placeholder="Phone Number" style={{ marginBottom: '10px' }} />
       <select id="Gender" name="Gender" style={{ marginBottom: '10px' }}>
-          <option value="Gender">Gender</option>
+          <option value="Gender">Select Gender</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
         <select id="selectLocation" name="selectLocation" style={{ marginBottom: '10px' }}>
-          <option value="select location">Select Location</option>
-          <option value="agege">Agege</option>
+          <option value="select Qualification">Select Qualification</option>
+          <option value="SSCE">SSCE</option>
         </select>
 
 
