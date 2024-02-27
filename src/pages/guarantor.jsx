@@ -1,9 +1,11 @@
 import React from 'react'
+import { useNavigate } from 'react-router';
 
 const Guarantor = ({nextStep}) => {
- 
+ const navigate = useNavigate() 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    navigate('/capture')
   
     nextStep()
   };

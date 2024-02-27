@@ -72,7 +72,7 @@ const MultiStepForm = () => {
 
   return (
     <div className="">
-      <div className="mb-20 bg-blue-600 p-4">
+      <div className="mb-5 bg-blue-600 p-4">
         <div className="relative pt-1">
           <div className="flex items-start">
             <div className="flex flex-row w-full justify-between bg-white">

@@ -9,23 +9,26 @@ const Unique = ({nextStep}) => {
   return (
     <div>
        <div className="container" style={{ display: 'flex', flexDirection: 'column' }}>
-        <select id="country" name="Select Country" style={{ marginBottom: '10px' }}>
-            <option value="Country">Select Country</option>
+        <form onSubmit={handleSubmit}>
+        <select id="country" name="Select Country" style={{ marginBottom: '10px' }} required>
+            <option value="">Select Country</option>
             <option value="country">Nigeria</option>
             <option value="country">Ghana</option>
           </select>
-          <select id="state" name="state" style={{ marginBottom: '10px' }}>
-            <option value="state">State</option>
+          <select id="state" name="state" style={{ marginBottom: '10px' }} required>
+            <option value="">State</option>
             <option value="state">lagos</option>
           </select>
-          <select id="selectlga" name="select lga" style={{ marginBottom: '10px' }}>
-            <option value="selectlga">Select LGA</option>
+          <select id="selectlga" name="select lga" style={{ marginBottom: '10px' }} required>
+            <option value="">Select LGA</option>
             <option value="state">Agege</option>
           </select>
   
   
-          <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#502ef1', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }} onClick={handleSubmit}>NEXT</button>
-        </div>
+          <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#502ef1', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>NEXT</button>
+
+        </form>
+             </div>
   
         <style jsx>{`
           @media screen and (max-width: 768px) {
