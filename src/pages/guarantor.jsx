@@ -1,47 +1,86 @@
-import React from 'react'
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FaPaperclip } from "react-icons/fa";
+import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
 
-const Guarantor = ({nextStep}) => {
- 
+const Guarantor = ({ nextStep }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
-    nextStep()
+
+    nextStep();
   };
   return (
     <div>
-       <div className="container" style={{ display: 'flex', flexDirection: 'column' }}>
-          <input type="text" id="guarantorname" name="guarantorname" placeholder="Guarantor's Name" style={{ marginBottom: '10px' }} />
-         <input type="text" id="guarantorphonenumber" name="guarantorphonenumber" placeholder="Guarantor's Phone Number" style={{ marginBottom: '10px' }} />
-         <input type="text" id="guarantoremail" name="guarantoremail" placeholder="Guarantor's Email" style={{ marginBottom: '10px' }} />
-         <select id="document" name="Guarantor's Document Type" style={{ marginBottom: '10px' }}>
-            <option value="document">Guarantor Document Type</option>
-            <option value="document">NID</option>
-            <option value="document">Passport</option>
-            <option value="document">Others</option>
-          </select>
-          <div className="flex items-center">
-  <input id="file" type="file" className="appearance-none border border-gray-100 py-1 px-3 rounded-md" />
-  <label htmlFor="file" className="ml-2">Upload Guarantor Document</label>
-</div>
-
-
-
-  
-  
-  
-          <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#502ef1', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }} onClick={handleSubmit}>NEXT</button>
+      <div
+        className="container"
+        style={{ display: "flex", flexDirection: "column" }}
+      >
+        <input
+          type="text"
+          id="guarantorname"
+          name="guarantorname"
+          placeholder="Guarantor's Name"
+          style={{ marginBottom: "10px" }}
+        />
+        <input
+          type="text"
+          id="guarantorphonenumber"
+          name="guarantorphonenumber"
+          placeholder="Guarantor's Phone Number"
+          style={{ marginBottom: "10px" }}
+        />
+        <input
+          type="text"
+          id="guarantoremail"
+          name="guarantoremail"
+          placeholder="Guarantor's Email"
+          style={{ marginBottom: "10px" }}
+        />
+        <select
+          id="document"
+          name="Guarantor's Document Type"
+          style={{ marginBottom: "10px" }}
+        >
+          <option value="document">Guarantor Document Type</option>
+          <option value="document">NID</option>
+          <option value="document">Passport</option>
+          <option value="document">Others</option>
+        </select>
+        <div className="flex items-center gap-2 bg-white ">
+          <label htmlFor="file" className="flex items-center gap-2 cursor-pointer">
+            <FontAwesomeIcon icon={faPaperclip} className="text-[#7563d0]"/>
+            Upload Guarantor Document
+          </label>
+          <input id="file" type="file" className="hidden" />
         </div>
-  
-        <style jsx>{`
-          @media screen and (max-width: 768px) {
-            .container {
-              // Mobile styles
-            }
+
+        <button
+          type="submit"
+          style={{
+            width: "100%",
+            padding: "10px 20px",
+            backgroundColor: "#502ef1",
+            color: "#fff",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+          onClick={handleSubmit}
+        >
+          NEXT
+        </button>
+      </div>
+
+      <style jsx>{`
+        @media screen and (max-width: 768px) {
+          .container {
+            // Mobile styles
           }
-        `}</style>
-  
-        {/* Additional styles */}
-        <style>{`
+        }
+      `}</style>
+
+      {/* Additional styles */}
+      <style>{`
           body { font-family: Arial, Helvetica, sans-serif; }
           * { box-sizing: border-box; }
           input[type=text], select, textarea {
@@ -74,7 +113,7 @@ const Guarantor = ({nextStep}) => {
           }
         `}</style>
     </div>
-  )
-}
+  );
+};
 
 export default Guarantor;

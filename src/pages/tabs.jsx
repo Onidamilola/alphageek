@@ -10,7 +10,7 @@ import Guarantor from './guarantor';
 import Capture from './capture';
 
 const MultiStepForm = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [step, setStep] = useState(1);
 
   const formTitles = [
@@ -34,8 +34,8 @@ const MultiStepForm = () => {
     }
   };
 
-  const isLastStep = step === formTitles.length;
-  const isFirstStep = step === 1;
+  // const isLastStep = step === formTitles.length;
+  // const isFirstStep = step === 1;
 
   let currentStepComponent;
 
