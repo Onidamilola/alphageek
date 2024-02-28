@@ -1,13 +1,16 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FaPaperclip } from "react-icons/fa";
 import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from 'react-router';
 
-const Guarantor = ({ nextStep }) => {
+
+
+const Guarantor = () => {
+ const navigate = useNavigate()
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    nextStep();
+  
+    navigate("/capture")
   };
   return (
     <div>

@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { fa1, fa2, fa3, fa4, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import Personal from './personal';
@@ -10,15 +9,22 @@ import Guarantor from './guarantor';
 import Capture from './capture';
 
 const MultiStepForm = () => {
-  // const navigate = useNavigate();
   const [step, setStep] = useState(1);
+  const [formTitle, setFormTitle] = useState(null);
+  const location = useLocation();
 
-  const formTitles = [
+  useEffect(() => {
+    const path = sessionStorage.getItem('formTitle');
+    setFormTitle(path);
+  }, [location.pathname]);
+
+  // Memoize the formTitles array to prevent unnecessary re-renders
+  const formTitles = useMemo(() => [
     { title: 'Personal', icon: fa1 },
     { title: 'Identification', icon: fa2 },
     { title: 'Accounts', icon: fa3 },
     { title: 'Guarantor', icon: fa4 },
-  ];
+  ], []);
 
   const nextStep = () => {
     if (step < formTitles.length) {
@@ -34,8 +40,12 @@ const MultiStepForm = () => {
     }
   };
 
-  // const isLastStep = step === formTitles.length;
-  // const isFirstStep = step === 1;
+  // Update the formTitle to display the current step title
+  useEffect(() => {
+    if (step > 0 && step <= formTitles.length) {
+      setFormTitle(formTitles[step - 1].title);
+    }
+  }, [step, formTitles]);
 
   let currentStepComponent;
 
@@ -72,10 +82,12 @@ const MultiStepForm = () => {
 
   return (
     <div className="">
-      <div className="mb-20 bg-blue-600 p-4">
+      <div className="mb-5 bg-blue-600 p-4">
+        {/* Display the current step title in the h1 tag */}
+        <h1 className='font-bold text-white'>{formTitle}</h1>
         <div className="relative pt-1">
           <div className="flex items-start">
-            <div className="flex flex-row w-full justify-between bg-white">
+            <div className="flex flex-row w-full justify-between bg-white px-2">
               {formTitles.map((item, index) => (
                 <div key={index} className="flex flex-col items-center ">
                   {index > 0 && (
