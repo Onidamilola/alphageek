@@ -15,11 +15,13 @@ const Verify = () => {
     setCode(e.target.value);
   };
 
- 
+
+ const verify = new FormData();
+ verify.append("code", code)
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post( VERIFY_CODE, { code })
+    axios.post( VERIFY_CODE, verify )
       .then(response => {
         // Handle successful registration
         console.log(response.data);

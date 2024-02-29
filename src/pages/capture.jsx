@@ -43,11 +43,10 @@ const Capture = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen relative">
-      <div className="mb-4">
+      <div className="mb-10">
         <label htmlFor="cameraInput">
-          <FontAwesomeIcon icon={faCamera} onClick={handleCameraClick} className="text-6xl text-blue-500 cursor-pointer" />
+          <FontAwesomeIcon icon={faCamera} onClick={handleCameraClick} className="text-8xl text-blue-500 cursor-pointer" />
         </label>
-        <input id="cameraInput" type="file" accept="image/*" capture="camera" className="hidden" />
       </div>
       {imageCaptured && (
         <div className="text-center mb-4">
@@ -59,7 +58,7 @@ const Capture = () => {
           <img src={image} alt="Preview" className="max-w-full h-auto rounded-lg" />
         </div>
       )}
-      <button onClick={handleSave} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      <button onClick={handleSave} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-20">
         Submit
       </button>
       <ToastContainer position="top-right" autoClose={5000} hideProgressBar newestOnTop closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />

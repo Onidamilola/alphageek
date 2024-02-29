@@ -8,3 +8,5 @@ export const REGISTER = `${path}/create-user`;
 
 // login api, a post resquest
 export const VERIFY_CODE = `${path}/verifycode`;
+
+

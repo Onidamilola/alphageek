@@ -1,6 +1,44 @@
-import React from 'react'
+import React, {useState} from 'react'
+import { useEffect } from 'react'
+import axios from 'axios';
+
 
 const Unique = ({nextStep}) => {
+  const [countries, setCountries] = useState([]);
+  // const [states, setStates] = useState([]);
+  // const [lgas, setLgas] = useState([]);
+
+  useEffect(() => {
+    // Fetch countries data
+    axios.get('https://d-aggregate.com/Alphageekbackend/api/countries')
+      .then(response => {
+        console.log('Countries response:', response.data);
+    setCountries(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching countries:', error);
+      });
+
+    // Fetch states data
+  //   axios.get('https://d-aggregate.com/Alphageekbackend/api/allstates')
+  //     .then(response => {
+  //       setStates(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching states:', error);
+  //     });
+
+  //   // Fetch LGAs data
+  //   axios.post('https://d-aggregate.com/Alphageekbackend/api/lga')
+  //     .then(response => {
+  //       setLgas(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching LGAs:', error);
+  //     });
+  }, []);
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
   
@@ -12,16 +50,21 @@ const Unique = ({nextStep}) => {
         <form onSubmit={handleSubmit}>
         <select id="country" name="Select Country" style={{ marginBottom: '10px' }} required>
             <option value="">Select Country</option>
-            <option value="country">Nigeria</option>
-            <option value="country">Ghana</option>
+            {countries.length > 0 && countries.map(country => (
+    <option key={country.name.common} value={country.name.common}>{country.name.common}</option>
+  ))}
           </select>
           <select id="state" name="state" style={{ marginBottom: '10px' }} required>
             <option value="">State</option>
-            <option value="state">lagos</option>
+            {/* {states.map(state => (
+              <option key={state.id} value={state.name}>{state.name}</option>
+            ))} */}
           </select>
           <select id="selectlga" name="select lga" style={{ marginBottom: '10px' }} required>
-            <option value="">Select LGA</option>
-            <option value="state">Agege</option>
+          <option value="">Select LGA</option>
+          {/* {lgas.map(lga => (
+              <option key={lga.id} value={lga.name}>{lga.name}</option>
+            ))} */}
           </select>
   
   

@@ -24,6 +24,8 @@ const Personal = ({ nextStep }) => {
           <select id="selectLocation" name="selectLocation" style={{ marginBottom: '10px' }} required>
             <option value="">Select Qualification</option>
             <option value="SSCE">SSCE</option>
+            <option value="SSCE"></option>
+            <option value="SSCE">SSCE</option>
           </select>
 
           <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#502ef1', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>NEXT</button>
