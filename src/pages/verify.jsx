@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../utils/AxiosInstance';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from 'react-router';
@@ -14,20 +14,19 @@ const Verify = () => {
   const handleCodeChange = (e) => {
     setCode(e.target.value);
   };
-
-
- const verify = new FormData();
- verify.append("code", code)
+const verified = new FormData();
+verified.append("code", code)
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post( VERIFY_CODE, verify )
+    axiosInstance.post( VERIFY_CODE, verified )
       .then(response => {
         // Handle successful registration
+
         console.log(response.data);
-        if (response.status === 201) {
+        if (response.status === 200) {
           toast.success('Registration successful!');
-          Navigate('/login');
+          Navigate('/homepage');
         }
       })
       .catch(error => {

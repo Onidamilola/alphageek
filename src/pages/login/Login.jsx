@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../utils/AxiosInstance';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -35,8 +35,11 @@ const Login = () => {
   const handleSubmit = (e) => {
     const app_type = 1;
     e.preventDefault();
-    axios.post(LOGIN, { email, password, app_type })
+    axiosInstance.post(LOGIN, { email, password, app_type })
       .then(response => {
+        const token = response.data.data.access_token;
+    sessionStorage.setItem('token', token);
+
         // Handle successful login
         console.log(response.data);
         toast.success(response.data.message);

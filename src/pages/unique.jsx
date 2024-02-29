@@ -1,59 +1,76 @@
-import React, {useState} from 'react'
-import { useEffect } from 'react'
+import React, { useEffect, useState } from "react";
 import axios from 'axios';
+import { GET_ALL_COUNTRIES, GET_STATES } from "../utils/constant";
+
 
 
 const Unique = ({nextStep}) => {
-  const [countries, setCountries] = useState([]);
-  // const [states, setStates] = useState([]);
-  // const [lgas, setLgas] = useState([]);
-
-  useEffect(() => {
-    // Fetch countries data
-    axios.get('https://d-aggregate.com/Alphageekbackend/api/countries')
-      .then(response => {
-        console.log('Countries response:', response.data);
-    setCountries(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching countries:', error);
-      });
-
-    // Fetch states data
-  //   axios.get('https://d-aggregate.com/Alphageekbackend/api/allstates')
-  //     .then(response => {
-  //       setStates(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching states:', error);
-  //     });
-
-  //   // Fetch LGAs data
-  //   axios.post('https://d-aggregate.com/Alphageekbackend/api/lga')
-  //     .then(response => {
-  //       setLgas(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching LGAs:', error);
-  //     });
-  }, []);
-
-
+  const [countries, setCountries] = useState("")
+  const [selectedCountry, setSelectedCountry] = useState("")
+  const [states, setStates] = useState("")
+  const [selectedStates, setSelectedState] = useState("")
   const handleSubmit = async (event) => {
     event.preventDefault();
   
     nextStep()
   };
+
+  useEffect(() => {
+    // Fetch the list of countries when the component mounts
+    const fetchCountries = async () => {
+      try {
+        const response = await axios.get(GET_ALL_COUNTRIES);
+        setCountries(response.data.data);
+      } catch (error) {
+      }
+    };
+
+    fetchCountries();
+  }, []);
+  const fetchStates = async (expectedCountryId, secondParameter) => {
+    try {
+      const response = await axios.post(
+        GET_STATES`/${expectedCountryId}`
+      );
+      setStates(response.data.data);
+      if (secondParameter !== "") {
+        setSelectedState(secondParameter);
+      }
+    } catch (error) {
+    }
+  };
+  const handleCountryChange = async (event) => {
+    const selectedCountryId = event.target.value;
+
+    // Find the selected country object
+    const selectedCountryObject = countries.find(
+      (country) => country.id === selectedCountryId
+    );
+
+    // Update selectedCountry state with the entire country object
+    setSelectedCountry(selectedCountryObject.id);
+
+    // Fetch states based on the selected country
+    fetchStates(selectedCountryObject.id, "");
+  };
   return (
     <div>
        <div className="container" style={{ display: 'flex', flexDirection: 'column' }}>
         <form onSubmit={handleSubmit}>
-        <select id="country" name="Select Country" style={{ marginBottom: '10px' }} required>
-            <option value="">Select Country</option>
-            {countries.length > 0 && countries.map(country => (
-    <option key={country.name.common} value={country.name.common}>{country.name.common}</option>
-  ))}
-          </select>
+        <select
+                  className=" mb-[10px]"
+                  value={selectedCountry}
+                  onChange={handleCountryChange}
+                  required
+                >
+                  <option value="">Select Country</option>
+                  {countries.map((country) => (
+                    <option key={country.id} value={country.id}>
+                      {country.name}
+                    </option>
+                  ))}
+                </select>
+       
           <select id="state" name="state" style={{ marginBottom: '10px' }} required>
             <option value="">State</option>
             {/* {states.map(state => (
