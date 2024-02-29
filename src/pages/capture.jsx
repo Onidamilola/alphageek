@@ -47,7 +47,7 @@ const Capture = () => {
         <label htmlFor="cameraInput">
           <FontAwesomeIcon icon={faCamera} onClick={handleCameraClick} className="text-6xl text-blue-500 cursor-pointer" />
         </label>
-        <input id="cameraInput" type="file" accept="image/*" capture="camera" className="hidden" />
+        {/* <input id="cameraInput" type="file" accept="image/*" capture="camera" className="hidden" /> */}
       </div>
       {imageCaptured && (
         <div className="text-center mb-4">
