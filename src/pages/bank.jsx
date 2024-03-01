@@ -6,36 +6,51 @@ import { GET_BANKS } from '../utils/constant';
 const Bank = ({ nextStep }) => {
   const [banks, setBanks] = useState([]);
 
-  useEffect(() => {
-    // Fetch bank names data
-    axios.get( GET_BANKS )
-      .then(response => {
-        setBanks(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching banks:', error);
-      });
-  }, []);
-
+ 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     nextStep();
   };
+
+  useEffect(() => {
+    const fetchBanks = async () => {
+      try {
+        const response = await axios.get( GET_BANKS );
+        console.log("Banks Data:", response.data.data);
+        setBanks(response.data.data);
+      } catch (error) {
+        console.error("Error fetching banks:", error);
+      }
+    };
+
+    fetchBanks();
+  }, []);
+
+  const handleBankChange = (e) => {
+    const bankId = e.target.value;
+    
+    
+  };
+
   return (
     <div>
        <div className="container" style={{ display: 'flex', flexDirection: 'column' }}>
-        <select id="accounts" name="Select Bank" style={{ marginBottom: '10px' }}>
+       <form onSubmit={handleSubmit}>
+       <select id="accounts" name="Select Bank" onChange={handleBankChange} style={{ marginBottom: '10px' }}>
             <option value="bank">Select Bank</option>
-            {banks.length > 0 && banks.map(bank => (
-    <option key={bank.id} value={bank.name}>{bank.name}</option>
-  ))}
+            {banks.map((bank) => (
+              <option key={bank.id} value={bank.id}>
+                {bank.bank_name}
+              </option>
+            ))}
           </select>
           <input type="text" id="accountname" name="accountname" placeholder="Account Name" style={{ marginBottom: '10px' }} />
          <input type="text" id="accountnumber" name="accountnumber" placeholder="Account Number" style={{ marginBottom: '10px' }} />
   
   
           <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#502ef1', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }} onClick={handleSubmit}>NEXT</button>
+       </form>
         </div>
   
         <style jsx>{`

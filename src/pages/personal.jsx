@@ -1,10 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { GET_EDUCATIONS } from '../utils/constant';
 
 const Personal = ({ nextStep }) => {
+  const [educations, setEducations] = useState([])
+
+
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // You can perform additional validation here if needed
     nextStep();
+  };
+
+  useEffect(() => {
+    const fetchEducations = async () => {
+      try {
+        const response = await axios.get( GET_EDUCATIONS );
+        console.log("Educations Data:", response.data.data);
+        setEducations(response.data.data);
+      } catch (error) {
+        console.error("Error fetching education:", error);
+      }
+    };
+
+    fetchEducations();
+  }, []);
+
+  const handleEducationChange = (e) => {
+    const educationId = e.target.value;
+    
+    
   };
 
   return (
@@ -21,11 +48,13 @@ const Personal = ({ nextStep }) => {
             <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
-          <select id="selectLocation" name="selectLocation" style={{ marginBottom: '10px' }} required>
+          <select id="selectLocation" name="selectLocation" onChange={handleEducationChange} style={{ marginBottom: '10px' }} required>
             <option value="">Select Qualification</option>
-            <option value="SSCE">SSCE</option>
-            <option value="SSCE"></option>
-            <option value="SSCE">SSCE</option>
+            {educations.map((title) => (
+              <option key={title.id} value={title.id}>
+                {title.title}
+              </option>
+            ))}
           </select>
 
           <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#502ef1', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>NEXT</button>

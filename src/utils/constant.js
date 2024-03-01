@@ -24,4 +24,7 @@ export const  GET_LGAs = `${path}/lga`;
 //banks api, a get request
 export const GET_BANKS = `${path}/bank`;
 
+//educations api, a get request
+export const GET_EDUCATIONS = `${path}/education`
+
 
