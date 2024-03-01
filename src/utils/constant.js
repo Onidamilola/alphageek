@@ -10,10 +10,14 @@ export const REGISTER = `${path}/create-user`;
 export const VERIFY_CODE = `${path}/verifycode`; 
 
 
-// countries api, a get resquest
+// countries api, a get request
 export const  GET_ALL_COUNTRIES = `${path}/countries`; 
 
 
-// states api, a post resquest
+// states api, a post request
 export const  GET_STATES = `${path}/state`;
+
+//banks api, a get request
+export const GET_BANKS = `${path}/bank`;
+
 
