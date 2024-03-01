@@ -15,7 +15,11 @@ export const  GET_ALL_COUNTRIES = `${path}/countries`;
 
 
 // states api, a post request
-export const  GET_STATES = `${path}/state`;
+export const  GET_STATES = `${path}/state`; 
+
+
+// LGAs api, a post request
+export const  GET_LGAs = `${path}/lga`; 
 
 //banks api, a get request
 export const GET_BANKS = `${path}/bank`;
