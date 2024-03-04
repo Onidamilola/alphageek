@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import logo from '../../assets/images/alphageek-logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
@@ -12,8 +12,19 @@ import frame5 from '../../assets/images/Frame5.png';
 import frame6 from '../../assets/images/Frame6.png';
 import frame2 from '../../assets/images/Frame2.png';
 import { Link } from 'react-router-dom';
+import Profile from '../../components/modal/Profile';
 
 const Home = () => {
+  const [popupVisible, setPopupVisible] = useState(false);
+
+  const handleModal = async (event) => {
+    event.preventDefault();
+setPopupVisible(true)
+console.log("helo");
+   
+};
+
+
   const components = [
     {
       name: "Outlet Recruitment",
@@ -79,17 +90,18 @@ const Home = () => {
             <p>Hello, Yakubu odili ojo</p>
             <p>Win at work today!</p>
           </div>
-          <FontAwesomeIcon icon={faUserCircle} className='text-4xl text-gray-400'/>
+          <FontAwesomeIcon icon={faUserCircle} className='text-8xl text-gray-400' onClick={handleModal}/>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-lg">
           {components.map((component, index)=>(
             <Link key={index} to={component.link} className="rounded-lg border border-gray-300 p-4 underline ">
-              <img src={component.image} alt={component.name} className=" mx-auto" />
+              <img src={component.image} alt={component.name} className=" mx-auto"/>
               <p className="text-center font-bold">{component.name}</p>
             </Link>
           ))}
         </div>
       </div>
+      {popupVisible && (<Profile isVisible={popupVisible} closeModal={setPopupVisible}/>)}
     </div>
   );
 };
