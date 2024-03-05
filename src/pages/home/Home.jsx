@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Modal from '../modal';
 import logo from '../../assets/images/alphageek-logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
@@ -14,6 +15,25 @@ import frame2 from '../../assets/images/Frame2.png';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleIconClick = () => {
+    setIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleEdit = () => {
+    // Handle edit action
+  };
+
+  const handleLogout = () => {
+    // Handle logout action
+  };
+
+
   const components = [
     {
       name: "Outlet Recruitment",
@@ -79,7 +99,11 @@ const Home = () => {
             <p>Hello, Yakubu odili ojo</p>
             <p>Win at work today!</p>
           </div>
-          <FontAwesomeIcon icon={faUserCircle} className='text-4xl text-gray-400'/>
+         <div className="icon-container" onClick={handleIconClick}>
+         <FontAwesomeIcon icon={faUserCircle} className='text-8xl text-gray-400'/>
+         </div>
+         
+         
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-lg">
           {components.map((component, index)=>(
@@ -89,6 +113,7 @@ const Home = () => {
             </Link>
           ))}
         </div>
+        <Modal isOpen={isOpen} setIsOpen={setIsOpen} handleEdit={handleEdit} handleLogout={handleLogout} />
       </div>
     </div>
   );
