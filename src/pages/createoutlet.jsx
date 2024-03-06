@@ -1,9 +1,14 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
+import axiosInstance from '../utils/AxiosInstance';
 import Sidebar from '../components/Sidebar';
+import { GET_OUTLET } from '../utils/constant';
+import { GET_OUTLETCHANNEL } from '../utils/constant'
 
 
 const CreateOutlet = () => {
   const [imageObject, setImageObect] = useState(null);
+  const [outlet, setOutlet] = useState([])
+  const [outletChannel, setOutletChannel] = useState([])
 
   const handleFileInput = useRef(null);
 
@@ -17,6 +22,46 @@ const CreateOutlet = () => {
       imageFile: event.target.files[0],
     });
   }
+
+  useEffect(() => {
+    const fetchOutlet = async () => {
+      try {
+        const response = await axiosInstance.get( GET_OUTLET );
+        console.log("Outlets Data:", response.data.data);
+        setOutlet(response.data.data);
+      } catch (error) {
+        console.error("Error fetching Outlets:", error);
+      }
+    };
+
+    fetchOutlet();
+  }, []);
+
+  const handleOutletChange = (e) => {
+    const outletId = e.target.value;
+    
+    
+  };
+
+  useEffect(() => {
+    const fetchOutletChannel = async () => {
+      try {
+        const response = await axiosInstance.get( GET_OUTLETCHANNEL );
+        console.log("Outlets Data:", response.data.data);
+        setOutletChannel(response.data.data);
+      } catch (error) {
+        console.error("Error fetching Outlets:", error);
+      }
+    };
+
+    fetchOutletChannel();
+  }, []);
+
+  const handleOutletChannelChange = (e) => {
+    const outletChannelId = e.target.value;
+    
+    
+  };
   return (
     <div>
       <div style={{ width: '100%', marginBottom: '20px' }}>
@@ -25,24 +70,22 @@ const CreateOutlet = () => {
 
       <div className="container" style={{ display: 'flex', flexDirection: 'column' }}>
         <label htmlFor="outlet" style={{ color: 'blue' }}>Outlet Classification</label>
-        <select id="outlet" name="outletType" style={{ marginBottom: '10px' }}>
+        <select id="outlet" name="outletType" onChange={handleOutletChange} style={{ marginBottom: '10px' }}>
           <option value="outlet type">Outlet Type</option>
-          <option value="welcome">Welcome</option>
-          <option value="outlet type 1">Outlet type 1</option>
-          <option value="outlet type 2">Outlet type 2</option>
-          <option value="golden outlet (GOC)">Golden outlet (GOC)</option>
-          <option value="pos terminal">POS Terminal</option>
-          <option value="pzgoc stores">PZGOC Stores</option>
+          {outlet.map((outlet) => (
+              <option key={outlet.id} value={outlet.id}>
+                {outlet.type_name}
+                </option>
+            ))}
         </select>
 
-        <select id="outletChannel" name="outletChannel" style={{ marginBottom: '10px' }}>
+        <select id="outletChannel" name="outletChannel" onChange={handleOutletChannelChange} style={{ marginBottom: '10px' }}>
           <option value="outlet channel">Outlet Channel</option>
-          <option value="outlet channel 1">Outlet Channel 1</option>
-          <option value="outlet channel 2">Outlet Channel 2</option>
-          <option value="outlet channel 3">Outlet Channel 3</option>
-          <option value="golden outlet (GOC)">Golden outlet</option>
-          <option value="pos terminal">POS Terminal</option>
-          <option value="pz golden outlet(mt)">PZ Golden Outlet (MT)</option>
+          {outletChannel.map((outletChannel) => (
+              <option key={outletChannel.id} value={outletChannel.id}>
+                {outletChannel.channel_name}
+                </option>
+            ))}
         </select>
 
         <label htmlFor="outletName" style={{ color: 'blue' }}>Basic Information</label>

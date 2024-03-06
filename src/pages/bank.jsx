@@ -53,7 +53,7 @@ const Bank = ({ nextStep }) => {
        </form>
         </div>
   
-        <style jsx>{`
+        <style>{`
           @media screen and (max-width: 768px) {
             .container {
               // Mobile styles
