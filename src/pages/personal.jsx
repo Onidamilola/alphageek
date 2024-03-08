@@ -44,7 +44,11 @@ const Personal = ({ nextStep }) => {
   const handlePersonal = async (event) => {
     event.preventDefault();
     try {
+
+      const selectedEducation = educations.find((education) => education.id === edu);
       
+      setEducation(selectedEducation);
+
       setFirstname(firname);
       setMiddlename(midname);
       setLastname(lstname);
@@ -66,6 +70,9 @@ const Personal = ({ nextStep }) => {
   //   console.log("Updated firstname:", firstname);
   // }, [firstname]); 
 
+  
+
+  
   
 
   return (
