@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Sidebar1 from '../components/sidebar1';
 import Button from '../components/button';
 
+
 const OutletList = () => {
   const [outlet, setOutlet] = useState(null);
 

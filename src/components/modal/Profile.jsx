@@ -44,11 +44,11 @@ const handleedit= async(event)=>{
         },
         {
           Title: "NIN",
-          Num: "2345678924",
+          Num: "",
         },
         {
           Title: "LASRA",
-          Num: "2345678913",
+          Num: "",
         },
         {
             Title: "LGA",
@@ -75,7 +75,7 @@ const handleedit= async(event)=>{
             <div className="flex justify-between items-center bg-purple-100 px-4 py-4 rounded-lg">
             
             <div className="flex justify-between">
-                <FontAwesomeIcon icon={faUserCircle} className="text-6xl"/>
+                <FontAwesomeIcon icon={faUserCircle} className="text-5xl"/>
                 <div>
                     <p className="font-semibold">Yakubu Odili Ojo</p>
                     <p className="text-[#7563d0]">yakubuodili@gmail.com</p>

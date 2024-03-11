@@ -27,4 +27,10 @@ export const GET_BANKS = `${path}/bank`;
 //educations api, a get request
 export const GET_EDUCATIONS = `${path}/education`
 
+//outlet_type api, a get request
+export const GET_OUTLET = `${path}/outlet_type`
+
+//outlet_channel api, a get request
+export const GET_OUTLETCHANNEL = `${path}/outlet_channel`
+
 

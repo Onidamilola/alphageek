@@ -8,12 +8,13 @@ const Unique = ({ nextStep }) => {
   const [states, setStates] = useState([]);
   const [selectedStates, setSelectedState] = useState("");
   const [lgas, setLgas] = useState([])
-  const [selectedLga, setSelectedLga] = useState("")
+  const [uniqueList, setUniqueList] = useState({
+    country: '',
+    state: '',
+    localG: ''
+  });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    nextStep();
-  };
+  
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -63,7 +64,7 @@ const Unique = ({ nextStep }) => {
           GET_LGAs,
           { state_id: selectedStates.toString() } // Convert to string
         );
-        console.log("States Data:", response.data);
+        console.log("lgas Data:", response.data);
       
         setLgas(response.data.data);
               
@@ -74,22 +75,37 @@ const Unique = ({ nextStep }) => {
     fetchLGA()
   }, [selectedStates])
 
-
   
   const handleCountryChange = (e) => {
-    const countryId = e.target.value;
+    const countryId = +e.target.value;
     setSelectedCountry(countryId);
     setSelectedState('');
+    setUniqueList({...uniqueList, country: countryId})
   };
 
   const handleStateChange = (e) => {
-    const stateId = e.target.value;
+    const stateId = +e.target.value;
     setSelectedState(stateId);
-    setSelectedLga("");
+    setUniqueList({...uniqueList, state: stateId})
   };
   const handleLGAChange = (e) => {
-    const LGA = e.target.value;
-    setSelectedLga(LGA);
+    const LGA = +e.target.value;
+    setUniqueList({...uniqueList, localG: LGA})
+
+  };
+  const handleSubmit = async (event) => {
+    event.preventDefault(); 
+  };
+
+  const handleUnique = async (event) => {
+    event.preventDefault();
+    const selectedCountryObject = countries.find((countr) => countr.id === uniqueList.country);
+    const selectedStateObject = states.find((statee) => statee.id === uniqueList.state);
+    const selectedLGAObject = countries.find((local) => local.id === uniqueList.localG);
+    sessionStorage.setItem("uniqueListInfo", JSON.stringify({...uniqueList, country: selectedCountryObject.id, state: selectedStateObject.id}))
+    console.log("hello,:", uniqueList)
+
+    nextStep();
   };
 
   return (
@@ -100,6 +116,7 @@ const Unique = ({ nextStep }) => {
             className="mb-[10px]"
             onChange={handleCountryChange}
             required
+            value={uniqueList.country}
           >
             <option value="">Select Country</option>
             {countries.map((country) => (
@@ -109,7 +126,7 @@ const Unique = ({ nextStep }) => {
             ))}
           </select>
 
-          <select id="state" name="state" style={{ marginBottom: '10px' }} required onChange={handleStateChange}>
+          <select id="state" name="state" style={{ marginBottom: '10px' }} required onChange={handleStateChange} value={uniqueList.state}>
             <option value="">State</option>
             {states.map((state) => (
               <option key={state.id} value={state.id}>
@@ -118,7 +135,7 @@ const Unique = ({ nextStep }) => {
             ))}
           </select>
 
-          <select id="selectlga" name="select lga" style={{ marginBottom: '10px' }} required onChange={handleLGAChange}>
+          <select id="selectlga" name="select lga" style={{ marginBottom: '10px' }} required onChange={handleLGAChange} value={uniqueList.localG}>
           <option value="">Select LGA</option>
             {lgas.map((lga) => (
               <option key={lga.id} value={lga.id}>
@@ -127,7 +144,7 @@ const Unique = ({ nextStep }) => {
             ))}
           </select>
 
-          <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#502ef1', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>NEXT</button>
+          <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#502ef1', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }} onClick={handleUnique}>NEXT</button>
 
         </form>
       </div>
