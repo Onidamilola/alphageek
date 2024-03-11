@@ -12,9 +12,31 @@ const Unique = ({ nextStep }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+     // Retrieve the selected country, state, and LGA objects
+ 
+    // Retrieve the selected country, state, and LGA objects
+    const selectedCountryData = countries.find(country => country.id === parseInt(selectedCountry));
+    const selectedStateData = states.find(state => state.id === parseInt(selectedStates));
+    const selectedLgaData = lgas.find(lga => lga.id === parseInt(selectedLga));
+
+    // Create an object with the selected location data
+    const dataToStore = {
+      selectedCountry: selectedCountryData,
+      selectedState: selectedStateData,
+      selectedLga: selectedLgaData
+    };
+
+    // Store the data object in session storage
+    sessionStorage.setItem('selectedLocationData', JSON.stringify(dataToStore));
+
+    // Proceed to the next step
     nextStep();
   };
 
+  console.log(selectedCountry);
+  console.log(selectedStates);
+  console.log(selectedLga);
+  
   useEffect(() => {
     const fetchCountries = async () => {
       try {

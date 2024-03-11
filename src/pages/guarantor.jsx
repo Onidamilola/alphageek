@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router';
@@ -6,9 +6,31 @@ import { useNavigate } from 'react-router';
 
 
 const Guarantor = () => {
- const navigate = useNavigate()
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+ 
+const [guarantor, setGuarantor] = useState({
+  guarantor_name: '',
+  guarantor_phone: '',
+  guarantor_email: '',
+  guarantor_document_type: '',
+  guarantor_document: null,
+});
+
+const navigate = useNavigate()
+
+const handleChange = (event) => {
+  const { name, value } = event.target;
+  setGuarantor({ ...guarantor, [name]: value });
+};
+
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  setGuarantor({ ...guarantor, guarantor_document: file });
+};
+
+const handleSubmit = async (event) => {
+  event.preventDefault();
+ 
+  sessionStorage.setItem('guarantor', JSON.stringify(guarantor));
   
     navigate("/capture")
   };
@@ -20,28 +42,36 @@ const Guarantor = () => {
       >
         <input
           type="text"
-          id="guarantorname"
-          name="guarantorname"
+          id="guarantor_name"
+          name="guarantor_name"
           placeholder="Guarantor's Name"
+          value={guarantor.guarantor_name}
+          onChange={handleChange}
           style={{ marginBottom: "10px" }}
         />
         <input
           type="text"
           id="guarantorphonenumber"
-          name="guarantorphonenumber"
+          name="guarantor_phone"
           placeholder="Guarantor's Phone Number"
+          value={guarantor.guarantor_phone}
+          onChange={handleChange}
           style={{ marginBottom: "10px" }}
         />
         <input
           type="text"
           id="guarantoremail"
-          name="guarantoremail"
+          name="guarantor_email"
           placeholder="Guarantor's Email"
+          value={guarantor.guarantor_email}
+          onChange={handleChange}
           style={{ marginBottom: "10px" }}
         />
         <select
           id="document"
           name="Guarantor's Document Type"
+          value={guarantor.guarantor_document_type}
+          onChange={handleChange}
           style={{ marginBottom: "10px" }}
         >
           <option value="document">Guarantor Document Type</option>
@@ -54,7 +84,7 @@ const Guarantor = () => {
             <FontAwesomeIcon icon={faPaperclip} className="text-[#7563d0]"/>
             Upload Guarantor Document
           </label>
-          <input id="file" type="file" className="hidden" />
+          <input id="file" type="file" className="hidden" onChange={handleFileChange} />
         </div>
 
         <button

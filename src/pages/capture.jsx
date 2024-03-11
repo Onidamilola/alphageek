@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { UPDATE_PROFILE } from '../utils/constant';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 import "react-toastify/dist/ReactToastify.css";
 
 const Capture = () => {
   const [image, setImage] = useState("");
   const [imageCaptured, setImageCaptured] = useState(null);
+  const navigate = useNavigate()
+
+  const guarantorData = JSON.parse(sessionStorage.getItem('guarantor'));
+  const personalList = JSON.parse(sessionStorage.getItem('personalList'));
+  const bankData = JSON.parse(sessionStorage.getItem('bankListInfo'));
+  const dataToStore = JSON.parse(sessionStorage.getItem('selectedLocationData'));
+  
 
   const handleCameraClick = () => {
     // Request access to the camera
@@ -32,13 +42,31 @@ const Capture = () => {
       });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     console.log('Image saved:', image);
     if (image) {
       setImageCaptured(image);
       toast.success("Image is saved");
+
+      try {
+        const response = await axios.post( UPDATE_PROFILE, {
+          guarantor: guarantorData,
+          personalList: personalList,
+          bankListInfo: bankData,
+          selectedLocationData: dataToStore,
+          image: imageCaptured,
+        });
+        if (response.status === 200) {
+          toast.success("KYC form submitted successfully");
+          navigate("/homepage");
+        }
+          } catch (error) {
+        console.error('Error submitting KYC form:', error);
+        toast.error("Error submitting KYC form");
+      }
     }
     setImage("");
+    
   };
 
   return (
