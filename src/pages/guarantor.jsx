@@ -2,38 +2,42 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router';
-
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Guarantor = () => {
- 
-const [guarantor, setGuarantor] = useState({
-  guarantor_name: '',
-  guarantor_phone: '',
-  guarantor_email: '',
-  guarantor_document_type: '',
-  guarantor_document: null,
-});
+  const [guarantor, setGuarantor] = useState({
+    guarantor_name: '',
+    guarantor_phone: '',
+    guarantor_email: '',
+    guarantor_document_type: '',
+    guarantor_document: null,
+  });
 
-const navigate = useNavigate()
+  const navigate = useNavigate();
 
-const handleChange = (event) => {
-  const { name, value } = event.target;
-  setGuarantor({ ...guarantor, [name]: value });
-};
-
-const handleFileChange = (event) => {
-  const file = event.target.files[0];
-  setGuarantor({ ...guarantor, guarantor_document: file });
-};
-
-const handleSubmit = async (event) => {
-  event.preventDefault();
- 
-  sessionStorage.setItem('guarantor', JSON.stringify(guarantor));
-  
-    navigate("/capture")
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      // File size greater than 5MB, show error toast
+      toast.error("File size cannot exceed 5MB");
+    } else {
+      setGuarantor((prevGuarantor) => ({
+        ...prevGuarantor,
+        guarantor_document: file,
+      }));
+      // Update sessionStorage here using the updated guarantor state
+      sessionStorage.setItem('guarantor', JSON.stringify({...guarantor, guarantor_document: file}));
+    }
   };
+  
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    sessionStorage.setItem('guarantor', JSON.stringify(guarantor));
+    navigate("/capture");
+  };
+
   return (
     <div>
       <div
@@ -46,7 +50,7 @@ const handleSubmit = async (event) => {
           name="guarantor_name"
           placeholder="Guarantor's Name"
           value={guarantor.guarantor_name}
-          onChange={handleChange}
+          onChange={(e) => setGuarantor({...guarantor, guarantor_name: e.target.value})}
           style={{ marginBottom: "10px" }}
         />
         <input
@@ -55,7 +59,7 @@ const handleSubmit = async (event) => {
           name="guarantor_phone"
           placeholder="Guarantor's Phone Number"
           value={guarantor.guarantor_phone}
-          onChange={handleChange}
+          onChange={(e) => setGuarantor({...guarantor, guarantor_phone: e.target.value})}
           style={{ marginBottom: "10px" }}
         />
         <input
@@ -64,20 +68,20 @@ const handleSubmit = async (event) => {
           name="guarantor_email"
           placeholder="Guarantor's Email"
           value={guarantor.guarantor_email}
-          onChange={handleChange}
+          onChange={(e) => setGuarantor({...guarantor, guarantor_email: e.target.value})}
           style={{ marginBottom: "10px" }}
         />
         <select
           id="document"
           name="Guarantor's Document Type"
           value={guarantor.guarantor_document_type}
-          onChange={handleChange}
+          onChange={(e) => setGuarantor({...guarantor, guarantor_document_type: e.target.value})}
           style={{ marginBottom: "10px" }}
         >
-          <option value="document">Guarantor Document Type</option>
-          <option value="document">NID</option>
-          <option value="document">Passport</option>
-          <option value="document">Others</option>
+          <option value="">Guarantor Document Type</option>
+          <option value="NID">NID</option>
+          <option value="Passport">Passport</option>
+          <option value="Others">Others</option>
         </select>
         <div className="flex items-center gap-2 bg-white ">
           <label htmlFor="file" className="flex items-center gap-2 cursor-pointer">
@@ -86,6 +90,11 @@ const handleSubmit = async (event) => {
           </label>
           <input id="file" type="file" className="hidden" onChange={handleFileChange} />
         </div>
+
+        {/* Display the name of the uploaded file */}
+        {guarantor.guarantor_document && (
+          <p>Uploaded Document: {guarantor.guarantor_document.name}</p>
+        )}
 
         <button
           type="submit"
@@ -97,6 +106,7 @@ const handleSubmit = async (event) => {
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
+            marginTop: "10px"
           }}
           onClick={handleSubmit}
         >

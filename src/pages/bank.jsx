@@ -7,9 +7,11 @@ const Bank = ({ nextStep }) => {
   const [banks, setBanks] = useState([]);
 
   const [bankList, setBankList] = useState({
-    bank: '',
-    acctName: '',
-    acctNumber: '',
+    bankId: '',
+    bankName: '',
+    accountName: '',
+    accountNumber: '',
+    
 
   });
 
@@ -36,13 +38,13 @@ const Bank = ({ nextStep }) => {
 
   const handleBankChange = (e) => {
     const selectedBankId = +e.target.value;
-    setBankList({ ...bankList, bank: selectedBankId });
+    setBankList({ ...bankList, bankName: selectedBankId });
     console.log(selectedBankId);
   };
 
   const handleBank = async (event) => {
     event.preventDefault();
-    const selectedBankObject = banks.find((bank) => bank.id === bankList.bank);
+    const selectedBankObject = banks.find((bank) => bank.id === bankList.bankName);
     nextStep();
 
     const bankData = {
@@ -55,7 +57,8 @@ const Bank = ({ nextStep }) => {
      // Store the object in session storage
      sessionStorage.setItem(
       "bankListInfo",
-      JSON.stringify({bankData})
+      JSON.stringify({...bankList, bankId: selectedBankObject.id,
+        bankName: selectedBankObject.bank_name})
     );
    console.log(bankList);
   }
@@ -67,7 +70,7 @@ const Bank = ({ nextStep }) => {
     <div>
        <div className="container" style={{ display: 'flex', flexDirection: 'column' }}>
        <form onSubmit={handleSubmit}>
-       <select id="accounts" name="Select Bank" onChange={handleBankChange} style={{ marginBottom: '10px' }} value={bankList.bank}>
+       <select id="accounts" name="Select Bank" onChange={handleBankChange} style={{ marginBottom: '10px' }} value={bankList.bankName}>
             <option value="bank">Select Bank</option>
             {banks.map((bank) => (
               <option key={bank.id} value={bank.id}>
@@ -80,8 +83,8 @@ const Bank = ({ nextStep }) => {
             id="accountname"
             name="accountname"
             placeholder="Account Name"
-            value={bankList.acctName}
-            onChange={(e) => setBankList({...bankList, acctName: e.target.value})}
+            value={bankList.accountName}
+            onChange={(e) => setBankList({...bankList, accountName: e.target.value})}
             style={{ marginBottom: '10px' }}
           />
           <input
@@ -89,8 +92,8 @@ const Bank = ({ nextStep }) => {
             id="accountnumber"
             name="accountnumber"
             placeholder="Account Number"
-            value={bankList.acctNumber}
-            onChange={(e) => setBankList({...bankList, acctNumber: e.target.value})}
+            value={bankList.accountNumber}
+            onChange={(e) => setBankList({...bankList, accountNumber: e.target.value})}
             style={{ marginBottom: '10px' }}
           />
 
