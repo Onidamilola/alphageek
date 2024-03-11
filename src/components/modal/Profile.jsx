@@ -1,10 +1,16 @@
 import React, {useState, useEffect} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faUserCircle, faPen } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { LOGOUT } from "../../utils/constant";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/AxiosInstance";
 
 const Profile = ({isVisible, closeModal}) => {
     const [date, setDate] = useState(new Date());
     const [openEdit, setOpenEdit] = useState(false)
+    const [token, setToken] = useState(sessionStorage.getItem('token'))
+    const navigate = useNavigate()
 
     useEffect(() => {
       const timer = setInterval(() => {
@@ -68,6 +74,10 @@ const handleedit= async(event)=>{
         },
       ];
 
+     const handleLogout = (e) => {
+      
+     };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 text-center">
       {isVisible && (
@@ -110,7 +120,7 @@ const handleedit= async(event)=>{
         </div>
       )} */}
       <div>{formattedDate}</div>
-      <button className="bg-blue-500 px-20 py-2 my-4 rounded-lg text-xl text-white">Log out</button>
+      <button className="bg-blue-500 px-20 py-2 my-4 rounded-lg text-xl text-white"  onClick={handleLogout}>Log out</button>
         </div>
         
       )}
