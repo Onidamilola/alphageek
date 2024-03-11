@@ -19,6 +19,7 @@ const Personal = ({ nextStep }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // You can perform additional validation here if needed
+    
   };
 
   useEffect(() => {
@@ -53,7 +54,9 @@ const Personal = ({ nextStep }) => {
   // useEffect(() => {
   //   // This will log the updated firstname whenever it changes
   //   console.log("Updated firstname:", firstname);
-  // }, [firstname]);
+  
+
+  
 
   return (
     <div>
