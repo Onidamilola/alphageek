@@ -33,4 +33,10 @@ export const GET_OUTLET = `${path}/outlet_type`
 //outlet_channel api, a get request
 export const GET_OUTLETCHANNEL = `${path}/outlet_channel`
 
+//update_profile api, a post request
+export const UPDATE_PROFILE = `${path}/update_profile`
+
+//profile api, a get request
+export const PROFILE = `${path}/profile`
+
 

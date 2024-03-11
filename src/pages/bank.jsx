@@ -6,6 +6,13 @@ import { GET_BANKS } from '../utils/constant';
 const Bank = ({ nextStep }) => {
   const [banks, setBanks] = useState([]);
 
+  const [bankList, setBankList] = useState({
+    bank: '',
+    acctName: '',
+    acctNumber: '',
+
+  });
+
  
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,16 +35,39 @@ const Bank = ({ nextStep }) => {
   }, []);
 
   const handleBankChange = (e) => {
-    const bankId = e.target.value;
-    
-    
+    const selectedBankId = +e.target.value;
+    setBankList({ ...bankList, bank: selectedBankId });
+    console.log(selectedBankId);
   };
+
+  const handleBank = async (event) => {
+    event.preventDefault();
+    const selectedBankObject = banks.find((bank) => bank.id === bankList.bank);
+    nextStep();
+
+    const bankData = {
+      bankId: selectedBankObject.id,
+      bankName: selectedBankObject.bank_name,
+      accountName: bankList.acctName,
+      accountNumber: bankList.acctNumber,
+    };
+  
+     // Store the object in session storage
+     sessionStorage.setItem(
+      "bankListInfo",
+      JSON.stringify({bankData})
+    );
+   console.log(bankList);
+  }
+
+  
+  
 
   return (
     <div>
        <div className="container" style={{ display: 'flex', flexDirection: 'column' }}>
        <form onSubmit={handleSubmit}>
-       <select id="accounts" name="Select Bank" onChange={handleBankChange} style={{ marginBottom: '10px' }}>
+       <select id="accounts" name="Select Bank" onChange={handleBankChange} style={{ marginBottom: '10px' }} value={bankList.bank}>
             <option value="bank">Select Bank</option>
             {banks.map((bank) => (
               <option key={bank.id} value={bank.id}>
@@ -45,11 +75,27 @@ const Bank = ({ nextStep }) => {
               </option>
             ))}
           </select>
-          <input type="text" id="accountname" name="accountname" placeholder="Account Name" style={{ marginBottom: '10px' }} />
-         <input type="text" id="accountnumber" name="accountnumber" placeholder="Account Number" style={{ marginBottom: '10px' }} />
+          <input
+            type="text"
+            id="accountname"
+            name="accountname"
+            placeholder="Account Name"
+            value={bankList.acctName}
+            onChange={(e) => setBankList({...bankList, acctName: e.target.value})}
+            style={{ marginBottom: '10px' }}
+          />
+          <input
+            type="text"
+            id="accountnumber"
+            name="accountnumber"
+            placeholder="Account Number"
+            value={bankList.acctNumber}
+            onChange={(e) => setBankList({...bankList, acctNumber: e.target.value})}
+            style={{ marginBottom: '10px' }}
+          />
+
   
-  
-          <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#502ef1', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }} onClick={handleSubmit}>NEXT</button>
+          <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#502ef1', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }} onClick={handleBank}>NEXT</button>
        </form>
         </div>
   

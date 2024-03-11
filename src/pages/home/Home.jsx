@@ -1,4 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
+import { PROFILE } from '../../utils/constant';
 import logo from '../../assets/images/alphageek-logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
@@ -16,6 +18,21 @@ import Profile from '../../components/modal/Profile';
 
 const Home = () => {
   const [popupVisible, setPopupVisible] = useState(false);
+  const [kycData, setKycData] = useState(null);
+
+  useEffect(() => {
+    const fetchKycData = async () => {
+      try {
+        const response = await axios.get( PROFILE );
+        setKycData(response.data);
+      } catch (error) {
+        console.error('Error fetching KYC form data:', error);
+      }
+    };
+
+    fetchKycData();
+  }, []);
+
 
   const handleModal = async (event) => {
     event.preventDefault();
@@ -87,7 +104,7 @@ console.log("helo");
         </div>
         <div className='flex justify-between items-center my-8'>
           <div>
-            <p>Hello, Yakubu odili ojo</p>
+            <p>Hello, {kycData?.personal?.firname || 'Yakubu odili ojo'}</p>
             <p>Win at work today!</p>
           </div>
           <FontAwesomeIcon icon={faUserCircle} className='text-8xl text-gray-400' onClick={handleModal}/>
