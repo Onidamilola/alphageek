@@ -1,6 +1,7 @@
 import React, {useState, useRef, useEffect} from 'react'
 import axiosInstance from '../utils/AxiosInstance';
 import Sidebar from '../components/Sidebar';
+import { useNavigate } from 'react-router';
 import { GET_OUTLET } from '../utils/constant';
 import { GET_OUTLETCHANNEL } from '../utils/constant'
 
@@ -9,8 +10,15 @@ const CreateOutlet = () => {
   const [imageObject, setImageObect] = useState(null);
   const [outlet, setOutlet] = useState([])
   const [outletChannel, setOutletChannel] = useState([])
+  const Navigate = useNavigate();
 
   const handleFileInput = useRef(null);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    Navigate('/outlet-list');    
+  };
 
   const handleClick = () => {
     handleFileInput.current.click();
@@ -57,6 +65,8 @@ const CreateOutlet = () => {
     fetchOutletChannel();
   }, []);
 
+ 
+
   const handleOutletChannelChange = (e) => {
     const outletChannelId = e.target.value;
     
@@ -69,7 +79,8 @@ const CreateOutlet = () => {
       </div>
 
       <div className="container" style={{ display: 'flex', flexDirection: 'column' }}>
-        <label htmlFor="outlet" style={{ color: 'blue' }}>Outlet Classification</label>
+       <form  onSubmit={handleSubmit}>
+       <label htmlFor="outlet" style={{ color: 'blue' }}>Outlet Classification</label>
         <select id="outlet" name="outletType" onChange={handleOutletChange} style={{ marginBottom: '10px' }}>
           <option value="outlet type">Outlet Type</option>
           {outlet.map((outlet) => (
@@ -141,7 +152,9 @@ const CreateOutlet = () => {
 
    
         <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>SAVE</button>
-      </div>
+
+       </form>
+             </div>
 
       {/* Media queries */}
       <style jsx>{`

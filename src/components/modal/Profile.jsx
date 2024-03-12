@@ -1,13 +1,15 @@
 import React, {useState, useEffect} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faUserCircle, faPen } from "@fortawesome/free-solid-svg-icons";
+import { LOGOUT } from "../../utils/constant";
+import { ToastContainer, toast } from 'react-toastify';
+import axiosInstance from "../../utils/AxiosInstance";
 import EditPopup from "./editPopup";
 
 
 const Profile = ({isVisible, closeModal}) => {
     const [date, setDate] = useState(new Date());
-    const [openEdit, setOpenEdit] = useState(false);
-
+    const [openEdit, setOpenEdit] = useState(false)
 
     useEffect(() => {
       const timer = setInterval(() => {
@@ -32,6 +34,19 @@ const handleedit= async(event)=>{
     event.preventDefault()
     setOpenEdit(true)
 }
+const handleLogout = async () => {
+  try {
+    const response = await axiosInstance.post(LOGOUT);
+    console.log('Logout successful:', response.data);
+    toast.success(response.data.message);
+
+    // Handle successful logout response here
+  } catch (error) {
+    // Handle error
+    console.error('Logout error:', error);
+  }
+};
+
 
 
     const profileData = [
@@ -73,6 +88,8 @@ const handleedit= async(event)=>{
         },
       ];
 
+     
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 text-center">
       {isVisible && (
@@ -108,9 +125,9 @@ const handleedit= async(event)=>{
        <EditPopup isVisible={openEdit} closeModal={setOpenEdit}/>
       )}
       </div>
-      
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar newestOnTop closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
       <div>{formattedDate}</div>
-      <button className="bg-blue-500 px-20 py-2 my-4 rounded-lg text-xl text-white">Log out</button>
+      <button className="bg-blue-500 px-20 py-2 my-4 rounded-lg text-xl text-white"  onClick={handleLogout}>Log out</button>
         </div>
         
       )}
