@@ -54,8 +54,9 @@ const Personal = ({ nextStep }) => {
   // useEffect(() => {
   //   // This will log the updated firstname whenever it changes
   //   console.log("Updated firstname:", firstname);
-  
+  // }, [firstname]);
 
+  
   
 
   return (
