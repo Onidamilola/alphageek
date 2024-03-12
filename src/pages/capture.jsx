@@ -58,7 +58,7 @@ const Capture = () => {
         });
         if (response.status === 200) {
           toast.success("KYC form submitted successfully");
-          navigate("/homepage");
+          navigate("/");
         }
           } catch (error) {
         console.error('Error submitting KYC form:', error);
