@@ -59,7 +59,7 @@ const Page2 = () => {
 
       <div className="relative mb-5">
       <form onSubmit={handleSubmit} className=''>
-              <p className='text-gray-700 text-lg mb-2'>Your 6-Digit Code</p>
+              <p className='text-gray-700 text-lg mb-2'>Your 4-Digit Code</p>
               {otp.map((value, index) => (
                 <input
                   key={index}
@@ -73,7 +73,7 @@ const Page2 = () => {
                   required
                   id={`otp-input-${index}`}
                   tabIndex={index + 1}
-                  className='border md:bg-bg-green bg-white border-border-primary h-16 w-14 text-center m-2 rounded-lg p-4'
+                  className='border md:bg-bg-green bg-white border-border-primary h-10 w-14 text-center m-2 rounded-lg p-4'
                 />
               ))}
             </form>

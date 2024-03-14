@@ -4,13 +4,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import logoImage from '../../assets/images/alpha.png';
-import User from '../../assets/images/user.png';
 import Lock from '../../assets/images/lock.png';
 import Open from '../../assets/images/open.png';
 import { LOGIN } from '../../utils/constant';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
 
 
 const Login = () => {

@@ -34,7 +34,7 @@ const Otp = () => {
   return (
     <div>
       <form onSubmit={handleSubmit} className=''>
-              <p className='text-gray-700 text-lg mb-2'>Your 6-Digit Code</p>
+              <p className='text-gray-700 text-lg mb-2'>Your 4-Digit Code</p>
               {otp.map((value, index) => (
                 <input
                   key={index}

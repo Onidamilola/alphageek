@@ -1,71 +1,39 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 export const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
-    const [email, setEmail] = useState('');
-    const [userId, setUserId] = useState('');
-    const [firstname, setFirstname] = useState('');
-    const [middlename, setMiddlename] = useState('');
-    const [lastname, setLastname] = useState('');
-    const [address, setAddress] = useState('');
-    const [lga, setLga] = useState('');
-    const [state, setState] = useState('');
-    const [gender, setGender] = useState('')
-    const [phoneNum, setPhoneNum] = useState('');
-    const [education, setEducation] = useState([]);
-    const [country, setCountry] = useState('');
-    const [selectedState, setSelectedState] = useState({});
-    const [selectedCountry, setSelectedCountry] = useState({});
-    const [successModalOpen, setSuccessModalOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        email: '',
+        userId: '',
+        firstName: '',
+        middleName: '',
+        lastName: '',
+        address: '',
+        lga: '',
+        state: '',
+        gender: '',
+        phoneNum: '',
+        education: [],
+        country: '',
+        selectedState: {},
+        selectedCountry: {},
+        successModalOpen: false,
+    });
 
-    useEffect(() => {
-        // Retrieve values from localStorage when the component mounts
-        const storedCountry = JSON.parse(localStorage.getItem('selectedCountry'));
-        const storedState = JSON.parse(localStorage.getItem('selectedState'));
-    
-        // Set initial values from localStorage or default values
-        setSelectedCountry(storedCountry || {});
-        setSelectedState(storedState || {});
-      }, []);
-    
-      const updateSelectedCountry = (country) => {
-        setSelectedCountry(country);
-        // Store the selected country in localStorage
-        localStorage.setItem('selectedCountry', JSON.stringify(country));
-      };
-    
-      const updateSelectedState = (state) => {
-        setSelectedState(state);
-        // Store the selected state in localStorage
-        localStorage.setItem('selectedState', JSON.stringify(state));
-      };
-
-
-
-    
+    const updateFormData = (name, value) => {
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 
     return (
         <GlobalContext.Provider
-            value={{ 
-                email, setEmail,
-                successModalOpen, setSuccessModalOpen,
-                userId, setUserId, 
-                firstname, setFirstname,
-                middlename, setMiddlename,
-                lastname, setLastname,
-                lga, setLga,
-                address, setAddress,
-                phoneNum, setPhoneNum,
-                gender, setGender,
-                education, setEducation,
-                selectedState, setSelectedState,
-                selectedCountry, setSelectedCountry,
-                country, setCountry,
-                state, setState,
-                updateSelectedCountry,
-               updateSelectedState,
-                }}>
+            value={{
+                formData,
+                updateFormData,
+            }}>
             {children}
         </GlobalContext.Provider>
     );
