@@ -19,6 +19,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [loginError, setLoginError] = useState("");
+  const [loading, setLoading] = useState(false)
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -33,6 +34,7 @@ const Login = () => {
   };
 
   const handleSubmit = (e) => {
+    setLoading(true)
     const app_type = 1;
     e.preventDefault();
     axiosInstance.post(LOGIN, { email, password, app_type })
@@ -55,23 +57,29 @@ const Login = () => {
             if (data && data.errors) {
               Object.values(data.errors).flat().forEach(errorMessage => {
                 toast.error(`${errorMessage}`);
+                setLoading(false)
               });
             } else if (status && data && data.message) {
               toast.error(`${data.message}`);
+              setLoading(false)
             } else {
               toast.error('Bad Request. Please check your input.');
+              setLoading(false)
             }
           } else if (status === 500) {
             // Internal Server Error (500)
             toast.error('Internal Server Error. Please try again later.');
+            setLoading(false)
           } else {
             // Display an error toast with the API response message for other status codes
             toast.error(data.message || 'An unexpected error occurred.');
+            setLoading(false)
           }
         } else {
           // Handle other errors
           toast.error('An unexpected error occurred.');
-        }
+          setLoading(false)
+        } 
       });
   };
 
@@ -157,7 +165,11 @@ const Login = () => {
           )}
         </div>
         {/* <ButtonLogin /> */}
-        <button type="submit" style={{ width: '100%', padding: '10px 20px', justifyContent: 'center', alignItems: 'center', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Login</button>
+        <button type="submit" style={{ width: '100%', padding: '10px 20px', justifyContent: 'center', alignItems: 'center',         backgroundColor: loading ? '#7563d0' : '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
+          
+        {loading ? "loading..." : "Login"}
+
+        </button>
       </form>
       <ToastContainer position="top-right" autoClose={5000} hideProgressBar newestOnTop closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
       {/* Display login error message */}
