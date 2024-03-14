@@ -164,7 +164,7 @@ const Login = () => {
 
       {loginError && <div>{loginError}</div>}
       <div style={{  textAlign: 'center', marginTop: '15px' }}>
-        <a href="#" style={{ color: '#007bff', textDecoration: 'none' }}>Forgot Password?</a>
+        <Link to="/page1" style={{ color: '#007bff', textDecoration: 'none' }}>Forgot Password?</Link>
       </div>
       <div style={{ textAlign: 'center', marginBottom: '15px' }}>
         <span style={{ textDecoration: 'none' }}>Don't have an account? </span>

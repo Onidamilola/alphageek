@@ -9,8 +9,8 @@ const Bank = ({ nextStep }) => {
   const [bankList, setBankList] = useState({
     bankId: '',
     bankName: '',
-    accountName: '',
-    accountNumber: '',
+    account_name: '',
+    account_number: '',
     
 
   });
@@ -84,7 +84,7 @@ const Bank = ({ nextStep }) => {
             name="accountname"
             placeholder="Account Name"
             value={bankList.accountName}
-            onChange={(e) => setBankList({...bankList, accountName: e.target.value})}
+            onChange={(e) => setBankList({...bankList, account_name: e.target.value})}
             style={{ marginBottom: '10px' }}
           />
           <input
@@ -93,7 +93,7 @@ const Bank = ({ nextStep }) => {
             name="accountnumber"
             placeholder="Account Number"
             value={bankList.accountNumber}
-            onChange={(e) => setBankList({...bankList, accountNumber: e.target.value})}
+            onChange={(e) => setBankList({...bankList, account_number: e.target.value})}
             style={{ marginBottom: '10px' }}
           />
 

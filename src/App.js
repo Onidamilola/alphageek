@@ -24,6 +24,8 @@ const Capture = lazy(() => import("./pages/capture.jsx"));
 const Register = lazy(() => import("./pages/register.jsx"));
 const Tabs = lazy(() => import("./pages/tabs.jsx"));
 const Verify = lazy(() => import("./pages/verify.jsx"));
+const Page1 = lazy(() => import("./pages/forgot_password/page1.jsx"));
+const Page2 = lazy(() => import("./pages/forgot_password/page2.jsx"));
 const OutletRecruitment = lazy(() => import("./pages/outlet-recruitment.jsx"));
 const CompetitionTracking = lazy(() => import("./pages/competition-tracking.jsx"));
 const OOFTracking = lazy(() => import("./pages/OOF-tracking.jsx"));
@@ -66,6 +68,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/tabs" element={<Tabs />} />
           <Route path="/verify" element={<Verify />} />
+          <Route path="/page1" element={<Page1 />} />
+          <Route path="/page2" element={<Page2 />} />
         <Route path="/outlet-recruitment" element={<OutletRecruitment />} />
         <Route path="/competition-tracking" element={<CompetitionTracking />} />
         <Route path="/OOF-tracking" element={<OOFTracking />} />

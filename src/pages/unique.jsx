@@ -9,9 +9,9 @@ const Unique = ({ nextStep }) => {
   const [selectedStates, setSelectedState] = useState("");
   const [lgas, setLgas] = useState([])
   const [uniqueList, setUniqueList] = useState({
-    country: '',
-    state: '',
-    localG: ''
+    country_id: '',
+    state_id: '',
+    lga: ''
   });
 
   
@@ -80,17 +80,17 @@ const Unique = ({ nextStep }) => {
     const countryId = +e.target.value;
     setSelectedCountry(countryId);
     setSelectedState('');
-    setUniqueList({...uniqueList, country: countryId})
+    setUniqueList({...uniqueList, country_id: countryId})
   };
 
   const handleStateChange = (e) => {
     const stateId = +e.target.value;
     setSelectedState(stateId);
-    setUniqueList({...uniqueList, state: stateId})
+    setUniqueList({...uniqueList, state_id: stateId})
   };
   const handleLGAChange = (e) => {
     const LGA = +e.target.value;
-    setUniqueList({...uniqueList, localG: LGA})
+    setUniqueList({...uniqueList, lga: LGA})
 
   };
   const handleSubmit = async (event) => {
@@ -99,10 +99,10 @@ const Unique = ({ nextStep }) => {
 
   const handleUnique = async (event) => {
     event.preventDefault();
-    const selectedCountryObject = countries.find((countr) => countr.id === uniqueList.country);
-    const selectedStateObject = states.find((statee) => statee.id === uniqueList.state);
-    const selectedLGAObject = countries.find((local) => local.id === uniqueList.localG);
-    sessionStorage.setItem("uniqueListInfo", JSON.stringify({...uniqueList, country: selectedCountryObject.id, state: selectedStateObject.id}))
+    const selectedCountryObject = countries.find((countr) => countr.id === uniqueList.country_id);
+    const selectedStateObject = states.find((statee) => statee.id === uniqueList.state_id);
+    const selectedLGAObject = countries.find((local) => local.id === uniqueList.lga);
+    sessionStorage.setItem("uniqueListInfo", JSON.stringify({...uniqueList, country_id: selectedCountryObject.id, state_id: selectedStateObject.id}))
     console.log("hello,:", uniqueList)
 
     nextStep();

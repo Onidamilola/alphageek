@@ -42,4 +42,10 @@ export const PROFILE = `${path}/profile`
 //logout api, a post request
 export const LOGOUT = `${path}/logout`
 
+//createweboutlet api, a post request
+export const CREATE_WEB_OUTLET = `${path}/createweboutlet`
+
+//forgotpassword api, a post request
+export const FORGOT_PASSWORD = `${path}/forgotpassword`
+
 
