@@ -26,7 +26,7 @@ const Home = () => {
       try {
         const response = await axios.get( PROFILE );
         const { firstname, imageUrl } = response.data;
-        setKycData({ personal: { firname: firstname } }); // Extract firstname
+        setKycData({ personal: { firstname: firstname } }); // Extract firstname
         setUserImage(imageUrl); // Set user image
       } catch (error) {
         console.error('Error fetching KYC form data:', error);
@@ -107,7 +107,7 @@ console.log("helo");
         </div>
         <div className='flex justify-between items-center my-8'>
           <div>
-            <p>Hello, {kycData?.personal?.firname || 'Yakubu odili ojo'}</p>
+            <p>Hello, {kycData?.personal?.firstname || 'Yakubu odili ojo'}</p>
             <p>Win at work today!</p>
           </div>
           {userImage && ( // Conditionally render user image

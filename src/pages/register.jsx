@@ -47,7 +47,7 @@ const Register = () => {
         console.log(response.data);
         if (response.status === 201) {
           toast.success('Registration successful!');
-          Navigate('/login');
+          Navigate('/tabs');
         }
       })
       .catch(error => {
