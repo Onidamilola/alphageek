@@ -5,10 +5,12 @@ import { LOGOUT } from "../../utils/constant";
 import { ToastContainer, toast } from 'react-toastify';
 import axiosInstance from "../../utils/AxiosInstance";
 import EditPopup from "./editPopup";
+import { useNavigate } from 'react-router';
 
 
 const Profile = ({isVisible, closeModal}) => {
     const [date, setDate] = useState(new Date());
+    const Navigate = useNavigate();
     const [openEdit, setOpenEdit] = useState(false)
     
 
@@ -40,6 +42,7 @@ const handleLogout = async () => {
     const response = await axiosInstance.post(LOGOUT);
     console.log('Logout successful:', response.data);
     toast.success(response.data.message);
+    Navigate('/');
 
     // Handle successful logout response here
   } catch (error) {
