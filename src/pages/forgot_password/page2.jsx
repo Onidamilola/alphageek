@@ -129,7 +129,7 @@ const Page2 = () => {
             />
           )}
         </div>
-        <button type="submit" className="w-full py-2 px-4 bg-[#7563d0] text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Reset Password</button>
+        <button type="submit" className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Reset Password</button>
       </form>
      
 
