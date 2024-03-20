@@ -10,6 +10,7 @@ import EditPopup from "./editPopup";
 const Profile = ({isVisible, closeModal}) => {
     const [date, setDate] = useState(new Date());
     const [openEdit, setOpenEdit] = useState(false)
+    
 
     useEffect(() => {
       const timer = setInterval(() => {

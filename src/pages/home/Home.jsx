@@ -19,12 +19,15 @@ import Profile from '../../components/modal/Profile';
 const Home = () => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [kycData, setKycData] = useState(null);
+  const [userImage, setUserImage] = useState(null);
 
   useEffect(() => {
     const fetchKycData = async () => {
       try {
         const response = await axios.get( PROFILE );
-        setKycData(response.data);
+        const { firstname, imageUrl } = response.data;
+        setKycData({ personal: { firname: firstname } }); // Extract firstname
+        setUserImage(imageUrl); // Set user image
       } catch (error) {
         console.error('Error fetching KYC form data:', error);
       }
@@ -107,7 +110,11 @@ console.log("helo");
             <p>Hello, {kycData?.personal?.firname || 'Yakubu odili ojo'}</p>
             <p>Win at work today!</p>
           </div>
-          <FontAwesomeIcon icon={faUserCircle} className='text-8xl text-gray-400' onClick={handleModal}/>
+          {userImage && ( // Conditionally render user image
+            <img src={userImage} alt="User Profile" className="rounded-full w-16 h-16" />
+          )}
+          <FontAwesomeIcon icon={faUserCircle} className='text-8xl text-gray-400' onClick={handleModal} />
+       
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-lg">
           {components.map((component, index)=>(

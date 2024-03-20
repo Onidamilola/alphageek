@@ -48,4 +48,10 @@ export const CREATE_WEB_OUTLET = `${path}/createweboutlet`
 //forgotpassword api, a post request
 export const FORGOT_PASSWORD = `${path}/forgotpassword`
 
+//reset password api, a post request
+export const RESET_PASSWORD = `${path}/resetpassword`
+
+//get outlets by user api, a get request
+export const USER_OUTLETS = `${path}/useroutlets`
+
 

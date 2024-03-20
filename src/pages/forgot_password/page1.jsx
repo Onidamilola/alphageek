@@ -14,25 +14,21 @@ const Page1 = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    axiosInstance.post( FORGOT_PASSWORD, email )
-      .then(response => {
-        // Handle successful registration
-
-        console.log(response.data);
-        if (response.status === 200) {
-          toast.success('code sent Successfully!');
-          Navigate('/page2');
-        }
-      })
-      .catch(error => {
-        // Handle registration error
-        console.log('Error:', error);
-        if (error.response && error.response.data && error.response.data.message) {
-          toast.error(error.response.data.message);
-        } else {
-          toast.error("Failed to register. Please try again.");
-        }
-      });
+    try {
+      const response = await axiosInstance.post(FORGOT_PASSWORD, { email });
+      console.log(response.data);
+      if (response.status === 200) {
+        toast.success('Code sent Successfully!');
+        Navigate('/page2');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Failed to send code. Please try again.");
+      }
+    }
   };
 
 

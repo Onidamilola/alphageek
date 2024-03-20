@@ -3,13 +3,14 @@ import { useNavigate } from 'react-router';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import Lock from '../../assets/images/lock.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
+import { RESET_PASSWORD } from '../../utils/constant';
 
 const Page2 = () => {
-    const [pin, setPin] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [otp, setOtp] = useState(['', '', '', '']);
-    const Navigate = useNavigate();
+    const navigate = useNavigate();
 
     const isOtpComplete = otp.every((digit) => digit !== '');
 
@@ -48,9 +49,25 @@ const Page2 = () => {
         }
       };
 
-    const handleSubmit = async (e) => {
+      const handleSubmit = async (e) => {
         e.preventDefault();
-    }
+        try {
+          const response = await axios.post(RESET_PASSWORD, {
+            token: otp.join(''),
+            password: password,
+          });
+      
+          if (response.status === 200) {
+            console.log('Password reset successful');
+            navigate("/");
+            // Add your logic for navigating to the next page or displaying a success message
+          }
+        } catch (error) {
+          console.error('Error resetting password:', error.response.data);
+          // Add your logic for displaying an error message
+        }
+      }
+    
   return (
     <div>
        <div className="bg-cover bg-center bg-no-repeat min-h-screen relative flex flex-col items-center justify-center px-4">

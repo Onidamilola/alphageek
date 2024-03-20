@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar';
 import { useNavigate } from 'react-router';
 import { GET_OUTLET } from '../utils/constant';
 import { GET_OUTLETCHANNEL } from '../utils/constant'
+import { CREATE_WEB_OUTLET } from '../utils/constant';
 
 
 const CreateOutlet = () => {
@@ -14,11 +15,69 @@ const CreateOutlet = () => {
 
   const handleFileInput = useRef(null);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  useEffect(() => {
+    const fetchOutlet = async () => {
+      try {
+        const response = await axiosInstance.get(GET_OUTLET);
+        console.log("Outlets Data:", response.data.data);
+        setOutlet(response.data.data);
+        sessionStorage.setItem('outletData', JSON.stringify(response.data.data)); // Save outlet data to sessionStorage
+      } catch (error) {
+        console.error("Error fetching Outlets:", error);
+      }
+    };
 
-    Navigate('/outlet-list');    
+    const fetchOutletChannel = async () => {
+      try {
+        const response = await axiosInstance.get(GET_OUTLETCHANNEL);
+        console.log("Outlets Data:", response.data.data);
+        setOutletChannel(response.data.data);
+        sessionStorage.setItem('outletChannelData', JSON.stringify(response.data.data)); // Save outlet channel data to sessionStorage
+      } catch (error) {
+        console.error("Error fetching Outlets:", error);
+      }
+    };
+
+    fetchOutlet();
+    fetchOutletChannel();
+  }, []);
+
+
+ const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append('type_id', event.target.outletType.value);
+      formData.append('channel_id', event.target.outletChannel.value);
+      formData.append('outlet_image', imageObject.imageFile);
+      formData.append('outlet_name', event.target.outletName.value);
+      formData.append('outlet_phone');
+      formData.append('outlet_address');
+      formData.append('street_no');
+      formData.append('street_name');
+      formData.append('cpf_name');
+      formData.append('cpl_name');
+      formData.append('is_bso');
+      formData.append('image');
+      formData.append('');
+      formData.append('');
+      formData.append('');
+      formData.append('');
+      formData.append('');
+      formData.append('');
+      formData.append('');
+      // Add other form data as needed
+
+      const response = await axiosInstance.post(CREATE_WEB_OUTLET, formData);
+
+      console.log('Response:', response.data);
+
+      Navigate('/outlet-list');
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
+
 
   const handleClick = () => {
     handleFileInput.current.click();
@@ -31,19 +90,7 @@ const CreateOutlet = () => {
     });
   }
 
-  useEffect(() => {
-    const fetchOutlet = async () => {
-      try {
-        const response = await axiosInstance.get( GET_OUTLET );
-        console.log("Outlets Data:", response.data.data);
-        setOutlet(response.data.data);
-      } catch (error) {
-        console.error("Error fetching Outlets:", error);
-      }
-    };
-
-    fetchOutlet();
-  }, []);
+ 
 
   const handleOutletChange = (e) => {
     const outletId = e.target.value;
@@ -51,19 +98,7 @@ const CreateOutlet = () => {
     
   };
 
-  useEffect(() => {
-    const fetchOutletChannel = async () => {
-      try {
-        const response = await axiosInstance.get( GET_OUTLETCHANNEL );
-        console.log("Outlets Data:", response.data.data);
-        setOutletChannel(response.data.data);
-      } catch (error) {
-        console.error("Error fetching Outlets:", error);
-      }
-    };
-
-    fetchOutletChannel();
-  }, []);
+ 
 
  
 
