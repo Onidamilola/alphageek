@@ -12,6 +12,7 @@ const CreateOutlet = () => {
   const [outlet, setOutlet] = useState([])
   const [outletChannel, setOutletChannel] = useState([])
   const Navigate = useNavigate();
+  const [image, setimage] = useState('');
 
   const handleFileInput = useRef(null);
 
@@ -42,6 +43,10 @@ const CreateOutlet = () => {
     fetchOutletChannel();
   }, []);
 
+  const handleImage = () => {
+    setimage(imageObject.imageFile)
+  }
+
 
  const handleSubmit = async (event) => {
     event.preventDefault();
@@ -49,23 +54,17 @@ const CreateOutlet = () => {
       const formData = new FormData();
       formData.append('type_id', event.target.outletType.value);
       formData.append('channel_id', event.target.outletChannel.value);
-      formData.append('outlet_image', imageObject.imageFile);
+      formData.append('outlet_image', image);
       formData.append('outlet_name', event.target.outletName.value);
-      formData.append('outlet_phone');
-      formData.append('outlet_address');
-      formData.append('street_no');
-      formData.append('street_name');
-      formData.append('cpf_name');
-      formData.append('cpl_name');
+      formData.append('outlet_phone', event.target.outletPhone.value);
+      formData.append('outlet_address', event.target.outletAddress.value);
+      formData.append('street_no', event.target.streetNumber.value);
+      formData.append('street_name', event.target.streetName.value);
+      formData.append('cpf_name', event.target.firstName.value);
+      formData.append('cpl_name', event.target.lastName.value);
       formData.append('is_bso');
-      formData.append('image');
-      formData.append('');
-      formData.append('');
-      formData.append('');
-      formData.append('');
-      formData.append('');
-      formData.append('');
-      formData.append('');
+      formData.append('image', imageObject.imageFile);
+     
       // Add other form data as needed
 
       const response = await axiosInstance.post(CREATE_WEB_OUTLET, formData);
@@ -97,6 +96,7 @@ const CreateOutlet = () => {
     
     
   };
+
 
  
 
