@@ -8,82 +8,72 @@ import { useNavigate } from 'react-router';
 import "react-toastify/dist/ReactToastify.css";
 
 const Capture = () => {
-  const [image, setImage] = useState("");
-  const [imageCaptured, setImageCaptured] = useState(null);
-  const navigate = useNavigate()
+  const [imageFile, setImageFile] = useState(null); // State for selected file
+  const [imageUrl, setImageUrl] = useState(null); // State for captured/selected image URL
+  const navigate = useNavigate();
 
   const guarantorData = JSON.parse(sessionStorage.getItem('guarantor'));
   const personalList = JSON.parse(sessionStorage.getItem('personalList'));
   const bankData = JSON.parse(sessionStorage.getItem('bankListInfo'));
   const dataToStore = JSON.parse(sessionStorage.getItem('selectedLocationData'));
-  
 
-  const handleCameraClick = () => {
-    // Request access to the camera
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then((stream) => {
-        const video = document.createElement('video');
-        video.srcObject = stream;
-        video.onloadedmetadata = () => {
-          video.play();
-          const canvas = document.createElement('canvas');
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          const context = canvas.getContext('2d');
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
-          const imageDataURL = canvas.toDataURL('image/png');
-          setImage(imageDataURL);
-          stream.getVideoTracks()[0].stop();
-        };
-      })
-      .catch((error) => {
-        console.error('Error accessing the camera:', error);
-        toast.error("Error accessing the camera");
-      });
-  };
+  const handleImageSelection = (event) => {
+    const selectedFile = event.target.files[0];
+    // Check for valid image type
+    if (!selectedFile.type.match('image/.*')) {
+      toast.error("Please select a valid image file");
+      return;
+    }
+    setImageFile(selectedFile);
+    const reader = new FileReader();
+    reader.readAsDataURL(selectedFile);
+    reader.onload = (e) => setImageUrl(e.target.result);
+  }
 
   const handleSave = async () => {
-    console.log('Image saved:', image);
-    if (image) {
-      setImageCaptured(image);
-      toast.success("Image is saved");
-
-      try {
-        const response = await axios.post( UPDATE_PROFILE, {
-          guarantor: guarantorData,
-          personalList: personalList,
-          bankListInfo: bankData,
-          selectedLocationData: dataToStore,
-          image: imageCaptured,
-        });
-        if (response.status === 200) {
-          toast.success("KYC form submitted successfully");
-          navigate("/");
-        }
-          } catch (error) {
-        console.error('Error submitting KYC form:', error);
-        toast.error("Error submitting KYC form");
-      }
+    if (!imageFile) {
+      toast.error("Please select an image");
+      return;
     }
-    setImage("");
-    
-  };
+    console.log('Image selected:', imageFile);
+
+    const formData = new FormData();
+    formData.append('guarantor', JSON.stringify(guarantorData));
+    formData.append('personalList', JSON.stringify(personalList));
+    formData.append('bankListInfo', JSON.stringify(bankData));
+    formData.append('selectedLocationData', JSON.stringify(dataToStore));
+    formData.append('image', imageFile);
+
+    try {
+      const response = await axios.post(UPDATE_PROFILE, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data' // Required for FormData
+        }
+      });
+      if (response.status === 200) {
+        toast.success("KYC form submitted successfully");
+        navigate("/");
+      }
+    } catch (error) {
+      console.error('Error submitting KYC form:', error);
+      toast.error("Error submitting KYC form");
+    }
+
+    setImageFile(null);
+    setImageUrl(null);
+  }
 
   return (
     <div className="flex flex-col items-center justify-center h-screen relative">
-      <div className="mb-10">
-        <label htmlFor="cameraInput">
-          <FontAwesomeIcon icon={faCamera} onClick={handleCameraClick} className="text-8xl text-blue-500 cursor-pointer" />
+      <div className="mb-10 flex justify-center items-center">
+        <label htmlFor="imageInput">
+          <input type="file" accept="image/*" id="imageInput" onChange={handleImageSelection} hidden />
+          <FontAwesomeIcon icon={faCamera} className="text-4xl text-blue-500 cursor-pointer" onClick={() => document.getElementById('imageInput').click()} />
         </label>
       </div>
-      {imageCaptured && (
+      {imageUrl && (
         <div className="text-center mb-4">
-          <img src={imageCaptured} alt="Captured" className="max-w-full h-auto rounded-lg" />
-        </div>
-      )}
-      {image && (
-        <div className="text-center mb-4">
-          <img src={image} alt="Preview" className="max-w-full h-auto rounded-lg" />
+          <img src={imageUrl} alt="Selected" className="max-w-full h-auto rounded-lg" />
         </div>
       )}
       <button onClick={handleSave} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-20">
