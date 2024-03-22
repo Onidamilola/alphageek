@@ -233,7 +233,7 @@ const CreateOutlet = () => {
         }
         .container {
           border-radius: 5px;
-          background-color: #f2f2f2;
+          background-color: #f7fafc;
           padding: 20px;
           width: 80%; /* Adjust width as needed */
           margin: auto; /* Center the container horizontally */

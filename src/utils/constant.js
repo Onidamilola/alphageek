@@ -37,7 +37,7 @@ export const GET_OUTLETCHANNEL = `${path}/outlet_channel`
 export const UPDATE_PROFILE = `${path}/update-profilee`
 
 //profile api, a get request
-export const PROFILE = `${path}/profile`
+export const PROFILE = `/profile`
 
 //logout api, a post request
 export const LOGOUT = `${path}/weblogout`

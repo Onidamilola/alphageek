@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import axiosInstance from '../../utils/AxiosInstance';
 import { PROFILE } from '../../utils/constant';
 import logo from '../../assets/images/alphageek-logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,24 +18,30 @@ import Profile from '../../components/modal/Profile';
 
 const Home = () => {
   const [popupVisible, setPopupVisible] = useState(false);
-  const [kycData, setKycData] = useState(null);
+  const [formData, setFormData] = useState(null);
   const [userImage, setUserImage] = useState(null);
 
   useEffect(() => {
-    const fetchKycData = async () => {
+    const fetchProfileData = async () => {
       try {
-        const response = await axios.get( PROFILE );
-        const { firstname, imageUrl } = response.data;
-        setKycData({ personal: { firstname: firstname } }); // Extract firstname
-        setUserImage(imageUrl); // Set user image
+
+        const response = await axiosInstance.get(PROFILE);
+        const data = response.data.data;
+        const reg_info = data.reg_info;
+        const employee = reg_info.employee;
+        const { firstname, imageUrl } = response.data.data;
+        console.log(employee)
+        setFormData({ personal: { firstname: employee.firstname } });
+        setUserImage(employee.image);
+        console.log('user image and name: ', formData.personal.firstname, userImage)
       } catch (error) {
-        console.error('Error fetching KYC form data:', error);
+        console.error('Error fetching profile data:', error);
       }
     };
 
-    fetchKycData();
+    fetchProfileData();
   }, []);
-
+  
 
   const handleModal = async (event) => {
     event.preventDefault();
@@ -107,13 +113,13 @@ console.log("helo");
         </div>
         <div className='flex justify-between items-center my-8'>
           <div>
-            <p>Hello, {kycData?.personal?.firstname || 'Yakubu odili ojo'}</p>
+            <p>Hello, {formData?.personal?.firstname || 'Yakubu odili ojo'}</p>
             <p>Win at work today!</p>
           </div>
-          {userImage && ( // Conditionally render user image
-            <img src={userImage} alt="User Profile" className="rounded-full w-16 h-16" />
-          )}
-          <FontAwesomeIcon icon={faUserCircle} className='text-8xl text-gray-400' onClick={handleModal} />
+          
+            <img src={userImage ? userImage : "faUserCircle"} alt="User Profile" className="rounded-full w-16 h-16" onClick={handleModal}/>
+         
+          {/* <FontAwesomeIcon icon={faUserCircle} className='text-8xl text-gray-400'  /> */}
        
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-lg">
