@@ -11,7 +11,7 @@ const Guarantor = () => {
     guarantor_phone: '',
     guarantor_email: '',
     guarantor_document_type: '',
-    guarantor_document: null,
+    guarantor_id: null,
   });
 
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Guarantor = () => {
     } else {
       setGuarantor((prevGuarantor) => ({
         ...prevGuarantor,
-        guarantor_document: file,
+        guarantor_id: file,
       }));
       // Update sessionStorage here using the updated guarantor state
       sessionStorage.setItem('guarantor', JSON.stringify({...guarantor, guarantor_document: file}));
@@ -93,7 +93,7 @@ const Guarantor = () => {
 
         {/* Display the name of the uploaded file */}
         {guarantor.guarantor_document && (
-          <p>Uploaded Document: {guarantor.guarantor_document.name}</p>
+          <p>Uploaded Document: {guarantor.guarantor_id.name}</p>
         )}
 
         <button

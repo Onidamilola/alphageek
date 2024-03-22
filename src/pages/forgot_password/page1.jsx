@@ -50,7 +50,7 @@ const Page1 = () => {
           />
            <FontAwesomeIcon icon={faEnvelope} className="absolute top-1/2 left-4 transform -translate-y-1/2 text-[#7563d0] text-xl" />
         </div>
-        <button type="submit" className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-600">Continue</button>
+        <button type="submit" className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">Continue</button>
       </form>
       {message && <p>{message}</p>}
       <ToastContainer position="top-right" autoClose={2000} hideProgressBar newestOnTop closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />

@@ -40,7 +40,7 @@ export const UPDATE_PROFILE = `${path}/update-profilee`
 export const PROFILE = `${path}/profile`
 
 //logout api, a post request
-export const LOGOUT = `${path}/logout`
+export const LOGOUT = `${path}/weblogout`
 
 //createweboutlet api, a post request
 export const CREATE_WEB_OUTLET = `${path}/createweboutlet`

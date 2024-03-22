@@ -43,6 +43,12 @@ const CreateOutlet = () => {
     fetchOutletChannel();
   }, []);
 
+  useEffect(() => {
+    if (imageObject?.imageFile) {
+          setimage(imageObject.imageFile);
+        }
+      }, [imageObject]);
+
   const handleImage = () => {
     setimage(imageObject.imageFile)
   }
