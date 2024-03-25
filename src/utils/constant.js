@@ -1,13 +1,13 @@
 let path = "https://d-aggregate.com/Alphageekbackend/api";
 
 // login api, a post request
-export const LOGIN = `${path}/login`;
+export const LOGIN = `/login`;
 
 // login api, a post request
-export const REGISTER = `${path}/create-user`; 
+export const REGISTER = `/create-user`; 
 
 // login api, a post request
-export const VERIFY_CODE = `${path}/verifycode`; 
+export const VERIFY_CODE = `/verifycode`; 
 
 
 // countries api, a get request
@@ -34,24 +34,24 @@ export const GET_OUTLET = `${path}/outlet_type`
 export const GET_OUTLETCHANNEL = `${path}/outlet_channel`
 
 //update_profile api, a post request
-export const UPDATE_PROFILE = `${path}/update-profilee`
+export const UPDATE_PROFILE = `/update-profilee`
 
 //profile api, a get request
 export const PROFILE = `/profile`
 
 //logout api, a post request
-export const LOGOUT = `${path}/weblogout`
+export const LOGOUT = `/weblogout`
 
 //createweboutlet api, a post request
-export const CREATE_WEB_OUTLET = `${path}/createweboutlet`
+export const CREATE_WEB_OUTLET = `/createweboutlet`
 
 //forgotpassword api, a post request
-export const FORGOT_PASSWORD = `${path}/forgotpassword`
+export const FORGOT_PASSWORD = `/forgotpassword`
 
 //reset password api, a post request
-export const RESET_PASSWORD = `${path}/resetpassword`
+export const RESET_PASSWORD = `/resetpassword`
 
 //get outlets by user api, a get request
-export const USER_OUTLETS = `${path}/useroutlets`
+export const USER_OUTLETS = `/useroutlets`
 
 

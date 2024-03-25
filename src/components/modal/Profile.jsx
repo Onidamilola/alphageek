@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import { PROFILE } from '../../utils/constant';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faUserCircle, faPen } from "@fortawesome/free-solid-svg-icons";
 import { LOGOUT } from "../../utils/constant";
@@ -11,7 +12,46 @@ import { useNavigate } from 'react-router';
 const Profile = ({isVisible, closeModal}) => {
     const [date, setDate] = useState(new Date());
     const Navigate = useNavigate();
-    const [openEdit, setOpenEdit] = useState(false)
+    const [openEdit, setOpenEdit] = useState(false);
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [gender, setGender] = useState('');
+    const [education, setEducation] = useState('');
+    const [lga, setLGA] = useState('');
+    const [address, setAddress] = useState('');
+    const [state, setState] = useState('');
+    const [country, setCountry] = useState('');
+    const [userImage, setUserImage] = useState(null);
+
+
+    useEffect(() => {
+      const fetchProfileData = async () => {
+        try {
+  
+          const response = await axiosInstance.get(PROFILE);
+          const data = response.data.data;
+          const reg_info = data.reg_info;
+          const employee = reg_info.employee;
+          // const { firstname, imageUrl } = response.data.data;
+          console.log(employee)
+          setFullName(reg_info.name)
+          setEmail(reg_info.email);
+          setPhoneNumber(employee.phone)
+          setGender(employee.gender)
+          setEducation(employee.education)
+          setLGA(employee.lga)
+          setAddress(employee.address)
+          setCountry(employee.country_id)
+          setState(employee.state_id)
+          setUserImage(employee.image);
+        } catch (error) {
+          console.error('Error fetching profile data:', error);
+        }
+      };
+  
+      fetchProfileData();
+    }, []);
     
 
     useEffect(() => {
@@ -53,44 +93,44 @@ const handleLogout = async () => {
 
 
 
-    const profileData = [
-        {
-          Title: "Gender",
-          Num: "Male",
-        },
-        {
-          Title: "Education",
-          Num: "Bachelors",
-        },
-        {
-          Title: "Team",
-          Num: "",
-        },
-        {
-          Title: "NIN",
-          Num: "",
-        },
-        {
-          Title: "LASRA",
-          Num: "",
-        },
-        {
-            Title: "LGA",
-            Num: "Ojo",
-        },
-        {
-            Title: "Address",
-            Num: "5, Gbenga street, Okokomaiko ",
-        },
-        {
-            Title: "State",
-            Num: "Lagos",
-        },
-        {
-            Title: "Country",
-            Num: "Nigeria",
-        },
-      ];
+const profileData = [
+  {
+    Title: "Gender",
+    Num: gender || "Not available",
+  },
+  {
+    Title: "Education",
+    Num: education || "Not available",
+  },
+  {
+    Title: "Team",
+    Num: "", // Empty value
+  },
+  {
+    Title: "NIN",
+    Num: "", // Empty value
+  },
+  {
+    Title: "LASRA",
+    Num: "", // Empty value
+  },
+  {
+    Title: "LGA",
+    Num: lga || "Not available",
+  },
+  {
+    Title: "Address",
+    Num: address || "Not available",
+  },
+  {
+    Title: "State",
+    Num: state || "Not available",
+  },
+  {
+    Title: "Country",
+    Num: country || "Not available",
+  },
+];
 
      
 
@@ -101,11 +141,12 @@ const handleLogout = async () => {
             <div className="flex justify-between items-center bg-purple-100 px-4 py-4 rounded-lg">
             
             <div className="flex justify-between">
-                <FontAwesomeIcon icon={faUserCircle} className="text-5xl"/>
+            <img src={userImage ? userImage : "faUserCircle"} alt="User Profile" className="rounded-full w-16 h-16"/>
+                {/* <FontAwesomeIcon icon={faUserCircle} className="text-5xl"/> */}
                 <div>
-                    <p className="font-semibold">Yakubu Odili Ojo</p>
-                    <p className="text-[#7563d0]">yakubuodili@gmail.com</p>
-                    <p className="text-[#7563d0]">08145673567</p>
+                    <p className="font-semibold">{fullName}</p>
+                    <p className="text-[#7563d0]">{email}</p>
+                    <p className="text-[#7563d0]">{phoneNumber}</p>
                 </div>
             </div>
             <div className="flex items-center absolute right-[8px] top-[8px] text-white">

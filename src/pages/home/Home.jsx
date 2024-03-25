@@ -29,7 +29,7 @@ const Home = () => {
         const data = response.data.data;
         const reg_info = data.reg_info;
         const employee = reg_info.employee;
-        const { firstname, imageUrl } = response.data.data;
+        // const { firstname, imageUrl } = response.data.data;
         console.log(employee)
         setFormData({ personal: { firstname: employee.firstname } });
         setUserImage(employee.image);
@@ -109,7 +109,7 @@ console.log("helo");
       <div className="text-xl bg-gray-100 font-roboto m-auto w-full px-6">
         <div className='flex justify-between items-center my-6'>
           <img src={logo} alt="logo" className='w-20'/>
-          <button className='bg-blue-500 rounded-lg px-2 text-white'>Sync</button>
+          <button className='bg-blue-500 rounded-lg px-5 text-white'>Sync</button>
         </div>
         <div className='flex justify-between items-center my-8'>
           <div>

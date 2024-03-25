@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../utils/AxiosInstance';
 import { UPDATE_PROFILE } from '../utils/constant';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
 import "react-toastify/dist/ReactToastify.css";
+
 
 const Capture = () => {
   const [imageFile, setImageFile] = useState(null); // State for selected file
@@ -45,7 +46,7 @@ const Capture = () => {
     formData.append('image', imageFile);
 
     try {
-      const response = await axios.post(UPDATE_PROFILE, formData, {
+      const response = await axiosInstance.post(UPDATE_PROFILE, formData, {
         headers: {
           'Content-Type': 'multipart/form-data' // Required for FormData
         }
