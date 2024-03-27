@@ -25,7 +25,7 @@ verified.append("code", code)
 
         console.log(response.data);
         if (response.status === 200) {
-          toast.success('Registration successful!');
+          toast.success('Login successful!');
           Navigate('/homepage');
         }
       })

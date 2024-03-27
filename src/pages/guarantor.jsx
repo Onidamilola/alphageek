@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router';
@@ -10,34 +10,67 @@ const Guarantor = () => {
     guarantor_name: '',
     guarantor_phone: '',
     guarantor_email: '',
-    guarantor_document_type: '',
-    guarantor_id: null,
+    guarantor_id_type: '',
+    // guarantor_id: '',
   });
+ 
 
   const navigate = useNavigate();
+ 
+  // const handleFileChange = (event) => {
+  //   console.log('File selected:', event.target.files[0]);
+  //   const file = event.target.files[0];
+  //   if (!file) return; // No file selected
+  
+  //   // Check if the selected file is an image
+  //   if (file.type.startsWith('image/')) {
+  //     // Set guarantor_id to the file object
+  //     setGuarantor((prevState) => ({
+  //       ...prevState,
+  //       guarantor_id:   JSON.stringify(file),
+  //     }));
+  //     console.log('Guarantor state after update:', guarantor);
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file && file.size > 5 * 1024 * 1024) {
-      // File size greater than 5MB, show error toast
-      toast.error("File size cannot exceed 5MB");
-    } else {
-      setGuarantor((prevGuarantor) => ({
-        ...prevGuarantor,
-        guarantor_id: file,
-      }));
-      // Update sessionStorage here using the updated guarantor state
-      sessionStorage.setItem('guarantor', JSON.stringify({...guarantor, guarantor_document: file}));
-    }
-  };
+  
+  //     toast.success('Guarantor ID picture updated.');
+  //   } else {
+  //     toast.error('Please select a valid image file.');
+  //   }
+  // };
+  
   
 
-  const handleSubmit = async (event) => {
+  const handleInputChange = (event) => {
+    setGuarantor({
+      ...guarantor,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSubmit = (event) => {
     event.preventDefault();
+
+    const formData = new FormData();
+    // formData.append('guarantor_id', sessionStorage.getItem('guarantor_id'));
+    formData.append('guarantor_name', guarantor.guarantor_name);
+    formData.append('guarantor_phone', guarantor.guarantor_phone);
+    formData.append('guarantor_email', guarantor.guarantor_email);
+    formData.append('guarantor_id_type', guarantor.guarantor_id_type);
+
+    // Proceed with form submission
     sessionStorage.setItem('guarantor', JSON.stringify(guarantor));
     navigate("/capture");
   };
 
+  // useEffect(() => {
+  //   return () => {
+  //     if (guarantor.guarantor_id) {
+  //       // Clean up on unmounting
+  //       URL.revokeObjectURL(guarantor.guarantor_id);
+  //     }
+  //   };
+  // }, [guarantor.guarantor_id]);
+  
   return (
     <div>
       <div
@@ -50,7 +83,7 @@ const Guarantor = () => {
           name="guarantor_name"
           placeholder="Guarantor's Name"
           value={guarantor.guarantor_name}
-          onChange={(e) => setGuarantor({...guarantor, guarantor_name: e.target.value})}
+        onChange={handleInputChange}
           style={{ marginBottom: "10px" }}
         />
         <input
@@ -73,9 +106,9 @@ const Guarantor = () => {
         />
         <select
           id="document"
-          name="Guarantor's Document Type"
-          value={guarantor.guarantor_document_type}
-          onChange={(e) => setGuarantor({...guarantor, guarantor_document_type: e.target.value})}
+          name="Guarantor's ID Type"
+          value={guarantor.guarantor_id_type}
+          onChange={(e) => setGuarantor({...guarantor, guarantor_id_type: e.target.value})}
           style={{ marginBottom: "10px" }}
         >
           <option value="">Guarantor Document Type</option>
@@ -83,16 +116,16 @@ const Guarantor = () => {
           <option value="Passport">Passport</option>
           <option value="Others">Others</option>
         </select>
-        <div className="flex items-center gap-2 bg-white ">
+        {/* <div className="flex items-center gap-2 bg-white ">
           <label htmlFor="file" className="flex items-center gap-2 cursor-pointer">
             <FontAwesomeIcon icon={faPaperclip} className="text-[#7563d0]"/>
             Upload Guarantor Document
           </label>
           <input id="file" type="file" className="hidden" onChange={handleFileChange} />
-        </div>
+        </div> */}
 
-        {/* Display the name of the uploaded file */}
-        {guarantor.guarantor_document && (
+        Display the name of the uploaded file
+        {guarantor.guarantor_id && (
           <p>Uploaded Document: {guarantor.guarantor_id.name}</p>
         )}
 

@@ -1,7 +1,15 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidebar from '../components/Sidebar'
+import axiosInstance from '../utils/AxiosInstance'
+import { CREATE_SCHEDULE } from '../utils/constant'
+import { USER_OUTLETS } from '../utils/constant'
 
     const CreateSchedule = () => {
+        const [outlet, setOutlet] = useState([])
+
+       
+
+
         return(
             <div>
                  <div style={{ width: '100%', marginBottom: '20px' }}>

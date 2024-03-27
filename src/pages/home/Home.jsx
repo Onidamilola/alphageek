@@ -3,7 +3,7 @@ import axiosInstance from '../../utils/AxiosInstance';
 import { PROFILE } from '../../utils/constant';
 import logo from '../../assets/images/alphageek-logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 import frame from '../../assets/images/Frame.png';
 import frame1 from '../../assets/images/Frame1.png';
 import frame7 from '../../assets/images/Frame7.png';
@@ -109,7 +109,9 @@ console.log("helo");
       <div className="text-xl bg-gray-100 font-roboto m-auto w-full px-6">
         <div className='flex justify-between items-center my-6'>
           <img src={logo} alt="logo" className='w-20'/>
-          <button className='bg-blue-500 rounded-lg px-5 text-white'>Sync</button>
+          <button className='bg-blue-500 rounded-lg px-2 text-white'>
+          <FontAwesomeIcon icon={faArrowsRotate} className="mr-2" />
+          Sync</button>
         </div>
         <div className='flex justify-between items-center my-8'>
           <div>

@@ -9,10 +9,21 @@ import { CREATE_WEB_OUTLET } from '../utils/constant';
 
 const CreateOutlet = () => {
   const [imageObject, setImageObect] = useState(null);
-  const [outlet, setOutlet] = useState([])
+  const [outlet, setOutletType] = useState([])
   const [outletChannel, setOutletChannel] = useState([])
   const Navigate = useNavigate();
   const [image, setimage] = useState('');
+  const [outletName, setOutletName] = useState('');
+  const [outletPhone, setOutletPhone] = useState('');
+  const [outletAddress, setOutletAddress] = useState('');
+  const [streetNo, setStreetNo] = useState('');
+  const [streetName, setStreetName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [isbso, setIsBso] = useState('');
+  const [cpp, setCPP] = useState('');
+  const [newoutlet, setNewOutletType] = useState('');
+  const [newoutletchannel, setNewOutletChannel] = useState('');
 
   const handleFileInput = useRef(null);
 
@@ -21,7 +32,7 @@ const CreateOutlet = () => {
       try {
         const response = await axiosInstance.get(GET_OUTLET);
         console.log("Outlets Data:", response.data.data);
-        setOutlet(response.data.data);
+        setOutletType(response.data.data);
         sessionStorage.setItem('outletData', JSON.stringify(response.data.data)); // Save outlet data to sessionStorage
       } catch (error) {
         console.error("Error fetching Outlets:", error);
@@ -58,17 +69,18 @@ const CreateOutlet = () => {
     event.preventDefault();
     try {
       const formData = new FormData();
-      formData.append('type_id', event.target.outletType.value);
-      formData.append('channel_id', event.target.outletChannel.value);
+      formData.append('type_id', newoutlet);
+      formData.append('channel_id', newoutletchannel);
       formData.append('outlet_image', image);
-      formData.append('outlet_name', event.target.outletName.value);
-      formData.append('outlet_phone', event.target.outletPhone.value);
-      formData.append('outlet_address', event.target.outletAddress.value);
-      formData.append('street_no', event.target.streetNumber.value);
-      formData.append('street_name', event.target.streetName.value);
-      formData.append('cpf_name', event.target.firstName.value);
-      formData.append('cpl_name', event.target.lastName.value);
-      formData.append('is_bso');
+      formData.append('outlet_name', outletName);
+      formData.append('outlet_phone', outletPhone);
+      formData.append('outlet_address', outletAddress);
+      formData.append('street_no', streetNo);
+      formData.append('street_name', streetName);
+      formData.append('cpf_name', firstName);
+      formData.append('cpl_name', lastName);
+      formData.append('is_bso', 1);
+      formData.append('cpp', cpp);
       formData.append('image', imageObject.imageFile);
      
       // Add other form data as needed
@@ -90,29 +102,14 @@ const CreateOutlet = () => {
 
   const handleImageChange = (event) => {
     setImageObect({
-      imagePreview: URL.createObjectURL(event.target.files[0]),
+      imagePreview: URL.createObjectURL(event.target.files),
       imageFile: event.target.files[0],
     });
   }
 
  
 
-  const handleOutletChange = (e) => {
-    const outletId = e.target.value;
-    
-    
-  };
-
-
- 
-
- 
-
-  const handleOutletChannelChange = (e) => {
-    const outletChannelId = e.target.value;
-    
-    
-  };
+  
   return (
     <div>
       <div style={{ width: '100%', marginBottom: '20px' }}>
@@ -122,33 +119,36 @@ const CreateOutlet = () => {
       <div className="container" style={{ display: 'flex', flexDirection: 'column' }}>
        <form  onSubmit={handleSubmit}>
        <label htmlFor="outlet" style={{ color: 'blue' }}>Outlet Classification</label>
-        <select id="outlet" name="outletType" onChange={handleOutletChange} style={{ marginBottom: '10px' }}>
+        <select id="outlet" name="outletType" onChange={(e) => {
+          setNewOutletType(e.target.value);
+          console.log(e.target.value);
+          }} style={{ marginBottom: '10px' }}>
           <option value="outlet type">Outlet Type</option>
-          {outlet.map((outlet) => (
-              <option key={outlet.id} value={outlet.id}>
-                {outlet.type_name}
+          {outlet.map((data) => (
+              <option key={data.id} value={data.id}>
+                {data.type_name}
                 </option>
             ))}
         </select>
 
-        <select id="outletChannel" name="outletChannel" onChange={handleOutletChannelChange} style={{ marginBottom: '10px' }}>
+        <select id="outletChannel" name="outletChannel" onChange={(e) => setNewOutletChannel(e.target.value)} style={{ marginBottom: '10px' }}>
           <option value="outlet channel">Outlet Channel</option>
-          {outletChannel.map((outletChannel) => (
-              <option key={outletChannel.id} value={outletChannel.id}>
-                {outletChannel.channel_name}
+          {outletChannel.map((data) => (
+              <option key={data.id} value={data.id}>
+                {data.channel_name}
                 </option>
             ))}
         </select>
 
         <label htmlFor="outletName" style={{ color: 'blue' }}>Basic Information</label>
-        <input type="text" id="outletName" name="outletName" placeholder="Outlet Name" style={{ marginBottom: '10px' }} />
-        <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" style={{ marginBottom: '10px' }} />
+        <input type="text" id="outletName" name="outletName" placeholder="Outlet Name" onChange={(e) => setOutletName(e.target.value)} style={{ marginBottom: '10px' }} />
+        <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" onChange={(e) => setOutletPhone(e.target.value)} style={{ marginBottom: '10px' }} />
         <textarea id="note" name="note" placeholder="Note..." style={{ height: '100px', marginBottom: '10px' }} ></textarea>
 
         <label htmlFor="locationInfo" style={{ color: 'blue' }}>Location Information</label>
-        <input type="text" id="streetNumber" name="streetNumber" placeholder="Street Number" style={{ marginBottom: '10px' }} />
-        <input type="text" id="streetName" name="streetName" placeholder="Street Name" style={{ marginBottom: '10px' }} />
-        <select id="selectLocation" name="selectLocation" style={{ marginBottom: '10px' }}>
+        <input type="text" id="streetNumber" name="streetNumber" placeholder="Street Number" onChange={(e) => setStreetNo(e.target.value)} style={{ marginBottom: '10px' }} />
+        <input type="text" id="streetName" name="streetName" placeholder="Street Name" onChange={(e) => setStreetName(e.target.value)} style={{ marginBottom: '10px' }} />
+        <select id="selectLocation" name="selectLocation" onChange={(e) => setOutletAddress(e.target.value)} style={{ marginBottom: '10px' }}>
           <option value="select location">Select Location</option>
           <option value="agege">Agege</option>
           <option value="ajeromi/ifelodun">Ajeromi/Ifelodun</option>
@@ -173,9 +173,9 @@ const CreateOutlet = () => {
         </select>
 
         <label htmlFor="contactInfo" style={{ color: 'blue' }}>Contact Information</label>
-        <input type="text" id="firstName" name="firstName" placeholder="First Name" style={{ marginBottom: '10px' }} />
-        <input type="text" id="lastName" name="lastName" placeholder="Last Name" style={{ marginBottom: '10px' }} />
-        <input type="text" id="contactPhoneNumber" name="contactPhoneNumber" placeholder="Phone Number" style={{ marginBottom: '10px' }} />
+        <input type="text" id="firstName" name="firstName" placeholder="First Name" onChange={(e) => setFirstName(e.target.value)} style={{ marginBottom: '10px' }} />
+        <input type="text" id="lastName" name="lastName" placeholder="Last Name" onChange={(e) => setLastName(e.target.value)} style={{ marginBottom: '10px' }} />
+        <input type="text" id="contactPhoneNumber" name="contactPhoneNumber" placeholder="Phone Number" onChange={(e) => setCPP(e.target.value)} style={{ marginBottom: '10px' }} />
 
         <label htmlFor="Image" style={{ color: 'blue' }}>Outlet Image</label>
         <input 
