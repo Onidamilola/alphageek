@@ -8,11 +8,9 @@ import { CREATE_WEB_OUTLET } from '../utils/constant';
 
 
 const CreateOutlet = () => {
-  const [imageObject, setImageObect] = useState(null);
+  const [imageObject, setImageObject] = useState(null);
   const [outlet, setOutletType] = useState([])
-  const [outletChannel, setOutletChannel] = useState([])
-  const Navigate = useNavigate();
-  const [image, setimage] = useState('');
+  const [outletChannel, setOutletChannel] = useState([]);
   const [outletName, setOutletName] = useState('');
   const [outletPhone, setOutletPhone] = useState('');
   const [outletAddress, setOutletAddress] = useState('');
@@ -24,6 +22,7 @@ const CreateOutlet = () => {
   const [cpp, setCPP] = useState('');
   const [newoutlet, setNewOutletType] = useState('');
   const [newoutletchannel, setNewOutletChannel] = useState('');
+  const Navigate = useNavigate();
 
   const handleFileInput = useRef(null);
 
@@ -54,15 +53,16 @@ const CreateOutlet = () => {
     fetchOutletChannel();
   }, []);
 
-  useEffect(() => {
-    if (imageObject?.imageFile) {
-          setimage(imageObject.imageFile);
-        }
-      }, [imageObject]);
+  const handleImageChange = (event) => {
+    const selectedFile = event.target.files[0];
+    if (!selectedFile) return; // Exit if no file selected
 
-  const handleImage = () => {
-    setimage(imageObject.imageFile)
-  }
+    setImageObject({
+      imagePreview: URL.createObjectURL(selectedFile),
+      imageFile: selectedFile,
+    });
+  };
+  
 
 
  const handleSubmit = async (event) => {
@@ -71,7 +71,6 @@ const CreateOutlet = () => {
       const formData = new FormData();
       formData.append('type_id', newoutlet);
       formData.append('channel_id', newoutletchannel);
-      formData.append('outlet_image', image);
       formData.append('outlet_name', outletName);
       formData.append('outlet_phone', outletPhone);
       formData.append('outlet_address', outletAddress);
@@ -81,7 +80,11 @@ const CreateOutlet = () => {
       formData.append('cpl_name', lastName);
       formData.append('is_bso', 1);
       formData.append('cpp', cpp);
-      formData.append('image', imageObject.imageFile);
+      
+      if (imageObject && imageObject.imageFile) {
+        formData.append('image', imageObject.imageFile);
+  
+      }
      
       // Add other form data as needed
 
@@ -100,15 +103,6 @@ const CreateOutlet = () => {
     handleFileInput.current.click();
   };
 
-  const handleImageChange = (event) => {
-    setImageObect({
-      imagePreview: URL.createObjectURL(event.target.files),
-      imageFile: event.target.files[0],
-    });
-  }
-
- 
-
   
   return (
     <div>
@@ -117,7 +111,7 @@ const CreateOutlet = () => {
       </div>
 
       <div className="container" style={{ display: 'flex', flexDirection: 'column' }}>
-       <form  onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
        <label htmlFor="outlet" style={{ color: 'blue' }}>Outlet Classification</label>
         <select id="outlet" name="outletType" onChange={(e) => {
           setNewOutletType(e.target.value);
@@ -177,20 +171,14 @@ const CreateOutlet = () => {
         <input type="text" id="lastName" name="lastName" placeholder="Last Name" onChange={(e) => setLastName(e.target.value)} style={{ marginBottom: '10px' }} />
         <input type="text" id="contactPhoneNumber" name="contactPhoneNumber" placeholder="Phone Number" onChange={(e) => setCPP(e.target.value)} style={{ marginBottom: '10px' }} />
 
-        <label htmlFor="Image" style={{ color: 'blue' }}>Outlet Image</label>
-        <input 
+        <label  style={{ color: 'blue' }}>Outlet Image</label>
+          <input
             type="file"
             accept="image/*"
-            capture="environment"
             ref={handleFileInput}
             onChange={handleImageChange}
-        />
-        {imageObject && <img src={imageObject.imagePreview} />}
-
-
-        {/* <label htmlFor="outletImage">Outlet Image</label>
-        <input type="file" accept="image/*" id="outletImage" name="outletImage" style={{ marginBottom: '10px' }} /> */}
-
+          />
+          {imageObject && <img src={imageObject.imagePreview} alt="Selected" />}
    
         <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>SAVE</button>
 

@@ -5,9 +5,52 @@ import { CREATE_SCHEDULE } from '../utils/constant'
 import { USER_OUTLETS } from '../utils/constant'
 
     const CreateSchedule = () => {
-        const [outlet, setOutlet] = useState([])
-
-       
+        const [outlets, setOutlets] = useState([])
+        const [selectedOutlet, setSelectedOutlet] = useState('');
+        const [scheduleDate, setScheduleDate] = useState('');
+        const [scheduleTime, setScheduleTime] = useState('');
+      
+        useEffect(() => {
+          const fetchOutletList = async () => {
+            try {
+              const response = await axiosInstance.get(USER_OUTLETS);
+              setOutlets(response.data.data);
+            } catch (error) {
+              console.error('Error fetching outlet list:', error);
+            }
+          };
+      
+          fetchOutletList();
+        }, []);
+      
+        const handleSubmit = async (event) => {
+          event.preventDefault();
+      
+          try {
+            // Retrieve country and state IDs from sessionStorage
+            const countryId = sessionStorage.getItem('countryId');
+            const stateId = sessionStorage.getItem('stateId');
+      
+            // Construct FormData object
+            const formData = new FormData();
+            formData.append('outlet_id', selectedOutlet);
+            formData.append('schedule_date', scheduleDate);
+            formData.append('schedule_time', scheduleTime);
+            formData.append('country_id', countryId);
+            formData.append('state_id', stateId);
+            formData.append('region_id', '1');
+            formData.append('location_id', '1');
+      
+            // Send FormData to the server
+            const response = await axiosInstance.post(CREATE_SCHEDULE, formData);
+            console.log('Schedule created:', response.data);
+      
+            // Handle success, e.g., redirect to another page
+          } catch (error) {
+            console.error('Error creating schedule:', error);
+            // Handle error, e.g., show error message
+          }
+        };
 
 
         return(
@@ -18,13 +61,40 @@ import { USER_OUTLETS } from '../utils/constant'
 
       <div className="container" style={{ display: 'flex', flexDirection: 'column' }}>
       <label htmlFor="outlet" style={{ color: 'blue' }}></label>
-        <select id="outlet" name="Select outlet" style={{ marginBottom: '10px' }}>
-          <option value="select outlet">Select Outlet</option>
+        <select
+         id="outlet"
+         name="Select outlet"
+         value={selectedOutlet}
+         onChange={(e) => setSelectedOutlet(e.target.value)}
+        style={{ marginBottom: '10px' }}>
+        <option value="select outlet">Select Outlet</option>
+        {outlets.map(outlet => (
+          <option key={outlet.id} value={outlet.id}>
+            {outlet.name}
+          </option>
+        ))}
           </select>
 
-          <input style={{ marginBottom: '10px' }} type="date" id="start" name="trip-start" value="2024-02-12"
-                min="1925-01-01" max="2030-12-31"/>
-                 <input style={{ marginBottom: '10px' }} type="time" id="appt" name="appt"></input>
+          <label htmlFor="scheduleDate" style={{ color: 'blue' }}>Schedule Date</label>
+          <input
+            type="date"
+            id="scheduleDate"
+            name="scheduleDate"
+            value={scheduleDate}
+            onChange={(e) => setScheduleDate(e.target.value)}
+            style={{ marginBottom: '10px' }}
+          />
+
+                 
+        <label htmlFor="scheduleTime" style={{ color: 'blue' }}>Schedule Time</label>
+          <input
+            type="time"
+            id="scheduleTime"
+            name="scheduleTime"
+            value={scheduleTime}
+            onChange={(e) => setScheduleTime(e.target.value)}
+            style={{ marginBottom: '10px' }}
+          />
 
           <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#502ef1', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>SAVE</button>
       </div>
