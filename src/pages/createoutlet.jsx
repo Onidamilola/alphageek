@@ -1,10 +1,11 @@
-import React, {useState, useRef, useEffect} from 'react'
+import React, {useState, useRef, useEffect,useReducer} from 'react'
 import axiosInstance from '../utils/AxiosInstance';
 import Sidebar from '../components/Sidebar';
 import { useNavigate } from 'react-router';
 import { GET_OUTLET } from '../utils/constant';
 import { GET_OUTLETCHANNEL } from '../utils/constant'
 import { CREATE_WEB_OUTLET } from '../utils/constant';
+
 
 
 const CreateOutlet = () => {
@@ -23,6 +24,8 @@ const CreateOutlet = () => {
   const [newoutlet, setNewOutletType] = useState('');
   const [newoutletchannel, setNewOutletChannel] = useState('');
   const Navigate = useNavigate();
+
+ 
 
   const handleFileInput = useRef(null);
 
@@ -55,14 +58,22 @@ const CreateOutlet = () => {
 
   const handleImageChange = (event) => {
     const selectedFile = event.target.files[0];
+    console.log(selectedFile);
     if (!selectedFile) return; // Exit if no file selected
-
-    setImageObject({
-      imagePreview: URL.createObjectURL(selectedFile),
-      imageFile: selectedFile,
-    });
-  };
   
+    const reader = new FileReader();
+  
+    reader.onload = (e) => {
+      setImageObject({
+        imagePreview: e.target.result,
+        imageFile: selectedFile,
+      });
+    };
+    console.log(selectedFile);
+  
+    reader.readAsDataURL(selectedFile);
+  };
+
 
 
  const handleSubmit = async (event) => {
@@ -88,7 +99,11 @@ const CreateOutlet = () => {
      
       // Add other form data as needed
 
-      const response = await axiosInstance.post(CREATE_WEB_OUTLET, formData);
+      const response = await axiosInstance.post(CREATE_WEB_OUTLET, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
 
       console.log('Response:', response.data);
 

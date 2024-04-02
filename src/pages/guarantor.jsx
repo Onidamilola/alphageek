@@ -124,10 +124,10 @@ const Guarantor = () => {
           <input id="file" type="file" className="hidden" onChange={handleFileChange} />
         </div> */}
 
-        Display the name of the uploaded file
+        {/* Display the name of the uploaded file
         {guarantor.guarantor_id && (
           <p>Uploaded Document: {guarantor.guarantor_id.name}</p>
-        )}
+        )} */}
 
         <button
           type="submit"

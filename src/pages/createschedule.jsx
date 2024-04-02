@@ -28,16 +28,15 @@ import { USER_OUTLETS } from '../utils/constant'
       
           try {
             // Retrieve country and state IDs from sessionStorage
-            const countryId = sessionStorage.getItem('countryId');
-            const stateId = sessionStorage.getItem('stateId');
+            const dataToStore = JSON.parse(sessionStorage.getItem('uniqueListInfo'));
       
             // Construct FormData object
             const formData = new FormData();
             formData.append('outlet_id', selectedOutlet);
             formData.append('schedule_date', scheduleDate);
             formData.append('schedule_time', scheduleTime);
-            formData.append('country_id', countryId);
-            formData.append('state_id', stateId);
+            formData.append('country_id', dataToStore);
+            formData.append('state_id', dataToStore);
             formData.append('region_id', '1');
             formData.append('location_id', '1');
       

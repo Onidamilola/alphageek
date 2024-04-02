@@ -30,7 +30,7 @@ const Capture = () => {
     setGuarantorFile(selectedFile);
     const reader = new FileReader();
     reader.readAsDataURL(selectedFile);
-      reader.onload = (e) => setGuarantorFile(e.target.result);
+      reader.onload = (e) => console.log(e.target.result);
   }
 
  
@@ -61,7 +61,7 @@ const Capture = () => {
     formData.append('personalList', JSON.stringify(personalListInfo));
     formData.append('bankListInfo', JSON.stringify(bankData));
     formData.append('uniqueListInfo', JSON.stringify(dataToStore));
-    formData.append('gurantor_id', guarantorFile);
+    formData.append('guarantor_id', guarantorFile);
     formData.append('image', imageFile);
 
   
@@ -95,8 +95,8 @@ const Capture = () => {
           <input id="file" type="file" className="hidden" onChange={handleFileChange} />
         </div>
 
-        {/* Display the name of the uploaded file */}
-        {/* {guarantor.guarantor_id && (
+        {/* Display the name of the uploaded file
+        {guarantor.guarantor_id && (
           <p>Uploaded Document: {guarantor.guarantor_id.name}</p>
         )} */}
 
