@@ -19,6 +19,7 @@ import Profile from '../../components/modal/Profile';
 const Home = () => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [formData, setFormData] = useState(null);
+  const [firstName, setFirstName] = useState('');
   const [userImage, setUserImage] = useState(null);
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const Home = () => {
         const employee = reg_info.employee;
         // const { firstname, imageUrl } = response.data.data;
         console.log(employee)
-        setFormData({ personal: { firstname: employee.firstname } });
+        setFirstName(employee.firstname);
         setUserImage(employee.image);
         console.log('user image and name: ', formData.personal.firstname, userImage)
       } catch (error) {
@@ -115,7 +116,7 @@ console.log("helo");
         </div>
         <div className='flex justify-between items-center my-8'>
           <div>
-            <p>Hello, {formData?.personal?.firstname || 'Yakubu odili ojo'}</p>
+            <p>Hello, {firstName || 'Yakubu odili ojo'}</p>
             <p>Win at work today!</p>
           </div>
           

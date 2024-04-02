@@ -126,7 +126,7 @@ const CreateOutlet = () => {
       </div>
 
       <div className="container" style={{ display: 'flex', flexDirection: 'column' }}>
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
+      <form onSubmit={handleSubmit} >
        <label htmlFor="outlet" style={{ color: 'blue' }}>Outlet Classification</label>
         <select id="outlet" name="outletType" onChange={(e) => {
           setNewOutletType(e.target.value);

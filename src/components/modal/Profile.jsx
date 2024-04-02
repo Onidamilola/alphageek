@@ -33,7 +33,6 @@ const Profile = ({isVisible, closeModal}) => {
           const data = response.data.data;
           const reg_info = data.reg_info;
           const employee = reg_info.employee;
-          // const { firstname, imageUrl } = response.data.data;
           console.log(employee)
           setFullName(reg_info.name)
           setEmail(reg_info.email);

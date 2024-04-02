@@ -14,7 +14,10 @@ import { USER_OUTLETS } from '../utils/constant'
           const fetchOutletList = async () => {
             try {
               const response = await axiosInstance.get(USER_OUTLETS);
-              setOutlets(response.data.data);
+              const data = response.data.data
+              setOutlets(data);
+              
+              console.log(data)
             } catch (error) {
               console.error('Error fetching outlet list:', error);
             }
@@ -41,7 +44,12 @@ import { USER_OUTLETS } from '../utils/constant'
             formData.append('location_id', '1');
       
             // Send FormData to the server
-            const response = await axiosInstance.post(CREATE_SCHEDULE, formData);
+            const response = await axiosInstance.post(CREATE_SCHEDULE, formData,  {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            });
+            
             console.log('Schedule created:', response.data);
       
             // Handle success, e.g., redirect to another page
@@ -59,6 +67,7 @@ import { USER_OUTLETS } from '../utils/constant'
       </div>
 
       <div className="container" style={{ display: 'flex', flexDirection: 'column' }}>
+      <form onSubmit={handleSubmit} >
       <label htmlFor="outlet" style={{ color: 'blue' }}></label>
         <select
          id="outlet"
@@ -68,8 +77,8 @@ import { USER_OUTLETS } from '../utils/constant'
         style={{ marginBottom: '10px' }}>
         <option value="select outlet">Select Outlet</option>
         {outlets.map(outlet => (
-          <option key={outlet.id} value={outlet.id}>
-            {outlet.name}
+          <option key={outlet.outlet_name} value={outlet.outlet_id}>
+            {outlet.outlet_name}
           </option>
         ))}
           </select>
@@ -96,8 +105,9 @@ import { USER_OUTLETS } from '../utils/constant'
           />
 
           <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#502ef1', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>SAVE</button>
+          </form>
       </div>
-
+      
       <style jsx>{`
         @media screen and (max-width: 768px) {
           .container {

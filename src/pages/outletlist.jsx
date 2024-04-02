@@ -1,52 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../utils/AxiosInstance';
-import { USER_OUTLETS } from '../utils/constant';
 import Sidebar1 from '../components/sidebar1';
 import Button from '../components/button';
 import OutletListModal from '../components/modal/outletlistmodel';
+import { USER_OUTLETS } from '../utils/constant';
 
 const OutletList = () => {
-  const [outlet, setOutlet] = useState(null);
-  const [hasOutletCreated, setHasOutletCreated] = useState(false); // Track outlet creation
+  const [outlets, setOutlets] = useState([]);
+  const [showOutletModal, setShowOutletModal] = useState(false);
+
+  // useEffect(() => {
+  //   const fetchOutlets = async () => {
+  //     try {
+  //       const response = await axiosInstance.get(USER_OUTLETS);
+  //       setOutlets(response.data); // Assuming the response contains an array of outlets
+  //     } catch (error) {
+  //       console.error('Error fetching outlets:', error);
+  //     }
+  //   };
+
+  //   fetchOutlets();
+  // }, []);
 
   useEffect(() => {
-    // Fetch outlets only if no outlets have been created yet
-    if (!hasOutletCreated) {
-      const fetchOutletList = async () => {
-        try {
-          const response = await axiosInstance.get(USER_OUTLETS);
-          setOutlet(response.data);
-        } catch (error) {
-          console.error('Error fetching outlet list:', error);
-        }
-      };
+    axiosInstance
+        .get(USER_OUTLETS
+         )
+        .then((response) => {
+          const data = response.data.data
+          setOutlets(data);
+            console.log(data);
+        })
+        .catch((err) => console.log(err));
+}, []);
 
-      fetchOutletList();
-    }
-  }, [hasOutletCreated]); // Re-run effect when create outlet occurs
+console.log(outlets.length);
 
   const handleCreateOutlet = () => {
-    // Simulate creating an outlet (this should be replaced with your actual create outlet logic)
-    setOutlet('Example Outlet');
-    setHasOutletCreated(true); // Mark that an outlet has been created
+    // Handle creating outlet logic here
+    // After creating outlet, you can set setShowOutletModal(true) to display the modal
   };
 
   return (
     <div>
       <Sidebar1 />
       <div style={{ padding: '20px' }}>
-        {hasOutletCreated ? ( // Only render OutletListModal if an outlet has been created
-          <div>
-            <OutletListModal outlet={outlet} />
-          </div>
+        {outlets.length > 0 ? (
+          <OutletListModal outlets={outlets} show={showOutletModal} onClose={() => setShowOutletModal(false)} />
         ) : (
           <h2 style={{ textAlign: 'center', fontWeight: 'normal', fontStyle: 'italic', fontSize: '1rem' }}>
-            No Outlet Found
+            No Outlets Found
           </h2>
         )}
+        
       </div>
       <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)' }}>
-        <Button onClick={handleCreateOutlet} label="Create Outlet" />
+      <Button onClick={handleCreateOutlet} label="Create Outlet" />
       </div>
     </div>
   );
