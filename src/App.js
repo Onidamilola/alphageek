@@ -42,6 +42,7 @@ const VisitSchedule = lazy(() => import("./pages/visitschedule.jsx"));
 const Inbox = lazy(() => import("./pages/inbox.jsx"));
 const Help = lazy(() => import("./pages/help.jsx"));
 const CreateOutlet = lazy(() => import("./pages/createoutlet.jsx"));
+const UpdateOutlet = lazy(() => import("./pages/updateoutlet.jsx"));
 const CreateSchedule = lazy(() => import("./pages/createschedule.jsx"));
 
 
@@ -86,6 +87,7 @@ function App() {
         <Route path="/inbox" element={<Inbox />} />
         <Route path="/help" element={<Help />} />
         <Route path="/createoutlet" element={<CreateOutlet/>} />
+        <Route path="/updateoutlet" element={<UpdateOutlet/>} />
         <Route path="/createschedule" element={<CreateSchedule/>} />
           {/* <Route path="/contact" element={<Contact />}  />
           

@@ -3,10 +3,13 @@ import Sidebar1 from '../components/sidebar1';
 import Button1 from '../components/button1';
 import Calender from '../assets/images/calender.png';
 import Calendar from '../components/calendar'
+import scheduleModal from '../components/modal/schedulemodal';
 
 const VisitSchedule = () => {
   const [activeTab, setActiveTab] = useState('Today'); // Default active tab is 'Today'
   const [showCalendar, setShowCalendar] = useState(false); // State to manage calendar pop-up visibility
+  // const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [visitSchedule, setVisitSchedule] = useState([]);
 
   const openCity = (cityName) => {
     setActiveTab(cityName);
@@ -39,6 +42,14 @@ const VisitSchedule = () => {
       </div>
 
       <div id="Today" className="tabcontent" style={{ display: activeTab === 'Today' ? 'block' : 'none', padding: '6px 12px', border: '1px solid #ccc', borderTop: 'none' }}>
+      <scheduleModal />
+      {/* {outlets.length > 0 ? (
+          
+        ) : (
+          <h2 style={{ textAlign: 'center', fontWeight: 'normal', fontStyle: 'italic', fontSize: '1rem' }}>
+            You Have No Store Visit Today
+          </h2>
+        )} */}
         <h5  style={{  textAlign: 'center',  fontWeight: 'normal', fontStyle: 'italic', fontSize: '1rem' }}>You Have No Store Visit Today</h5>
       </div>
 

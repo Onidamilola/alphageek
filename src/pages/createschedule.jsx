@@ -3,12 +3,14 @@ import Sidebar from '../components/Sidebar'
 import axiosInstance from '../utils/AxiosInstance'
 import { CREATE_SCHEDULE } from '../utils/constant'
 import { USER_OUTLETS } from '../utils/constant'
+import { useNavigate } from 'react-router-dom'
 
     const CreateSchedule = () => {
         const [outlets, setOutlets] = useState([])
         const [selectedOutlet, setSelectedOutlet] = useState('');
         const [scheduleDate, setScheduleDate] = useState('');
         const [scheduleTime, setScheduleTime] = useState('');
+        const Navigate = useNavigate();
       
         useEffect(() => {
           const fetchOutletList = async () => {
@@ -51,6 +53,8 @@ import { USER_OUTLETS } from '../utils/constant'
             });
             
             console.log('Schedule created:', response.data);
+            
+            Navigate('/visit-schedule');
       
             // Handle success, e.g., redirect to another page
           } catch (error) {

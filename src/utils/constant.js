@@ -57,4 +57,7 @@ export const USER_OUTLETS = `/useroutlets`
 //create schedule api, a post request
 export const CREATE_SCHEDULE =`/create_schedule`
 
+//editoutlet api, a get request
+export const EDIT_OUTLET =`/editweboutlet`
+
 
