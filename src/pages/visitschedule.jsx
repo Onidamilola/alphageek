@@ -3,7 +3,8 @@ import Sidebar1 from '../components/sidebar1';
 import Button1 from '../components/button1';
 import Calender from '../assets/images/calender.png';
 import Calendar from '../components/calendar'
-import scheduleModal from '../components/modal/schedulemodal';
+import ScheduleModal from '../components/modal/ScheduleModal';
+
 
 const VisitSchedule = () => {
   const [activeTab, setActiveTab] = useState('Today'); // Default active tab is 'Today'
@@ -42,7 +43,7 @@ const VisitSchedule = () => {
       </div>
 
       <div id="Today" className="tabcontent" style={{ display: activeTab === 'Today' ? 'block' : 'none', padding: '6px 12px', border: '1px solid #ccc', borderTop: 'none' }}>
-      <scheduleModal />
+      <ScheduleModal />
       {/* {outlets.length > 0 ? (
           
         ) : (

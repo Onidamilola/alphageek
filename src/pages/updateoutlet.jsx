@@ -1,73 +1,87 @@
-import React, {useState, useRef, useEffect,useReducer} from 'react'
+import React, {useState, useRef, useEffect,useContext} from 'react'
 import axiosInstance from '../utils/AxiosInstance';
 import Sidebar from '../components/Sidebar';
+import { GlobalContext } from '../custom-hooks/Context';
 import { useNavigate } from 'react-router';
-import { GET_OUTLET } from '../utils/constant';
-import { GET_OUTLETCHANNEL } from '../utils/constant'
-import { CREATE_WEB_OUTLET } from '../utils/constant';
-import { EDIT_OUTLET } from '../utils/constant'
+import { GET_OUTLET, GET_OUTLETCHANNEL, EDIT_OUTLET, USER_OUTLETS, UPDATE_OUTLET } from '../utils/constant';
 
 
+const UpdateOutlet = () => {
+  const {
+    imageObject, setImageObject,
+    outlet, setOutletType,
+    outletChannel, setOutletChannel,
+    outletName, setOutletName,
+    outletPhone, setOutletPhone,
+    outletAddress, setOutletAddress,
+    streetNo, setStreetNo,
+    streetName, setStreetName,
+    firstName, setFirstName,
+    lastName, setLastName,
+    isbso, setIsBso,
+    cpp, setCPP,
+    newoutlet, setNewOutletType,
+    newoutletchannel, setNewOutletChannel,
+    outletData, setOutletData,
+    outlets, setOutlets,
+    selectedOutletId, setSelectedOutletId
+  } = useContext(GlobalContext);
 
-const CreateOutlet = () => {
-  const [imageObject, setImageObject] = useState(null);
-  const [outlet, setOutletType] = useState([])
-  const [outletChannel, setOutletChannel] = useState([]);
-  const [outletName, setOutletName] = useState('');
-  const [outletPhone, setOutletPhone] = useState('');
-  const [outletAddress, setOutletAddress] = useState('');
-  const [streetNo, setStreetNo] = useState('');
-  const [streetName, setStreetName] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [isbso, setIsBso] = useState('');
-  const [cpp, setCPP] = useState('');
-  const [newoutlet, setNewOutletType] = useState('');
-  const [newoutletchannel, setNewOutletChannel] = useState('');
-  const [outletData, setOutletData] = useState([]);
   const Navigate = useNavigate();
-
+  const handleFileInput = useRef(null);
  
 
-  const handleFileInput = useRef(null);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const responseOutlet = await axiosInstance.get(GET_OUTLET);
+        setOutletType(responseOutlet.data.data);
+        sessionStorage.setItem('outletData', JSON.stringify(responseOutlet.data.data));
+
+        const responseChannel = await axiosInstance.get(GET_OUTLETCHANNEL);
+        setOutletChannel(responseChannel.data.data);
+        sessionStorage.setItem('outletChannelData', JSON.stringify(responseChannel.data.data));
+
+        const responseUserOutlets = await axiosInstance.get(USER_OUTLETS);
+        setOutlets(responseUserOutlets.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
-    const fetchOutlet = async () => {
-      try {
-        const response = await axiosInstance.get(GET_OUTLET);
-        console.log("Outlets Data:", response.data.data);
-        setOutletType(response.data.data);
-        sessionStorage.setItem('outletData', JSON.stringify(response.data.data)); // Save outlet data to sessionStorage
-      } catch (error) {
-        console.error("Error fetching Outlets:", error);
-      }
-    };
-
-    const fetchOutletChannel = async () => {
-      try {
-        const response = await axiosInstance.get(GET_OUTLETCHANNEL);
-        console.log("Outlets Data:", response.data.data);
-        setOutletChannel(response.data.data);
-        sessionStorage.setItem('outletChannelData', JSON.stringify(response.data.data)); // Save outlet channel data to sessionStorage
-      } catch (error) {
-        console.error("Error fetching Outlets:", error);
-      }
-    };
-
-    const fetchOutletData = async (outlets) => {
+    if (selectedOutletId) {
+      const fetchOutletData = async () => {
         try {
-          const response = await axiosInstance.get(`${EDIT_OUTLET}?outlet_id=${outlets[0].outlet_id}`);
-          console.log("Outlets Data:", response.data.data);
-          setOutletData(response.data.data);
+          const response = await axiosInstance.get(`${EDIT_OUTLET}?outlet_id=${selectedOutletId}`);
+          const data = response.data.data;
+          console.log('Fetched outlet data:', data);
+          setOutletData(data);
+          setOutletType(data);
+          setOutletChannel(data);
+          setOutletName(data);
+          setOutletPhone(data);
+          setOutletAddress(data);
+          setStreetNo(data);
+          setStreetName(data);
+          setFirstName(data);
+          setLastName(data);
+          setCPP(data);
+          setNewOutletType(data);
+          setNewOutletChannel(data);
         } catch (error) {
-          console.error("Error fetching Outlets:", error);
+          console.error('Error fetching Outlet Data:', error);
         }
       };
+      fetchOutletData();
+    }
+  }, [selectedOutletId]);
 
-    fetchOutlet();
-    fetchOutletChannel();
-    fetchOutletData();
-  }, []);
+
 
  
 
@@ -108,6 +122,7 @@ const CreateOutlet = () => {
       formData.append('cpl_name', lastName);
       formData.append('is_bso', 1);
       formData.append('cpp', cpp);
+      formData.append('outlet_id', selectedOutletId);
       
       if (imageObject && imageObject.imageFile) {
         formData.append('image', imageObject.imageFile);
@@ -116,7 +131,7 @@ const CreateOutlet = () => {
      
       // Add other form data as needed
 
-      const response = await axiosInstance.post(CREATE_WEB_OUTLET, formData, {
+      const response = await axiosInstance.post(UPDATE_OUTLET, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -131,9 +146,9 @@ const CreateOutlet = () => {
   };
 
 
-  const handleClick = () => {
-    handleFileInput.current.click();
-  };
+  // const handleClick = () => {
+  //   handleFileInput.current.click();
+  // };
 
   
   return (
@@ -149,7 +164,7 @@ const CreateOutlet = () => {
           setNewOutletType(e.target.value);
           console.log(e.target.value);
           }} style={{ marginBottom: '10px' }}>
-          <option value="outlet type">Outlet Type</option>
+          <option value={setNewOutletType.type_id}>Outlet Type</option>
           {outlet.map((data) => (
               <option key={data.id} value={data.id}>
                 {data.type_name}
@@ -158,7 +173,7 @@ const CreateOutlet = () => {
         </select>
 
         <select id="outletChannel" name="outletChannel" onChange={(e) => setNewOutletChannel(e.target.value)} style={{ marginBottom: '10px' }}>
-          <option value="outlet channel">Outlet Channel</option>
+          <option value={setNewOutletChannel.channel_id}>Outlet Channel</option>
           {outletChannel.map((data) => (
               <option key={data.id} value={data.id}>
                 {data.channel_name}
@@ -167,15 +182,47 @@ const CreateOutlet = () => {
         </select>
 
         <label htmlFor="outletName" style={{ color: 'blue' }}>Basic Information</label>
-        <input type="text" id="outletName" name="outletName" placeholder="Outlet Name" onChange={(e) => setOutletName(e.target.value)} style={{ marginBottom: '10px' }} />
-        <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" onChange={(e) => setOutletPhone(e.target.value)} style={{ marginBottom: '10px' }} />
+        <input 
+        type="text"
+        id="outletName"
+        name="outletName"
+        placeholder="Outlet Name"
+        value={setOutletName.outlet_name}
+        onChange={(e) => setOutletName(e.target.value)} 
+        style={{ marginBottom: '10px' }} 
+        />
+        <input 
+        type="text" 
+        id="phoneNumber" 
+        name="phoneNumber" 
+        placeholder="Phone Number" 
+        value={setOutletPhone.outlet_phone}
+        onChange={(e) => setOutletPhone(e.target.value)} 
+        style={{ marginBottom: '10px' }} 
+        />
         <textarea id="note" name="note" placeholder="Note..." style={{ height: '100px', marginBottom: '10px' }} ></textarea>
 
         <label htmlFor="locationInfo" style={{ color: 'blue' }}>Location Information</label>
-        <input type="text" id="streetNumber" name="streetNumber" placeholder="Street Number" onChange={(e) => setStreetNo(e.target.value)} style={{ marginBottom: '10px' }} />
-        <input type="text" id="streetName" name="streetName" placeholder="Street Name" onChange={(e) => setStreetName(e.target.value)} style={{ marginBottom: '10px' }} />
+        <input 
+        type="text" 
+        id="streetNumber" 
+        name="streetNumber" 
+        placeholder="Street Number" 
+        value={setStreetNo.street_no}
+        onChange={(e) => setStreetNo(e.target.value)} 
+        style={{ marginBottom: '10px' }} 
+        />
+        <input 
+        type="text" 
+        id="streetName" 
+        name="streetName" 
+        placeholder="Street Name"
+        value={setStreetName.street_name} 
+        onChange={(e) => setStreetName(e.target.value)} 
+        style={{ marginBottom: '10px' }} 
+        />
         <select id="selectLocation" name="selectLocation" onChange={(e) => setOutletAddress(e.target.value)} style={{ marginBottom: '10px' }}>
-          <option value="select location">Select Location</option>
+          <option value={setOutletAddress.location}>Select Location</option>
           <option value="agege">Agege</option>
           <option value="ajeromi/ifelodun">Ajeromi/Ifelodun</option>
           <option value="apapa">Apapa</option>
@@ -197,11 +244,38 @@ const CreateOutlet = () => {
           <option value="epe">Epe</option>
           <option value="ibeju lekki">Ibeju Lekki</option>
         </select>
-
+        
+          
         <label htmlFor="contactInfo" style={{ color: 'blue' }}>Contact Information</label>
-        <input type="text" id="firstName" name="firstName" placeholder="First Name" onChange={(e) => setFirstName(e.target.value)} style={{ marginBottom: '10px' }} />
-        <input type="text" id="lastName" name="lastName" placeholder="Last Name" onChange={(e) => setLastName(e.target.value)} style={{ marginBottom: '10px' }} />
-        <input type="text" id="contactPhoneNumber" name="contactPhoneNumber" placeholder="Phone Number" onChange={(e) => setCPP(e.target.value)} style={{ marginBottom: '10px' }} />
+        <input 
+        type="text" 
+        id="firstName" 
+        name="firstName" 
+        placeholder="First Name" 
+        value={setFirstName.cpf_name}
+        onChange={(e) => setFirstName(e.target.value)} 
+        style={{ marginBottom: '10px' }} 
+        />
+        <input 
+        type="text" 
+        id="lastName" 
+        name="lastName" 
+        placeholder="Last Name"
+        value={setLastName.cpl_name} 
+        onChange={(e) => setLastName(e.target.value)} 
+        style={{ marginBottom: '10px' }} 
+        />
+        <input 
+        type="text" 
+        id="contactPhoneNumber" 
+        name="contactPhoneNumber" 
+        placeholder="Phone Number" 
+        value={setCPP.cpp}
+        onChange={(e) => setCPP(e.target.value)} 
+        style={{ marginBottom: '10px' }} 
+        />
+      
+          
 
         <label  style={{ color: 'blue' }}>Outlet Image</label>
           <input
@@ -263,4 +337,4 @@ const CreateOutlet = () => {
   )
 }
 
-export default CreateOutlet;
+export default UpdateOutlet;

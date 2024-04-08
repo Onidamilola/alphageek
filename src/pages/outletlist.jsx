@@ -24,17 +24,18 @@ const OutletList = () => {
 
   useEffect(() => {
     axiosInstance
-        .get(USER_OUTLETS
-         )
-        .then((response) => {
-          const data = response.data.data
+      .get(USER_OUTLETS)
+      .then((response) => {
+        const data = response.data.data;
+        // Check if the new data is different from the current outlets state
+        if (JSON.stringify(data) !== JSON.stringify(outlets)) {
           setOutlets(data);
-            console.log(data);
-        })
-        .catch((err) => console.log(err));
-}, []);
-
-console.log(outlets.length);
+        }
+        console.log(data);
+      })
+      .catch((err) => console.log(err));
+  }, [outlets]); // Add outlets to the dependency array
+  
 
   const handleCreateOutlet = () => {
     // Handle creating outlet logic here

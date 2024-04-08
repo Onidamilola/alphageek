@@ -127,7 +127,7 @@ console.log("helo");
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-lg">
           {components.map((component, index)=>(
-            <Link key={index} to={component.link} className="rounded-lg border border-gray-300 p-4 underline ">
+            <Link key={index} to={component.link} className="rounded-lg border border-gray-400 p-4 underline ">
               <img src={component.image} alt={component.name} className=" mx-auto"/>
               <p className="text-center font-bold">{component.name}</p>
             </Link>

@@ -44,6 +44,7 @@ const Help = lazy(() => import("./pages/help.jsx"));
 const CreateOutlet = lazy(() => import("./pages/createoutlet.jsx"));
 const UpdateOutlet = lazy(() => import("./pages/updateoutlet.jsx"));
 const CreateSchedule = lazy(() => import("./pages/createschedule.jsx"));
+const StoreVisit = lazy(() => import("../src/components/storevisit.jsx"));
 
 
 function App() {
@@ -89,6 +90,7 @@ function App() {
         <Route path="/createoutlet" element={<CreateOutlet/>} />
         <Route path="/updateoutlet" element={<UpdateOutlet/>} />
         <Route path="/createschedule" element={<CreateSchedule/>} />
+        <Route path="/storevisit" element={<StoreVisit/>} />
           {/* <Route path="/contact" element={<Contact />}  />
           
 

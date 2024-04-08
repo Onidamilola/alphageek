@@ -22,6 +22,7 @@ const OutletPopup = ({ outlets, isVisible, closeModal }) => {
       const response = await axiosInstance.get(`${EDIT_OUTLET}?outlet_id=${outlets[0].outlet_id}`);
       console.log(response.data.data);
       navigate(`/updateoutlet`);
+      
       // Handle success
     } catch (error) {
       console.error('Error editing:', error);
