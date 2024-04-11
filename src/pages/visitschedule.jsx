@@ -3,13 +3,13 @@ import Sidebar1 from '../components/sidebar1';
 import Button1 from '../components/button1';
 import Calender from '../assets/images/calender.png';
 import Calendar from '../components/calendar'
-import ScheduleModal from '../components/modal/ScheduleModal';
+import ScheduleModal from '../components/modal/ScheduleModal'
 
 
 const VisitSchedule = () => {
-  const [activeTab, setActiveTab] = useState('Today'); // Default active tab is 'Today'
-  const [showCalendar, setShowCalendar] = useState(false); // State to manage calendar pop-up visibility
-  // const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [activeTab, setActiveTab] = useState('Today');
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [isScheduleCreated, setIsScheduleCreated] = useState(false); // State to track schedule creation
   const [visitSchedule, setVisitSchedule] = useState([]);
 
   const openCity = (cityName) => {
@@ -17,7 +17,13 @@ const VisitSchedule = () => {
   };
 
   const handleCalendarClick = () => {
-    setShowCalendar(!showCalendar); // Toggle calendar pop-up visibility
+    setShowCalendar(!showCalendar);
+  };
+
+  const handleScheduleCreation = () => {
+    // Logic to create schedule
+    // After schedule is successfully created, set isScheduleCreated to true
+    setIsScheduleCreated(true);
   };
 
   return (
@@ -43,15 +49,9 @@ const VisitSchedule = () => {
       </div>
 
       <div id="Today" className="tabcontent" style={{ display: activeTab === 'Today' ? 'block' : 'none', padding: '6px 12px', border: '1px solid #ccc', borderTop: 'none' }}>
-      <ScheduleModal />
-      {/* {outlets.length > 0 ? (
-          
-        ) : (
-          <h2 style={{ textAlign: 'center', fontWeight: 'normal', fontStyle: 'italic', fontSize: '1rem' }}>
-            You Have No Store Visit Today
-          </h2>
-        )} */}
-        <h5  style={{  textAlign: 'center',  fontWeight: 'normal', fontStyle: 'italic', fontSize: '1rem' }}>You Have No Store Visit Today</h5>
+        {/* Render ScheduleModal only if schedule is created */}
+        {isScheduleCreated && <ScheduleModal />}
+        <h5 style={{ textAlign: 'center', fontWeight: 'normal', fontStyle: 'italic', fontSize: '1rem' }}>You Have No Store Visit Today</h5>
       </div>
 
       <div id="Calendar" className="tabcontent" style={{ display: activeTab === 'Calendar' ? 'block' : 'none', padding: '6px 12px', border: '1px solid #ccc', borderTop: 'none' }}>
@@ -74,7 +74,7 @@ const VisitSchedule = () => {
       </div>
 
       <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)' }}>
-        <Button1 />
+        <Button1 onClick={handleScheduleCreation} />
       </div>
     </div>
   );

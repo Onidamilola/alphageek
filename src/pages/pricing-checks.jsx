@@ -5,10 +5,12 @@ import Product from '../assets/images/product.png'
 import User from '../assets/images/user.png'
 import Calender from '../assets/images/calender.png'
 import Calendar from '../components/calendar'
+import ScheduleModal from '../components/modal/ScheduleModal'
 
 const PricingChecks = () => {
   const [isMenuClicked, setIsMenuClicked] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [isScheduleCreated, setIsScheduleCreated] = useState(false);
 
   const handleCalendarClick = () => {
     setShowCalendar(!showCalendar); // Toggle calendar pop-up visibility
@@ -16,6 +18,12 @@ const PricingChecks = () => {
 
   const handleBurgerClick = () => {
     setIsMenuClicked(!isMenuClicked);
+  };
+
+  const handleScheduleCreate = () => {
+    // Logic to create schedule
+    // Once the schedule is created, set isScheduleCreated to true
+    setIsScheduleCreated(true);
   };
 
   return (
@@ -67,13 +75,14 @@ const PricingChecks = () => {
 
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start',  marginLeft: '20px' }}>
-    <h5 style={{ margin: '0' }}>Your Schedule</h5>
-    <p style={{ margin: '0' }}>You have 0 store visit Today</p>
+      <h5 style={{ margin: '0' }}>Your Schedule</h5>
+          <p style={{ margin: '0' }}>You have {isScheduleCreated ? '1' : '0'} store visit Today</p>
   </div>
   <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingRight: '20px' }}>
     <img src={Calender} alt="calender" style={{ width: '30px', height: '30px', margin: '0' }} onClick={handleCalendarClick} />
   </div>
 </div>
+{isScheduleCreated && <ScheduleModal />}
  {/* Pop-up calendar component */}
  {showCalendar && (
           <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#fff', padding: '20px', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', zIndex: '999' }}>

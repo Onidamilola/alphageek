@@ -1,15 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
-import axiosInstance from "../../utils/AxiosInstance";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
+const ScheduleModal = () => {
+  const [visited, setVisited] = useState(false); // State to track if store visit is completed
 
-const scheduleModal = () => {
-   
-  
+  const handleClick = () => {
+    // Here you can call the function or perform any action related to visiting the store
+    // For example, making an API request to mark the visit as completed
+    // Once the visit is successfully completed, setVisited(true) should be called
+    // axiosInstance.post('/markVisitCompleted', { /* Any necessary data */ })
+    //   .then(() => {
+    //     setVisited(true);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error marking visit as completed:', error);
+    //   });
+    // For demonstration purpose, I'm just setting the visited state to true immediately
+    setVisited(true);
+    toast.success("Recruitment visit Successfully Added");
+  };
 
+  const handleVisitClick = () => {
+    // Navigate to the "storevisit" page when the button is clicked
+    return <Navigate to="/storevisit" />;
+  };
 
   return (
     <div className=" w-full bg-gray-100 p-6 rounded-t-3xl">
@@ -24,23 +41,26 @@ const scheduleModal = () => {
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}> 
           <button
-            type="submit"
+            type="button"
             style={{
               width: '100%', 
               padding: '10px 20px',
-              backgroundColor: '#007bff',
+              backgroundColor: visited ? 'green' : '#007bff', // Change background color based on visit status
               color: '#fff',
               border: 'none',
               borderRadius: '5px',
               cursor: 'pointer',
             }}
+            onClick={visited ? handleVisitClick : handleClick}
+            disabled={visited} // Disable button if visit is already completed
           >
-            Visit Schedule
+            {visited ? 'Visited' : 'Visit Schedule'} {/* Change text based on visit status */}
           </button>
         </div>
       </div>
+      <ToastContainer />
     </div>      
   );
 };
 
-export default scheduleModal;
+export default ScheduleModal;
