@@ -5,10 +5,13 @@ import Product from '../assets/images/product.png';
 import User from '../assets/images/user.png';
 import Calender from '../assets/images/calender.png';
 import Calendar from '../components/calendar';
+import ScheduleModal from '../components/modal/ScheduleModal'
 
 const OutletRecruitment = () => {
   const [isMenuClicked, setIsMenuClicked] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [isScheduleCreated, setIsScheduleCreated] = useState(false);
+
 
   const handleCalendarClick = () => {
     setShowCalendar(!showCalendar); // Toggle calendar pop-up visibility
@@ -16,6 +19,12 @@ const OutletRecruitment = () => {
 
   const handleBurgerClick = () => {
     setIsMenuClicked(!isMenuClicked);
+  };
+
+  const handleScheduleCreate = () => {
+    // Logic to create schedule
+    // Once the schedule is created, set isScheduleCreated to true
+    setIsScheduleCreated(true);
   };
 
   return (
@@ -67,13 +76,14 @@ const OutletRecruitment = () => {
       {/* Your Schedule */}
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '20px' }}>
-          <h5 style={{ margin: '0' }}>Your Schedule</h5>
-          <p style={{ margin: '0' }}>You have 0 store visit Today</p>
+        <h5 style={{ margin: '0' }}>Your Schedule</h5>
+          <p style={{ margin: '0' }}>You have {isScheduleCreated ? '1' : '0'} store visit Today</p>
         </div>
         <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingRight: '20px' }}>
           <img src={Calender} alt="calender" style={{ width: '30px', height: '30px', margin: '0' }} onClick={handleCalendarClick} />
         </div>
       </div>
+      {isScheduleCreated && <ScheduleModal />}
 
       {/* Pop-up calendar component */}
       {showCalendar && (

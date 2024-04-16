@@ -75,43 +75,54 @@ const CreateOutlet = () => {
   };
 
 
-
- const handleSubmit = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const formData = new FormData();
-      formData.append('type_id', newoutlet);
-      formData.append('channel_id', newoutletchannel);
-      formData.append('outlet_name', outletName);
-      formData.append('outlet_phone', outletPhone);
-      formData.append('outlet_address', outletAddress);
-      formData.append('street_no', streetNo);
-      formData.append('street_name', streetName);
-      formData.append('cpf_name', firstName);
-      formData.append('cpl_name', lastName);
-      formData.append('is_bso', 1);
-      formData.append('cpp', cpp);
-      
-      if (imageObject && imageObject.imageFile) {
-        formData.append('image', imageObject.imageFile);
+      // Retrieve user's geolocation
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
   
+          // Construct FormData object
+          const formData = new FormData();
+          formData.append('type_id', newoutlet);
+          formData.append('channel_id', newoutletchannel);
+          formData.append('outlet_name', outletName);
+          formData.append('outlet_phone', outletPhone);
+          formData.append('outlet_address', outletAddress);
+          formData.append('street_no', streetNo);
+          formData.append('street_name', streetName);
+          formData.append('cpf_name', firstName);
+          formData.append('cpl_name', lastName);
+          formData.append('is_bso', 1);
+          formData.append('cpp', cpp);
+          formData.append('gio_lat', latitude); 
+          formData.append('gio_long', longitude); 
+  
+          if (imageObject && imageObject.imageFile) {
+            formData.append('image', imageObject.imageFile);
+          }
+  
+          // Send FormData to the server
+          const response = await axiosInstance.post(CREATE_WEB_OUTLET, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+  
+          console.log('Response:', response.data);
+  
+          Navigate('/outlet-list');
+        });
+      } else {
+        console.error('Geolocation is not supported by this browser.');
       }
-     
-      // Add other form data as needed
-
-      const response = await axiosInstance.post(CREATE_WEB_OUTLET, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-
-      console.log('Response:', response.data);
-
-      Navigate('/outlet-list');
     } catch (error) {
       console.error('Error:', error);
     }
   };
+  
 
 
   const handleClick = () => {

@@ -30,39 +30,51 @@ import { useNavigate } from 'react-router-dom'
       
         const handleSubmit = async (event) => {
           event.preventDefault();
-      
+        
           try {
             // Retrieve country and state IDs from sessionStorage
             const dataToStore = JSON.parse(sessionStorage.getItem('uniqueListInfo'));
-      
-            // Construct FormData object
-            const formData = new FormData();
-            formData.append('outlet_id', selectedOutlet);
-            formData.append('schedule_date', scheduleDate);
-            formData.append('schedule_time', scheduleTime);
-            formData.append('country_id', dataToStore);
-            formData.append('state_id', dataToStore);
-            formData.append('region_id', '1');
-            formData.append('location_id', '1');
-      
-            // Send FormData to the server
-            const response = await axiosInstance.post(CREATE_SCHEDULE, formData,  {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
-            });
-            
-            console.log('Schedule created:', response.data);
-            
-            Navigate('/visit-schedule');
-      
-            // Handle success, e.g., redirect to another page
+        
+            // Retrieve user's geolocation
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(async (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+    
+                const formData = new FormData();
+                formData.append('outlet_id', selectedOutlet);
+                formData.append('schedule_date', scheduleDate);
+                formData.append('schedule_time', scheduleTime);
+                formData.append('gio_lat', latitude); 
+                formData.append('gio_long', longitude); 
+                formData.append('country_id', 2);
+                formData.append('state_id', dataToStore);
+                formData.append('region_id', '1');
+                formData.append('location_id', '1');
+        
+                // Send FormData to the server
+                const response = await axiosInstance.post(CREATE_SCHEDULE, formData, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
+                  }
+                });
+        
+                console.log('Schedule created:', response.data);
+        
+                Navigate('/visit-schedule');
+        
+                // Handle success, e.g., redirect to another page
+              });
+            } else {
+              console.error('Geolocation is not supported by this browser.');
+            }
           } catch (error) {
             console.error('Error creating schedule:', error);
             // Handle error, e.g., show error message
           }
         };
-
+        
+      
 
         return(
             <div>

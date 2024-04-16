@@ -63,4 +63,9 @@ export const EDIT_OUTLET =`/editweboutlet`
 //updateoutlet api, a post request
 export const UPDATE_OUTLET = `/updateweboutlet`
 
+//get schedules api, a get request
+export const GET_SCHEDULES = `/get_all_schedule`
+
+//store visit api, a post request
+export const VISIT_DATA = `/visit_data`
 
