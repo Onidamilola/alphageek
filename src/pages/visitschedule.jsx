@@ -3,7 +3,7 @@ import Sidebar1 from '../components/sidebar1';
 import Button1 from '../components/button1';
 import Calender from '../assets/images/calender.png';
 import Calendar from '../components/calendar';
-import ScheduleModal from '../components/modal/ScheduleModal';
+import ScheduleModal from '../components/modal/ScheduleModal'
 import axiosInstance from "../utils/AxiosInstance";
 import { GET_SCHEDULES } from "../utils/constant";
 
@@ -12,6 +12,8 @@ const VisitSchedule = () => {
   const [showCalendar, setShowCalendar] = useState(false);
   const [isScheduleCreated, setIsScheduleCreated] = useState(false); // State to track schedule creation
   const [visitSchedule, setVisitSchedule] = useState([]);
+  const [buttonColor, setButtonColor] = useState('blue');
+  const [buttonText, setButtonText] = useState('Click me');
 
   useEffect(() => {
     // Fetch all schedules created by the user
@@ -32,6 +34,11 @@ const VisitSchedule = () => {
   
    // Empty dependency array to ensure the effect runs only once on component mount
 
+   const updateButton = (color, text) => {
+    setButtonColor(color);
+    setButtonText(text);
+  };
+  
   const openCity = (cityName) => {
     setActiveTab(cityName);
   };
@@ -73,7 +80,7 @@ const VisitSchedule = () => {
   <div style={{ padding: '20px' }}>
     {visitSchedule.length > 0 ? (
      
-        <ScheduleModal visitSchedules={visitSchedule} />
+        <ScheduleModal visitSchedules={visitSchedule} updateButton={updateButton} />
 
     ) : (
       <h2 style={{ textAlign: 'center', fontWeight: 'normal', fontStyle: 'italic', fontSize: '1rem' }}>

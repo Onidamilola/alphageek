@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axiosInstance from "../utils/AxiosInstance";
 import { VISIT_DATA } from '../utils/constant';
 import Sidebar1 from '../components/sidebar1';
@@ -10,6 +10,12 @@ const StoreVisit = () => {
   const [imageObject, setImageObject] = useState(null);
   const handleFileInput = useRef(null);
   const navigate = useNavigate(); // Hook for navigation
+
+  useEffect(() => {
+    // Update button color and text in Page A
+    sessionStorage.setItem('buttonColor', 'green');
+    sessionStorage.setItem('buttonText', 'Visited');
+  }, []);
 
   const handleImageChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -59,12 +65,12 @@ const StoreVisit = () => {
     // Include other properties from selectedSchedule
     formData.append('outlet_id', selectedSchedule.outlet_id);
     formData.append('visit_date', selectedSchedule.schedule_date);
-    formData.append('visit_time', selectedSchedule.schedule_time);
+    formData.append('visit_time', selectedSchedule.schedule_time); 
     formData.append('country_id', selectedSchedule.country_id);
     formData.append('state_id', selectedSchedule.state_id);
     formData.append('region_id', selectedSchedule.region_id);
     formData.append('location_id', selectedSchedule.location_id);
-  
+  console.log(document.getElementById('note').value);
     // Make a POST request using Axios
     try {
       const response = await axiosInstance.post(VISIT_DATA, formData, {

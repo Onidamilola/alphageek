@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { GET_ALL_COUNTRIES, GET_STATES, GET_LGAs } from "../utils/constant";
+import useLocalStorage from "../custom-hooks/useLocalStorage";
 
 const Unique = ({ nextStep }) => {
   const [countries, setCountries] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState(null); // Initialize as null
+  const [selectedCountry, setSelectedCountry] = useState(null);
   const [states, setStates] = useState([]);
-  const [selectedStates, setSelectedState] = useState("");
-  const [lgas, setLgas] = useState([])
+  const [selectedState, setSelectedState] = useState("");
+  const [lgas, setLgas] = useState([]);
   const [uniqueList, setUniqueList] = useState({
     country_id: '',
     state_id: '',
     lga: ''
   });
 
-  
+  // Use custom hook to store country and state IDs in both localStorage and sessionStorage
+  const [storedCountryId, setStoredCountryId] = useLocalStorage('selectedCountryId', null);
+  const [storedStateId, setStoredStateId] = useLocalStorage('selectedStateId', null);
 
   useEffect(() => {
     const fetchCountries = async () => {
       try {
         const response = await axios.get(GET_ALL_COUNTRIES);
-        console.log("Countries Data:", response.data.data);
         setCountries(response.data.data);
       } catch (error) {
         console.error("Error fetching countries:", error);
@@ -30,7 +32,7 @@ const Unique = ({ nextStep }) => {
     fetchCountries();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchStates = async () => {
       if (!selectedCountry) {
         setStates([]);
@@ -39,72 +41,67 @@ const Unique = ({ nextStep }) => {
       try {
         const response = await axios.post(
           GET_STATES,
-          { country_id: selectedCountry.toString() } // Convert to string
+          { country_id: selectedCountry.toString() }
         );
-        console.log("States Data:", response.data);
-      
         setStates(response.data.data);
-              
       } catch (error) {
         console.error("Error fetching states:", error);
       }
     };
     fetchStates()
-  }, [selectedCountry])
+  }, [selectedCountry]);
 
-  
-  useEffect(()=>{
+  useEffect(() => {
     const fetchLGA = async () => {
-      if (!selectedStates) {
+      if (!selectedState) {
         setLgas([]);
         return;
       }
       try {
         const response = await axios.post(
           GET_LGAs,
-          { state_id: selectedStates.toString() } // Convert to string
+          { state_id: selectedState.toString() }
         );
-        console.log("lgas Data:", response.data);
-      
         setLgas(response.data.data);
-              
       } catch (error) {
-        console.error("Error fetching states:", error);
+        console.error("Error fetching LGAs:", error);
       }
     };
     fetchLGA()
-  }, [selectedStates])
+  }, [selectedState]);
 
-  
   const handleCountryChange = (e) => {
     const countryId = +e.target.value;
     setSelectedCountry(countryId);
     setSelectedState('');
-    setUniqueList({...uniqueList, country_id: countryId})
+    setUniqueList({ ...uniqueList, country_id: countryId });
+    // Store selected country ID in both localStorage and sessionStorage
+    setStoredCountryId(countryId);
+    sessionStorage.setItem('selectedCountryId', countryId);
   };
 
   const handleStateChange = (e) => {
     const stateId = +e.target.value;
     setSelectedState(stateId);
-    setUniqueList({...uniqueList, state_id: stateId})
+    setUniqueList({ ...uniqueList, state_id: stateId });
+    // Store selected state ID in both localStorage and sessionStorage
+    setStoredStateId(stateId);
+    sessionStorage.setItem('selectedStateId', stateId);
   };
+
   const handleLGAChange = (e) => {
     const LGA = +e.target.value;
-    setUniqueList({...uniqueList, lga: LGA})
-
+    setUniqueList({ ...uniqueList, lga: LGA });
   };
+
   const handleSubmit = async (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
+    // Submit logic
   };
 
   const handleUnique = async (event) => {
     event.preventDefault();
-    const selectedCountryObject = countries.find((countr) => countr.id === uniqueList.country_id);
-    const selectedStateObject = states.find((statee) => statee.id === uniqueList.state_id);
-    const selectedLGAObject = countries.find((local) => local.id === uniqueList.lga);
-    sessionStorage.setItem("uniqueListInfo", JSON.stringify({...uniqueList, country_id: selectedCountryObject.id, state_id: selectedStateObject.id}))
-    console.log("hello,:", uniqueList)
-
+    // Handle unique logic
     nextStep();
   };
 
