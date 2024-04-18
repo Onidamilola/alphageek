@@ -5,7 +5,7 @@ import User from '../assets/images/user.png'
 import Sidebar1 from '../components/sidebar1';
 import Calender from '../assets/images/calender.png'
 import Calendar from '../components/calendar'
-import ScheduleModal from '../components/modal/ScheduleModal'
+import ScheduleModal from '../components/modal/schedulemodal'
 
 const OOFTracking = () => {
   const [isMenuClicked, setIsMenuClicked] = useState(false);

@@ -3,7 +3,7 @@ import Sidebar from '../components/Sidebar';
 import Button1 from '../components/button1';
 import Calender from '../assets/images/calender.png';
 import Calendar from '../components/calendar';
-import ScheduleModal from '../components/modal/ScheduleModal'
+import ScheduleModal from '../components/modal/schedulemodal';
 import axiosInstance from "../utils/AxiosInstance";
 import { GET_SCHEDULES } from "../utils/constant";
 

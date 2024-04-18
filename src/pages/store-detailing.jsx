@@ -5,7 +5,7 @@ import Product from '../assets/images/product.png'
 import User from '../assets/images/user.png'
 import Calender from '../assets/images/calender.png'
 import Calendar from '../components/calendar'
-import ScheduleModal from '../components/modal/ScheduleModal'
+import ScheduleModal from '../components/modal/schedulemodal'
 
 const StoreDetailing = () => {
   const [isMenuClicked, setIsMenuClicked] = useState(false);
