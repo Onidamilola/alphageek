@@ -80,7 +80,7 @@ const VisitSchedule = () => {
   <div style={{ padding: '20px' }}>
     {visitSchedule.length > 0 ? (
      
-        <ScheduleModal visitSchedules={visitSchedule} updateButton={updateButton} />
+        <ScheduleModal visitSchedules={visitSchedule} />
 
     ) : (
       <h2 style={{ textAlign: 'center', fontWeight: 'normal', fontStyle: 'italic', fontSize: '1rem' }}>

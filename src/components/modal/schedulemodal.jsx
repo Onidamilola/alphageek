@@ -2,15 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Map from "../map";
+// import Map from "../map";
 
-const ScheduleModal = ({ visitSchedules, updateButton }) => {
-  const [visited, setVisited] = useState([]); // State to track if store visit is completed for each schedule
-  const [outletInfo, setOutletInfo] = useState(null); // State to store outlet information
-  const [buttonState, setButtonState] = useState({
-    color: 'blue',
-    text: 'Visit Schedule'
-  }); // State object for button color and text
+const ScheduleModal = ({ visitSchedules }) => {
+  const [visited, setVisited] = useState(false); // State to track if store visit is completed for each schedule
+  const [outletInfo, setOutletInfo] = useState(' ');
   const Navigate = useNavigate();
 
   useEffect(() => {
@@ -25,25 +21,15 @@ const ScheduleModal = ({ visitSchedules, updateButton }) => {
   }, [visitSchedules]);
 
   useEffect(() => {
-    // Initialize visited array with the length of visitSchedules and set all values to false initially
-    setVisited(new Array(visitSchedules.length).fill(false));
-  }, [visitSchedules]);
-
-  useEffect(() => {
     // Check if any visit status is greater than 0
     if (visitSchedules.some(schedule => schedule.visit_status > 0)) {
-      setButtonState({ color: 'green', text: 'Visited' });
+      setVisited(true);
     } else {
-      setButtonState({ color: 'blue', text: 'Visit Schedule' });
+      setVisited(false);
     }
   }, [visitSchedules]);
 
   const handleClick = (schedule) => {
-    // Update visited status
-    const updatedVisited = [...visited];
-    updatedVisited[schedule.schedule_id] = true;
-    setVisited(updatedVisited);
-
     // Save updated visited status to sessionStorage
     sessionStorage.setItem('visitSchedules', JSON.stringify(visitSchedules));
 
@@ -51,16 +37,13 @@ const ScheduleModal = ({ visitSchedules, updateButton }) => {
     const scheduleId = schedule.schedule_id;
     sessionStorage.setItem('schedule_id', JSON.stringify(scheduleId));
 
-    // Call the external function to update the button color and text
-    updateButton('green', 'Visited');
-
     // Navigate to storevisit with schedule_id
     Navigate("/storevisit", { state: { schedule_id: scheduleId } });
   };
 
   const handleVisitClick = () => {
     // Navigate to storevisit only if the schedule is visited
-    if (visited.some((visit) => visit)) {
+    if (visited) {
       Navigate("/storevisit");
     } else {
       toast.error("Please visit the store first.");
@@ -84,7 +67,7 @@ const ScheduleModal = ({ visitSchedules, updateButton }) => {
                 {/* Display Google Map for each outlet */}
                 {visitSchedule.gio_lat && visitSchedule.gio_long && (
                   <div style={{ width: '50%', height: '10px', marginLeft: '20px' }}>
-                    <Map latitude={visitSchedule.gio_lat} longitude={visitSchedule.gio_long} />
+                    {/* <Map latitude={visitSchedule.gio_lat} longitude={visitSchedule.gio_long} /> */}
                   </div>
                 )}
               </div>
@@ -100,16 +83,16 @@ const ScheduleModal = ({ visitSchedules, updateButton }) => {
               style={{
                 width: '100%',
                 padding: '10px 20px',
-                backgroundColor: buttonState.color,
+                backgroundColor: visited ? 'green' : 'blue',
                 color: '#fff',
                 border: 'none',
                 borderRadius: '5px',
                 cursor: 'pointer',
               }}
               onClick={() => handleClick(visitSchedule)} // Pass the entire schedule object
-              disabled={visited[visitSchedule.schedule_id]}
+             
             >
-              {buttonState.text}
+              {visited ? 'Visited' : 'Visit'}
             </button>
           </div>
         </div>

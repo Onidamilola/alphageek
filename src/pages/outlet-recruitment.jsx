@@ -5,7 +5,7 @@ import Product from '../assets/images/product.png';
 import User from '../assets/images/user.png';
 import Calender from '../assets/images/calender.png';
 import Calendar from '../components/calendar';
-import ScheduleModal from '../components/modal/schedulemodal'
+import ScheduleModal from '../components/modal/schedulemodal';
 import axiosInstance from "../utils/AxiosInstance";
 import { GET_SCHEDULES } from "../utils/constant";
 
@@ -14,8 +14,7 @@ const OutletRecruitment = () => {
   const [showCalendar, setShowCalendar] = useState(false);
   const [isScheduleCreated, setIsScheduleCreated] = useState(false);
   const [visitSchedule, setVisitSchedule] = useState([]);
-  const [buttonColor, setButtonColor] = useState('blue');
-  const [buttonText, setButtonText] = useState('Click me');
+  
 
 
   useEffect(() => {

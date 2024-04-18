@@ -12,6 +12,7 @@ const StoreVisit = () => {
   const [countryId, setCountryId] = useState('');
   const [stateId, setStateId] = useState('');
   const [address, setAddress] = useState('');
+  const [note, setNote] = useState('');
   const navigate = useNavigate(); // Hook for navigation
 
   useEffect(() => {
@@ -53,6 +54,10 @@ const StoreVisit = () => {
     reader.readAsDataURL(selectedFile);
   };
 
+  const handleNote = (e) => {
+    const newNote = e.target.value;
+    setNote(newNote)
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -76,7 +81,7 @@ const StoreVisit = () => {
     if (imageObject) {
       formData.append('image', imageObject.imageFile);
     }
-    formData.append('note', document.getElementById('note').value);
+    
     formData.append('details_status', '1'); // Add details_status field with value 1
   
     // Include schedule_id separately
@@ -90,7 +95,8 @@ const StoreVisit = () => {
     formData.append('state_id', stateId);
     formData.append('region_id', selectedSchedule.region_id);
     formData.append('location_id', address);
-  console.log(document.getElementById('note').value);
+    formData.append('notes', note);
+  console.log(note);
     // Make a POST request using Axios
     try {
       const response = await axiosInstance.post(VISIT_DATA, formData, {
@@ -135,6 +141,7 @@ const StoreVisit = () => {
               id="note"
               name="note"
               placeholder="Write Something..."
+              onChange={handleNote}
               style={{ height: '100px', marginBottom: '10px' }}
             />
           </div>
