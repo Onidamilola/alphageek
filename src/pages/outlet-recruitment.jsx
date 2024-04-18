@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import Outlet from '../assets/images/outlet.png';
 import Product from '../assets/images/product.png';
@@ -6,12 +6,34 @@ import User from '../assets/images/user.png';
 import Calender from '../assets/images/calender.png';
 import Calendar from '../components/calendar';
 import ScheduleModal from '../components/modal/ScheduleModal'
+import axiosInstance from "../utils/AxiosInstance";
+import { GET_SCHEDULES } from "../utils/constant";
 
 const OutletRecruitment = () => {
   const [isMenuClicked, setIsMenuClicked] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [isScheduleCreated, setIsScheduleCreated] = useState(false);
+  const [visitSchedule, setVisitSchedule] = useState([]);
+  const [buttonColor, setButtonColor] = useState('blue');
+  const [buttonText, setButtonText] = useState('Click me');
 
+
+  useEffect(() => {
+    // Fetch all schedules created by the user
+    axiosInstance.get(GET_SCHEDULES)
+      .then(response => {
+        const newData = response.data.data;
+        // Check if the new data is different from the current visitSchedule state
+        if (JSON.stringify(newData) !== JSON.stringify(visitSchedule)) {
+          setVisitSchedule(newData);
+        }
+        console.log('Received schedules:', newData);
+      })
+      .catch(error => {
+        console.error('Error fetching schedules:', error);
+        setVisitSchedule([]);
+      });
+  }, [visitSchedule]);
 
   const handleCalendarClick = () => {
     setShowCalendar(!showCalendar); // Toggle calendar pop-up visibility
@@ -26,6 +48,7 @@ const OutletRecruitment = () => {
     // Once the schedule is created, set isScheduleCreated to true
     setIsScheduleCreated(true);
   };
+
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '50vh' }}>
@@ -83,7 +106,17 @@ const OutletRecruitment = () => {
           <img src={Calender} alt="calender" style={{ width: '30px', height: '30px', margin: '0' }} onClick={handleCalendarClick} />
         </div>
       </div>
-      {isScheduleCreated && <ScheduleModal />}
+      <div style={{ padding: '20px' }}>
+    {visitSchedule.length > 0 ? (
+     
+        <ScheduleModal visitSchedules={visitSchedule} />
+
+    ) : (
+      <h2 style={{ textAlign: 'center', fontWeight: 'normal', fontStyle: 'italic', fontSize: '1rem' }}>
+        You Have No Store Visits Scheduled
+      </h2>
+    )}
+  </div>
 
       {/* Pop-up calendar component */}
       {showCalendar && (

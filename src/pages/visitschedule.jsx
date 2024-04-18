@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar1 from '../components/sidebar1';
+import Sidebar from '../components/Sidebar';
 import Button1 from '../components/button1';
 import Calender from '../assets/images/calender.png';
 import Calendar from '../components/calendar';
@@ -58,7 +58,7 @@ const VisitSchedule = () => {
   return (
     <div>
       <div>
-        <Sidebar1 />
+        <Sidebar />
       </div>
       <div style={{ overflow: 'hidden', display: 'flex', border: '1px solid #ccc', backgroundColor: '#502ef1' }} className="tab">
         <button

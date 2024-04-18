@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axiosInstance from "../utils/AxiosInstance";
-import { VISIT_DATA } from '../utils/constant';
+import { VISIT_DATA, PROFILE } from '../utils/constant';
 import Sidebar1 from '../components/sidebar1';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
@@ -9,13 +9,33 @@ import { useNavigate } from 'react-router-dom';
 const StoreVisit = () => {
   const [imageObject, setImageObject] = useState(null);
   const handleFileInput = useRef(null);
+  const [countryId, setCountryId] = useState('');
+  const [stateId, setStateId] = useState('');
+  const [address, setAddress] = useState('');
   const navigate = useNavigate(); // Hook for navigation
 
   useEffect(() => {
-    // Update button color and text in Page A
-    sessionStorage.setItem('buttonColor', 'green');
-    sessionStorage.setItem('buttonText', 'Visited');
+    const fetchData = async () => {
+      try {
+        // Fetch country and state IDs from the same API endpoint
+        const response = await axiosInstance.get( PROFILE );
+        const data = response.data.data;
+  const reg_info = data.reg_info;
+  const employee = reg_info.employee;
+  console.log(employee)
+        setCountryId(employee.country_id);
+        setStateId(employee.state_id);
+        setAddress(employee.address)
+              console.log(employee.country_id, employee.state_id, address);
+      } catch (error) {
+        console.error('Error fetching country and state IDs:', error);
+      }
+    };
+
+    fetchData();
   }, []);
+  
+ 
 
   const handleImageChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -66,10 +86,10 @@ const StoreVisit = () => {
     formData.append('outlet_id', selectedSchedule.outlet_id);
     formData.append('visit_date', selectedSchedule.schedule_date);
     formData.append('visit_time', selectedSchedule.schedule_time); 
-    formData.append('country_id', selectedSchedule.country_id);
-    formData.append('state_id', selectedSchedule.state_id);
+    formData.append('country_id', countryId);
+    formData.append('state_id', stateId);
     formData.append('region_id', selectedSchedule.region_id);
-    formData.append('location_id', selectedSchedule.location_id);
+    formData.append('location_id', address);
   console.log(document.getElementById('note').value);
     // Make a POST request using Axios
     try {

@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar';
 import { useNavigate } from 'react-router';
 import { GET_OUTLET } from '../utils/constant';
 import { GET_OUTLETCHANNEL } from '../utils/constant'
-import { CREATE_WEB_OUTLET } from '../utils/constant';
+import { CREATE_WEB_OUTLET, PROFILE } from '../utils/constant';
 
 
 
@@ -23,6 +23,8 @@ const CreateOutlet = () => {
   const [cpp, setCPP] = useState('');
   const [newoutlet, setNewOutletType] = useState('');
   const [newoutletchannel, setNewOutletChannel] = useState('');
+  const [countryId, setCountryId] = useState('');
+  const [stateId, setStateId] = useState('');
   const Navigate = useNavigate();
 
  
@@ -54,6 +56,26 @@ const CreateOutlet = () => {
 
     fetchOutlet();
     fetchOutletChannel();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch country and state IDs from the same API endpoint
+        const response = await axiosInstance.get( PROFILE );
+        const data = response.data.data;
+  const reg_info = data.reg_info;
+  const employee = reg_info.employee;
+  console.log(employee)
+        setCountryId(employee.country_id);
+        setStateId(employee.state_id);
+        console.log(employee.country_id, employee.state_id);
+      } catch (error) {
+        console.error('Error fetching country and state IDs:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleImageChange = (event) => {
@@ -99,6 +121,8 @@ const CreateOutlet = () => {
           formData.append('cpp', cpp);
           formData.append('gio_lat', latitude); 
           formData.append('gio_long', longitude); 
+          formData.append('country_id', countryId); // Use fetched country ID
+          formData.append('state_id', stateId); 
   
           if (imageObject && imageObject.imageFile) {
             formData.append('image', imageObject.imageFile);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../utils/AxiosInstance';
-import Sidebar1 from '../components/sidebar1';
+import Sidebar from '../components/Sidebar';
 import Button from '../components/button';
 import OutletListModal from '../components/modal/outletlistmodel';
 import { USER_OUTLETS } from '../utils/constant';
@@ -44,7 +44,7 @@ const OutletList = () => {
 
   return (
     <div>
-      <Sidebar1 />
+      <Sidebar />
       <div style={{ padding: '20px' }}>
         {outlets.length > 0 ? (
           <OutletListModal outlets={outlets} show={showOutletModal} onClose={() => setShowOutletModal(false)} />

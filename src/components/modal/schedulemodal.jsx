@@ -9,7 +9,7 @@ const ScheduleModal = ({ visitSchedules, updateButton }) => {
   const [outletInfo, setOutletInfo] = useState(null); // State to store outlet information
   const [buttonState, setButtonState] = useState({
     color: 'blue',
-    text: 'Click me'
+    text: 'Visit Schedule'
   }); // State object for button color and text
   const Navigate = useNavigate();
 
@@ -30,16 +30,13 @@ const ScheduleModal = ({ visitSchedules, updateButton }) => {
   }, [visitSchedules]);
 
   useEffect(() => {
-    // Check if there's any saved state for button color and text
-    const storedState = localStorage.getItem('buttonState');
-    if (storedState) {
-      // Update the button state from localStorage (assuming it's a stringified object)
-      setButtonState(JSON.parse(storedState));
+    // Check if any visit status is greater than 0
+    if (visitSchedules.some(schedule => schedule.visit_status > 0)) {
+      setButtonState({ color: 'green', text: 'Visited' });
     } else {
-      // If no stored state, set default button state (blue and Click me)
-      setButtonState({ color: 'blue', text: 'Click me' });
+      setButtonState({ color: 'blue', text: 'Visit Schedule' });
     }
-  }, []);
+  }, [visitSchedules]);
 
   const handleClick = (schedule) => {
     // Update visited status
@@ -53,11 +50,6 @@ const ScheduleModal = ({ visitSchedules, updateButton }) => {
     // Extract and save schedule_id to sessionStorage
     const scheduleId = schedule.schedule_id;
     sessionStorage.setItem('schedule_id', JSON.stringify(scheduleId));
-
-    // Update button state (color and text)
-    setButtonState({ color: 'green', text: 'Visited' });
-    // Save button state to localStorage
-    localStorage.setItem('buttonState', JSON.stringify({ color: 'green', text: 'Visited' }));
 
     // Call the external function to update the button color and text
     updateButton('green', 'Visited');
@@ -108,7 +100,7 @@ const ScheduleModal = ({ visitSchedules, updateButton }) => {
               style={{
                 width: '100%',
                 padding: '10px 20px',
-                backgroundColor: visited[visitSchedule.schedule_id] ? 'green' : buttonState.color, // Use button state color if not visited
+                backgroundColor: buttonState.color,
                 color: '#fff',
                 border: 'none',
                 borderRadius: '5px',
@@ -117,7 +109,7 @@ const ScheduleModal = ({ visitSchedules, updateButton }) => {
               onClick={() => handleClick(visitSchedule)} // Pass the entire schedule object
               disabled={visited[visitSchedule.schedule_id]}
             >
-              {visited[visitSchedule.schedule_id] ? 'Visited' : buttonState.text} {/* Use button state text if not visited */}
+              {buttonState.text}
             </button>
           </div>
         </div>

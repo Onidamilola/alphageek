@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react'
 import Sidebar from '../components/Sidebar'
 import axiosInstance from '../utils/AxiosInstance'
 import { CREATE_SCHEDULE } from '../utils/constant'
-import { USER_OUTLETS } from '../utils/constant'
+import { USER_OUTLETS, PROFILE } from '../utils/constant'
 import { useNavigate } from 'react-router-dom'
+
 
     const CreateSchedule = () => {
         const [outlets, setOutlets] = useState([])
         const [selectedOutlet, setSelectedOutlet] = useState('');
         const [scheduleDate, setScheduleDate] = useState('');
         const [scheduleTime, setScheduleTime] = useState('');
+        const [countryId, setCountryId] = useState('');
+        const [stateId, setStateId] = useState('');
+        const [address, setAddress] = useState('');
         const Navigate = useNavigate();
       
         useEffect(() => {
@@ -27,15 +31,33 @@ import { useNavigate } from 'react-router-dom'
       
           fetchOutletList();
         }, []);
+
+        useEffect(() => {
+          const fetchData = async () => {
+            try {
+              // Fetch country and state IDs from the same API endpoint
+              const response = await axiosInstance.get( PROFILE );
+              const data = response.data.data;
+        const reg_info = data.reg_info;
+        const employee = reg_info.employee;
+        console.log(employee)
+              setCountryId(employee.country_id);
+              setStateId(employee.state_id);
+              setAddress(employee.address)
+              console.log(employee.country_id, employee.state_id, address);
+            } catch (error) {
+              console.error('Error fetching country and state IDs:', error);
+            }
+          };
+      
+          fetchData();
+        }, []);
       
         const handleSubmit = async (event) => {
           event.preventDefault();
         
           try {
-            // Retrieve country and state IDs from sessionStorage
-            const dataToStore = JSON.parse(sessionStorage.getItem('uniqueListInfo'));
-        
-            // Retrieve user's geolocation
+            
             if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(async (position) => {
                 const latitude = position.coords.latitude;
@@ -47,10 +69,10 @@ import { useNavigate } from 'react-router-dom'
                 formData.append('schedule_time', scheduleTime);
                 formData.append('gio_lat', latitude); 
                 formData.append('gio_long', longitude); 
-                formData.append('country_id', 2);
-                formData.append('state_id', dataToStore);
+                formData.append('country_id', countryId); // Use fetched country ID
+                formData.append('state_id', stateId); 
                 formData.append('region_id', '1');
-                formData.append('location_id', '1');
+                formData.append('location_id', address);
         
                 // Send FormData to the server
                 const response = await axiosInstance.post(CREATE_SCHEDULE, formData, {
