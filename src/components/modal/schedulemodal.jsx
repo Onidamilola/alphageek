@@ -7,7 +7,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const ScheduleModal = ({ visitSchedules }) => {
   const [visited, setVisited] = useState(false); // State to track if store visit is completed for each schedule
   const [outletInfo, setOutletInfo] = useState(' ');
-  const [loading, setLoading] = useState(false);
   const Navigate = useNavigate();
 
   useEffect(() => {
@@ -32,8 +31,6 @@ const ScheduleModal = ({ visitSchedules }) => {
 
   const handleClick = async (schedule) => {
     try {
-      setLoading(true); // Set loading state to true
-
       // Save updated visited status to sessionStorage
       sessionStorage.setItem('visitSchedules', JSON.stringify(visitSchedules));
 
@@ -46,8 +43,6 @@ const ScheduleModal = ({ visitSchedules }) => {
     } catch (error) {
       console.error("Error:", error);
       toast.error("An error occurred. Please try again.");
-    } finally {
-      setLoading(false); // Set loading state back to false after the operation is completed
     }
   };
 
@@ -63,8 +58,8 @@ const ScheduleModal = ({ visitSchedules }) => {
                 <div>
                   <h2 className="text-xl font-bold">{visitSchedule.outlet_name}</h2>
                   <p>{visitSchedule.outlet_address}</p>
-                  <p>{visitSchedule.schedule_date}</p>
-                  <p>{visitSchedule.schedule_time}</p>
+                  <p>{visitSchedule.date}</p>
+                  <p>{visitSchedule.time}</p>
                 </div>
                 {/* Display Google Map for each outlet */}
                 {visitSchedule.gio_lat && visitSchedule.gio_long && (
@@ -75,27 +70,25 @@ const ScheduleModal = ({ visitSchedules }) => {
               </div>
             ) : (
               <div>
-                <h2 className="text-xl font-bold">Loading...</h2>
+                {/* <h2 className="text-xl font-bold">Loading...</h2> */}
               </div>
             )}
           </div>
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <button
+            <button
               type="button"
               style={{
                 width: '100%',
                 padding: '10px 20px',
-                backgroundColor: visited ? 'green' : 'blue',
+                backgroundColor: visitSchedule.visit_status > 0 ? 'green' : 'blue',
                 color: '#fff',
                 border: 'none',
                 borderRadius: '5px',
-                cursor: loading ? 'not-allowed' : 'pointer',
-                opacity: loading ? 0.5 : 1,
+                cursor: 'pointer',
               }}
               onClick={() => handleClick(visitSchedule)} // Pass the entire schedule object
-              disabled={loading} // Disable the button during loading
             >
-              {loading ? 'Loading...' : visited ? 'Visited' : 'Visit'}
+              {visitSchedule.visit_status > 0 ? 'Visited' : 'Visit Schedule'}
             </button>
           </div>
         </div>
