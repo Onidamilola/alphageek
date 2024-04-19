@@ -109,7 +109,7 @@ console.log("helo");
     <div className="flex justify-center items-center h-screen">
       <div className="text-xl bg-gray-100 font-roboto m-auto w-full px-6">
         <div className='flex justify-between items-center my-6'>
-          <img src={logo} alt="logo" className='w-25'/>
+          <img src={logo} alt="logo" className='w-20'/>
         </div>
         <div className='flex justify-between items-center my-8'>
           <div>
