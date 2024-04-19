@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const ScheduleModal = ({ visitSchedules }) => {
   const [visited, setVisited] = useState(false); // State to track if store visit is completed for each schedule
   const [outletInfo, setOutletInfo] = useState(' ');
+  const [loading, setLoading] = useState(false);
   const Navigate = useNavigate();
 
   useEffect(() => {
@@ -29,26 +30,27 @@ const ScheduleModal = ({ visitSchedules }) => {
     }
   }, [visitSchedules]);
 
-  const handleClick = (schedule) => {
-    // Save updated visited status to sessionStorage
-    sessionStorage.setItem('visitSchedules', JSON.stringify(visitSchedules));
+  const handleClick = async (schedule) => {
+    try {
+      setLoading(true); // Set loading state to true
 
-    // Extract and save schedule_id to sessionStorage
-    const scheduleId = schedule.schedule_id;
-    sessionStorage.setItem('schedule_id', JSON.stringify(scheduleId));
+      // Save updated visited status to sessionStorage
+      sessionStorage.setItem('visitSchedules', JSON.stringify(visitSchedules));
 
-    // Navigate to storevisit with schedule_id
-    Navigate("/storevisit", { state: { schedule_id: scheduleId } });
-  };
+      // Extract and save schedule_id to sessionStorage
+      const scheduleId = schedule.schedule_id;
+      sessionStorage.setItem('schedule_id', JSON.stringify(scheduleId));
 
-  const handleVisitClick = () => {
-    // Navigate to storevisit only if the schedule is visited
-    if (visited) {
-      Navigate("/storevisit");
-    } else {
-      toast.error("Please visit the store first.");
+      // Navigate to storevisit with schedule_id
+      Navigate("/storevisit", { state: { schedule_id: scheduleId } });
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("An error occurred. Please try again.");
+    } finally {
+      setLoading(false); // Set loading state back to false after the operation is completed
     }
   };
+
 
   return (
     <div className="w-full bg-gray-100 p-6 rounded-t-3xl">
@@ -78,7 +80,7 @@ const ScheduleModal = ({ visitSchedules }) => {
             )}
           </div>
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <button
+          <button
               type="button"
               style={{
                 width: '100%',
@@ -87,12 +89,13 @@ const ScheduleModal = ({ visitSchedules }) => {
                 color: '#fff',
                 border: 'none',
                 borderRadius: '5px',
-                cursor: 'pointer',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                opacity: loading ? 0.5 : 1,
               }}
               onClick={() => handleClick(visitSchedule)} // Pass the entire schedule object
-             
+              disabled={loading} // Disable the button during loading
             >
-              {visited ? 'Visited' : 'Visit'}
+              {loading ? 'Loading...' : visited ? 'Visited' : 'Visit'}
             </button>
           </div>
         </div>

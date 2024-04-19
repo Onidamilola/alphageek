@@ -113,7 +113,7 @@ console.log("helo");
         </div>
         <div className='flex justify-between items-center my-8'>
           <div>
-            <p>Hello, {firstName || 'Yakubu odili ojo'}</p>
+            <p>Hello, {firstName || 'loading....'}</p>
             <p>Win at work today!</p>
           </div>
           

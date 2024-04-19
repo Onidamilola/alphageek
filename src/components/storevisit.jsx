@@ -5,6 +5,8 @@ import Sidebar1 from '../components/sidebar1';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import CompleteVisitButton from './Completevisitbutton';
 
 const StoreVisit = () => {
   const [imageObject, setImageObject] = useState(null);
@@ -13,6 +15,7 @@ const StoreVisit = () => {
   const [stateId, setStateId] = useState('');
   const [address, setAddress] = useState('');
   const [note, setNote] = useState('');
+  const [loading, setLoading] = useState(false); // State for loading indicator
   const navigate = useNavigate(); // Hook for navigation
 
   useEffect(() => {
@@ -21,13 +24,13 @@ const StoreVisit = () => {
         // Fetch country and state IDs from the same API endpoint
         const response = await axiosInstance.get( PROFILE );
         const data = response.data.data;
-  const reg_info = data.reg_info;
-  const employee = reg_info.employee;
-  console.log(employee)
+        const reg_info = data.reg_info;
+        const employee = reg_info.employee;
+        console.log(employee)
         setCountryId(employee.country_id);
         setStateId(employee.state_id);
         setAddress(employee.address)
-              console.log(employee.country_id, employee.state_id, address);
+        console.log(employee.country_id, employee.state_id, address);
       } catch (error) {
         console.error('Error fetching country and state IDs:', error);
       }
@@ -35,8 +38,6 @@ const StoreVisit = () => {
 
     fetchData();
   }, []);
-  
- 
 
   const handleImageChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -59,44 +60,56 @@ const StoreVisit = () => {
     setNote(newNote)
   }
 
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
-    // Retrieve visit schedule data from sessionStorage
-    const visitSchedules = JSON.parse(sessionStorage.getItem('visitSchedules'));
-  
-    // Retrieve schedule_id from sessionStorage
-    const scheduleId = JSON.parse(sessionStorage.getItem('schedule_id'));
-  
-    // Find the selected schedule from visitSchedules based on schedule_id
-    const selectedSchedule = visitSchedules.find(schedule => schedule.schedule_id === scheduleId);
-  
-    if (!selectedSchedule) {
-      console.error('Schedule not found for schedule_id:', scheduleId);
+
+    // Check if either notes or image is not filled
+    if (!note.trim() || !imageObject) {
+      // Show error message using toast
+      toast.error('Please fill in both notes and select an image.');
       return;
     }
-  
+
+    setLoading(true); // Set loading state to true
+
+    // Retrieve visit schedule data from sessionStorage
+    const visitSchedules = JSON.parse(sessionStorage.getItem('visitSchedules'));
+
+    // Retrieve schedule_id from sessionStorage
+    const scheduleId = JSON.parse(sessionStorage.getItem('schedule_id'));
+
+    // Find the selected schedule from visitSchedules based on schedule_id
+    const selectedSchedule = visitSchedules.find(schedule => schedule.schedule_id === scheduleId);
+
+    if (!selectedSchedule) {
+      console.error('Schedule not found for schedule_id:', scheduleId);
+      setLoading(false); // Set loading state back to false
+      return;
+    }
+
     // Prepare FormData object with image, notes, and other necessary data
     const formData = new FormData();
     if (imageObject) {
       formData.append('image', imageObject.imageFile);
     }
-    
+
     formData.append('details_status', '1'); // Add details_status field with value 1
-  
+
     // Include schedule_id separately
     formData.append('schedule_id', scheduleId);
-  
+
     // Include other properties from selectedSchedule
     formData.append('outlet_id', selectedSchedule.outlet_id);
     formData.append('visit_date', selectedSchedule.schedule_date);
-    formData.append('visit_time', selectedSchedule.schedule_time); 
+    formData.append('visit_time', selectedSchedule.schedule_time);
     formData.append('country_id', countryId);
     formData.append('state_id', stateId);
     formData.append('region_id', selectedSchedule.region_id);
     formData.append('location_id', address);
     formData.append('notes', note);
-  console.log(note);
+    console.log(note);
+
     // Make a POST request using Axios
     try {
       const response = await axiosInstance.post(VISIT_DATA, formData, {
@@ -111,6 +124,8 @@ const StoreVisit = () => {
     } catch (error) {
       console.error('Error:', error);
       // Handle error response
+    } finally {
+      setLoading(false); // Set loading state back to false after request completes
     }
   };
   
@@ -142,14 +157,13 @@ const StoreVisit = () => {
               name="note"
               placeholder="Write Something..."
               onChange={handleNote}
+              required
               style={{ height: '100px', marginBottom: '10px' }}
             />
           </div>
 
           <div className="flex justify-center gap-4">
-            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">
-              COMPLETE VISIT
-            </button>
+          <CompleteVisitButton loading={loading} />
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               <FontAwesomeIcon icon={faShareNodes} className="mr-2" />
               SHARE
