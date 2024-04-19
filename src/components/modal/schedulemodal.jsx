@@ -84,9 +84,10 @@ const ScheduleModal = ({ visitSchedules }) => {
                 color: '#fff',
                 border: 'none',
                 borderRadius: '5px',
-                cursor: 'pointer',
+                cursor: visitSchedule.visit_status > 0 ? 'not-allowed' : 'pointer',
               }}
               onClick={() => handleClick(visitSchedule)} // Pass the entire schedule object
+              disabled={visitSchedule.visit_status > 0}
             >
               {visitSchedule.visit_status > 0 ? 'Visited' : 'Visit Schedule'}
             </button>

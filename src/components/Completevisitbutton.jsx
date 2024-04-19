@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const CompleteVisitButton = () => {
- 
-
+const CompleteVisitButton = ({ Loading }) => {
   const buttonStyle = {
     backgroundColor: '#4568dc',
     color: 'white',
     fontWeight: 'bold',
     padding: '0.7em 2em',
     borderRadius: '0.5rem',
-    cursor: 'pointer',
+    cursor: Loading ? 'not-allowed' : 'pointer',
     transition: 'background-color 0.3s',
     border: 'none',
     outline: 'none',
@@ -27,8 +25,6 @@ const CompleteVisitButton = () => {
     transform: 'translate(-50%, -50%)',
   };
 
-  
-
   return (
     <button
       type="submit"
@@ -36,9 +32,15 @@ const CompleteVisitButton = () => {
       className="hover:bg-blue-700"
       onMouseEnter={(e) => e.target.style.backgroundColor = "#b06ab3"}
       onMouseLeave={(e) => e.target.style.backgroundColor = "#4568dc"}
+      disabled={Loading} // Disable button while loading
     >
-      COMPLETE VISIT
+      {Loading ? (
+        <span style={loadingTextStyle}>Loading...</span>
+      ) : (
+        'COMPLETE VISIT'
+      )}
     </button>
   );
 };
+
 export default CompleteVisitButton;
