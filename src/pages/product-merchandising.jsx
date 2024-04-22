@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Sidebar1 from '../components/sidebar1'
 import Outlet from '../assets/images/outlet.png'
 import Product from '../assets/images/product.png'
@@ -6,12 +6,48 @@ import User from '../assets/images/user.png'
 import Calender from '../assets/images/calender.png'
 import Calendar from '../components/calendar'
 import ScheduleModal from '../components/modal/schedulemodal'
+import axiosInstance from "../utils/AxiosInstance";
+import { GET_SCHEDULES, DOWN_SYNC } from "../utils/constant";
 
 const ProductMerchandising = () => {
 
   const [isMenuClicked, setIsMenuClicked] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [isScheduleCreated, setIsScheduleCreated] = useState(false);
+  const [visitSchedule, setVisitSchedule] = useState([]);
+  const [outlets, setOutles] = useState('');
+  const [visited, setVisited] = useState('');
+  const [loginCount, setLoginCount] = useState('');
+
+  useEffect(() => {
+    // Fetch all schedules created by the user
+    axiosInstance.get(GET_SCHEDULES)
+      .then(response => {
+        const newData = response.data.data;
+        // Check if the new data is different from the current visitSchedule state
+        if (JSON.stringify(newData) !== JSON.stringify(visitSchedule)) {
+          setVisitSchedule(newData);
+        }
+        console.log('Received schedules:', newData);
+      })
+      .catch(error => {
+        console.error('Error fetching schedules:', error);
+        setVisitSchedule([]);
+      });
+
+    // Fetch data for DOWN_SYNC API
+    axiosInstance.get(DOWN_SYNC)
+      .then(response => {
+        const data = response.data.data;
+        const Dashboard = data.dashboard;
+        setOutles(Dashboard.outlets);
+        setLoginCount(Dashboard.login_count);
+        setVisited(Dashboard.visited)
+      })
+      .catch(error => {
+        console.error('Error fetching data from DOWN_SYNC:', error);
+      });
+  }, []);
 
   const handleCalendarClick = () => {
     setShowCalendar(!showCalendar); // Toggle calendar pop-up visibility
@@ -62,7 +98,7 @@ const ProductMerchandising = () => {
           <img src={Outlet} alt="outlet" style={{ marginRight: '10px', width: '50px', height: '50px' }} />
           <div>
             <h5 style={{ margin: '0', marginBottom: '5px' }}>Outlet</h5>
-            <p style={{ margin: '0' }}>Total: 887</p>
+            <p style={{ margin: '0' }}>Total: {outlets}</p>
           </div>
         </div>
         {/* Item 4 */}
@@ -70,7 +106,7 @@ const ProductMerchandising = () => {
           <img src={User} alt="user" style={{ marginRight: '10px', width: '50px', height: '50px' }} />
           <div>
             <h5 style={{ margin: '0', marginBottom: '5px' }}>Login</h5>
-            <p style={{ margin: '0' }}>Total: 2</p>
+            <p style={{ margin: '0' }}>Total: {loginCount}</p>
           </div>
         </div>
       </div>
@@ -84,7 +120,17 @@ const ProductMerchandising = () => {
     <img src={Calender} alt="calender" style={{ width: '30px', height: '30px', margin: '0' }}  onClick={handleCalendarClick} />
   </div>
 </div>
-{isScheduleCreated && <ScheduleModal />}
+<div style={{ padding: '20px' }}>
+    {visitSchedule.length > 0 ? (
+     
+        <ScheduleModal visitSchedules={visitSchedule} />
+
+    ) : (
+      <h2 style={{ textAlign: 'center', fontWeight: 'normal', fontStyle: 'italic', fontSize: '1rem' }}>
+        You Have No Store Visits Scheduled
+      </h2>
+    )}
+  </div>
        {/* Pop-up calendar component */}
    {showCalendar && (
           <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#fff', padding: '20px', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', zIndex: '999' }}>

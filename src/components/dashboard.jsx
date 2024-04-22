@@ -9,8 +9,8 @@ import ScheduleModal from '../components/modal/schedulemodal'
 import axiosInstance from "../utils/AxiosInstance";
 import { GET_SCHEDULES, DOWN_SYNC } from "../utils/constant";
 
-const ProductOrdering = () => {
-  const [isMenuClicked, setIsMenuClicked] = useState(false);
+const Dashboard = () => {
+    const [isMenuClicked, setIsMenuClicked] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [isScheduleCreated, setIsScheduleCreated] = useState(false);
   const [visitSchedule, setVisitSchedule] = useState([]);
@@ -53,34 +53,21 @@ const ProductOrdering = () => {
     setShowCalendar(!showCalendar); // Toggle calendar pop-up visibility
   };
 
-  const handleBurgerClick = () => {
-    setIsMenuClicked(!isMenuClicked);
-  };
-
-  const handleScheduleCreate = () => {
-    // Logic to create schedule
-    // Once the schedule is created, set isScheduleCreated to true
-    setIsScheduleCreated(true);
-  };
-
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '50vh' }}>
-      {/* Sidebar */}
-      <div>
-        <Sidebar1 />
-      </div>
-
-      {/* Grid containing 4 items */}
+    <div>
       <div style={{ flex: '1', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', padding: '20px' }}>
         {/* Item 1 */}
         <div style={{ backgroundColor: '#f0f0f0', padding: '10px', textAlign: 'center', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <img src={Outlet} alt="outlet" style={{ marginRight: '10px', width: '50px', height: '50px' }} />
           <div>
             <h5 style={{ margin: '0', marginBottom: '5px' }}>Outlet Visit</h5>
-            <p style={{ margin: '0' }}>Planned: 0</p>
-            <p style={{ margin: '0' }}>Actual: 0</p>
-            <p style={{ margin: '0' }}>Pending: 0</p>
+            {downSyncData && ( // Check if downSyncData is available
+              <>
+                <p style={{ margin: '0' }}>Planned: {}</p>
+                <p style={{ margin: '0' }}>Actual: {}</p>
+                <p style={{ margin: '0' }}>Pending: {downSyncData.pending}</p>
+              </>
+            )}
           </div>
         </div>
         {/* Item 2 */}
@@ -106,21 +93,22 @@ const ProductOrdering = () => {
           <img src={User} alt="user" style={{ marginRight: '10px', width: '50px', height: '50px' }} />
           <div>
             <h5 style={{ margin: '0', marginBottom: '5px' }}>Login</h5>
-            <p style={{ margin: '0' }}>Total:{loginCount}</p>
+            <p style={{ margin: '0' }}>Total: {loginCount}</p>
           </div>
         </div>
       </div>
 
+      {/* Your Schedule */}
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start',  marginLeft: '20px' }}>
-      <h5 style={{ margin: '0' }}>Your Schedule</h5>
-          <p style={{ margin: '0' }}>You have {isScheduleCreated ? '1' : '0'} store visit Today</p>
-  </div>
-  <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingRight: '20px' }}>
-    <img src={Calender} alt="calender" style={{ width: '30px', height: '30px', margin: '0' }}  onClick={handleCalendarClick} />
-  </div>
-</div>
-<div style={{ padding: '20px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '20px' }}>
+        <h5 style={{ margin: '0' }}>Your Schedule</h5>
+          <p style={{ margin: '0' }}>You have {visited} store visit Today</p>
+        </div>
+        <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingRight: '20px' }}>
+          <img src={Calender} alt="calender" style={{ width: '30px', height: '30px', margin: '0' }} onClick={handleCalendarClick} />
+        </div>
+      </div>
+      <div style={{ padding: '20px' }}>
     {visitSchedule.length > 0 ? (
      
         <ScheduleModal visitSchedules={visitSchedule} />
@@ -132,17 +120,16 @@ const ProductOrdering = () => {
     )}
   </div>
 
-       {/* Pop-up calendar component */}
-   {showCalendar && (
-          <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#fff', padding: '20px', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', zIndex: '999' }}>
-            {/* Your calendar component code goes here */}
-            {/* Example: <YourCalendarComponent /> */}
-           <Calendar />
-          </div>
-        )}
-
+      {/* Pop-up calendar component */}
+      {showCalendar && (
+        <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#fff', padding: '20px', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', zIndex: '999' }}>
+          {/* Your calendar component code goes here */}
+          {/* Example: <YourCalendarComponent /> */}
+          <Calendar />
+        </div>
+      )}
     </div>
   );
 };
 
-export default ProductOrdering;
+export default Dashboard;
