@@ -69,3 +69,6 @@ export const GET_SCHEDULES = `/get_all_schedule`
 //store visit api, a post request
 export const VISIT_DATA = `/visit_data`
 
+//down sync data api, a get request
+export const DOWN_SYNC = `/downsyncdata`
+

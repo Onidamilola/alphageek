@@ -2,8 +2,6 @@ import React, {useState, useEffect} from 'react';
 import axiosInstance from '../../utils/AxiosInstance';
 import { PROFILE } from '../../utils/constant';
 import logo from '../../assets/images/alphageek-logo.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 import frame from '../../assets/images/Frame.png';
 import frame1 from '../../assets/images/Frame1.png';
 import frame7 from '../../assets/images/Frame7.png';

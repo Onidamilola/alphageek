@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom'
         const [countryId, setCountryId] = useState('');
         const [stateId, setStateId] = useState('');
         const [address, setAddress] = useState('');
+        const [loading, setLoading] = useState(false);
         const Navigate = useNavigate();
       
         useEffect(() => {
@@ -40,11 +41,12 @@ import { useNavigate } from 'react-router-dom'
               const data = response.data.data;
         const reg_info = data.reg_info;
         const employee = reg_info.employee;
+
         console.log(employee)
-              setCountryId(employee.country_id);
-              setStateId(employee.state_id);
+              setCountryId(employee.country.id);
+              setStateId(employee.state.id);
               setAddress(employee.address)
-              console.log(employee.country_id, employee.state_id, address);
+              console.log(employee.country.id, employee.state.id, address);
             } catch (error) {
               console.error('Error fetching country and state IDs:', error);
             }
@@ -55,44 +57,41 @@ import { useNavigate } from 'react-router-dom'
       
         const handleSubmit = async (event) => {
           event.preventDefault();
-        
           try {
-            
+            setLoading(true); // Set loading to true when API call starts
             if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(async (position) => {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
-    
+      
                 const formData = new FormData();
                 formData.append('outlet_id', selectedOutlet);
                 formData.append('schedule_date', scheduleDate);
                 formData.append('schedule_time', scheduleTime);
-                formData.append('gio_lat', latitude); 
-                formData.append('gio_long', longitude); 
-                formData.append('country_id', countryId); // Use fetched country ID
-                formData.append('state_id', stateId); 
+                formData.append('gio_lat', latitude);
+                formData.append('gio_long', longitude);
+                formData.append('country_id', countryId);
+                formData.append('state_id', stateId);
                 formData.append('region_id', '1');
                 formData.append('location_id', address);
-        
-                // Send FormData to the server
+      
                 const response = await axiosInstance.post(CREATE_SCHEDULE, formData, {
                   headers: {
-                    'Content-Type': 'multipart/form-data'
-                  }
+                    'Content-Type': 'multipart/form-data',
+                  },
                 });
-        
+      
                 console.log('Schedule created:', response.data);
-        
+      
                 Navigate('/visit-schedule');
-        
-                // Handle success, e.g., redirect to another page
               });
             } else {
               console.error('Geolocation is not supported by this browser.');
             }
           } catch (error) {
             console.error('Error creating schedule:', error);
-            // Handle error, e.g., show error message
+          } finally {
+            setLoading(false); // Set loading to false after API call finishes
           }
         };
         
@@ -142,7 +141,21 @@ import { useNavigate } from 'react-router-dom'
             style={{ marginBottom: '10px' }}
           />
 
-          <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#502ef1', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>SAVE</button>
+        <button
+            type="submit"
+            style={{
+              width: '100%',
+              padding: '10px 20px',
+              backgroundColor: '#502ef1',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+            }}
+            disabled={loading} // Disable button when loading
+          >
+            {loading ? 'Loading...' : 'SAVE'}
+          </button>
           </form>
       </div>
       

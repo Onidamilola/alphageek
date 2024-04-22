@@ -27,10 +27,10 @@ const StoreVisit = () => {
         const reg_info = data.reg_info;
         const employee = reg_info.employee;
         console.log(employee)
-        setCountryId(employee.country_id);
-        setStateId(employee.state_id);
+        setCountryId(employee.country.id);
+        setStateId(employee.state.id);
         setAddress(employee.address)
-        console.log(employee.country_id, employee.state_id, address);
+        console.log(employee.country.id, employee.state.id, address);
       } catch (error) {
         console.error('Error fetching country and state IDs:', error);
       }

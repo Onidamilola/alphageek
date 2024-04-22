@@ -7,15 +7,17 @@ import Calender from '../assets/images/calender.png';
 import Calendar from '../components/calendar';
 import ScheduleModal from '../components/modal/schedulemodal';
 import axiosInstance from "../utils/AxiosInstance";
-import { GET_SCHEDULES } from "../utils/constant";
+import { GET_SCHEDULES, DOWN_SYNC } from "../utils/constant";
 
 const OutletRecruitment = () => {
   const [isMenuClicked, setIsMenuClicked] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [isScheduleCreated, setIsScheduleCreated] = useState(false);
   const [visitSchedule, setVisitSchedule] = useState([]);
-  
-
+  const [downSyncData, setDownSyncData] = useState(null); // State to store data from DOWN_SYNC API
+  const [outlets, setOutles] = useState('');
+  const [visited, setVisited] = useState('');
+  const [loginCount, setLoginCount] = useState('');
 
   useEffect(() => {
     // Fetch all schedules created by the user
@@ -32,7 +34,20 @@ const OutletRecruitment = () => {
         console.error('Error fetching schedules:', error);
         setVisitSchedule([]);
       });
-  }, [visitSchedule]);
+
+    // Fetch data for DOWN_SYNC API
+    axiosInstance.get(DOWN_SYNC)
+      .then(response => {
+        const data = response.data.data;
+        const Dashboard = data.dashboard;
+        setOutles(Dashboard.outlets);
+        setLoginCount(Dashboard.login_count);
+        setVisited(Dashboard.visited)
+      })
+      .catch(error => {
+        console.error('Error fetching data from DOWN_SYNC:', error);
+      });
+  }, []);
 
   const handleCalendarClick = () => {
     setShowCalendar(!showCalendar); // Toggle calendar pop-up visibility
@@ -62,9 +77,13 @@ const OutletRecruitment = () => {
           <img src={Outlet} alt="outlet" style={{ marginRight: '10px', width: '50px', height: '50px' }} />
           <div>
             <h5 style={{ margin: '0', marginBottom: '5px' }}>Outlet Visit</h5>
-            <p style={{ margin: '0' }}>Planned: 0</p>
-            <p style={{ margin: '0' }}>Actual: 0</p>
-            <p style={{ margin: '0' }}>Pending: 0</p>
+            {downSyncData && ( // Check if downSyncData is available
+              <>
+                <p style={{ margin: '0' }}>Planned: {}</p>
+                <p style={{ margin: '0' }}>Actual: {}</p>
+                <p style={{ margin: '0' }}>Pending: {downSyncData.pending}</p>
+              </>
+            )}
           </div>
         </div>
         {/* Item 2 */}
@@ -82,7 +101,7 @@ const OutletRecruitment = () => {
           <img src={Outlet} alt="outlet" style={{ marginRight: '10px', width: '50px', height: '50px' }} />
           <div>
             <h5 style={{ margin: '0', marginBottom: '5px' }}>Outlet</h5>
-            <p style={{ margin: '0' }}>Total: 887</p>
+            <p style={{ margin: '0' }}>Total: {outlets}</p>
           </div>
         </div>
         {/* Item 4 */}
@@ -90,7 +109,7 @@ const OutletRecruitment = () => {
           <img src={User} alt="user" style={{ marginRight: '10px', width: '50px', height: '50px' }} />
           <div>
             <h5 style={{ margin: '0', marginBottom: '5px' }}>Login</h5>
-            <p style={{ margin: '0' }}>Total: 2</p>
+            <p style={{ margin: '0' }}>Total: {loginCount}</p>
           </div>
         </div>
       </div>
@@ -99,7 +118,7 @@ const OutletRecruitment = () => {
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '20px' }}>
         <h5 style={{ margin: '0' }}>Your Schedule</h5>
-          <p style={{ margin: '0' }}>You have {isScheduleCreated ? '1' : '0'} store visit Today</p>
+          <p style={{ margin: '0' }}>You have {visited} store visit Today</p>
         </div>
         <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingRight: '20px' }}>
           <img src={Calender} alt="calender" style={{ width: '30px', height: '30px', margin: '0' }} onClick={handleCalendarClick} />

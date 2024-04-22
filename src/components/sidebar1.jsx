@@ -7,7 +7,6 @@ import frame2 from "../assets/images/Frame2.png";
 import Visit from "../assets/images/visit.png";
 import Inbox from "../assets/images/inbox.png";
 import Help from "../assets/images/help.png";
-import Sync from "../assets/images/sync.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRoute, faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 
@@ -49,12 +48,7 @@ const Sidebar1 = () => {
       icon: Help,
       to: "help",
     },
-    {
-      id: 7,
-      title: "Sync",
-      icon: Sync,
-      to: "#",
-    },
+   
   ];
   const handleNavItemClick = (title) => {
     setPageTitle(title);

@@ -25,6 +25,7 @@ const CreateOutlet = () => {
   const [newoutletchannel, setNewOutletChannel] = useState('');
   const [countryId, setCountryId] = useState('');
   const [stateId, setStateId] = useState('');
+  const [loading, setLoading] = useState(false);
   const Navigate = useNavigate();
 
  
@@ -100,6 +101,7 @@ const CreateOutlet = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      setLoading(true);
       // Retrieve user's geolocation
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(async (position) => {
@@ -144,6 +146,8 @@ const CreateOutlet = () => {
       }
     } catch (error) {
       console.error('Error:', error);
+    } finally {
+      setLoading(false);
     }
   };
   
@@ -230,7 +234,21 @@ const CreateOutlet = () => {
           />
           {imageObject && <img src={imageObject.imagePreview} alt="Selected" />}
    
-        <button type="submit" style={{ width: '100%', padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>SAVE</button>
+        <button 
+          type="submit" 
+          style={{
+          width: '100%', 
+          padding: '10px 20px', 
+          backgroundColor: '#007bff', 
+          color: '#fff', 
+          border: 'none', 
+          borderRadius: '5px', 
+          cursor: 'pointer' 
+        }}
+        disabled={loading}
+          >
+            {loading ? 'Loading...' : 'SAVE'}
+            </button>
 
        </form>
              </div>
