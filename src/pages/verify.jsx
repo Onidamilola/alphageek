@@ -13,13 +13,7 @@ const Verify = () => {
   const [hasRefreshed, setHasRefreshed] = useState(false); // Flag for one-time refresh
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!hasRefreshed) {
-      // Trigger refresh logic here (e.g., fetch data, perform actions)
-      console.log('Page refreshed once'); // Simulate your refresh logic (replace with actual code)
-      setHasRefreshed(true);
-    }
-  }, [hasRefreshed]); 
+  
 
   const handleCodeChange = (e) => {
     setCode(e.target.value);
