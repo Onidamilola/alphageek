@@ -192,7 +192,7 @@ const CreateOutlet = () => {
 
         <label htmlFor="outletName" style={{ color: 'blue' }}>Basic Information</label>
         <input type="text" id="outletName" name="outletName" placeholder="Outlet Name" onChange={(e) => setOutletName(e.target.value)} style={{ marginBottom: '10px' }} />
-        <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" onChange={(e) => setOutletPhone(e.target.value)} style={{ marginBottom: '10px' }} />
+        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" maxlength="11" onChange={(e) => setOutletPhone(e.target.value)} style={{ marginBottom: '10px' }} />
         <textarea id="note" name="note" placeholder="Note..." style={{ height: '100px', marginBottom: '10px' }} ></textarea>
 
         <label htmlFor="locationInfo" style={{ color: 'blue' }}>Location Information</label>

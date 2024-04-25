@@ -122,7 +122,7 @@ const handleLinkClick = () => {
   return (
     <div className="flex justify-center items-center h-screen">
       {loading && <LoadingScreen />}
-      <div className="text-xl bg-gray-100 font-roboto m-auto w-full px-6">
+      <div className="text-xl bg-gray-100 font-roboto m-auto w-full px-6 pb-16">
         <div className='flex justify-between items-center my-6'>
           <img src={logo} alt="logo" className='w-20'/>
         </div>
