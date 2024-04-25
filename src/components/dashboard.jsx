@@ -137,9 +137,18 @@ const Dashboard = () => {
 
       {/* Pop-up calendar component */}
       {showCalendar && (
-        <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#fff', padding: '20px', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', zIndex: '999' }}>
-          {/* Your calendar component code goes here */}
-          {/* Example: <YourCalendarComponent /> */}
+        <div style={{ 
+          position: 'absolute', 
+          top: '50%', 
+          left: '50%', 
+          transform: 'translate(-50%, -50%)', 
+          backgroundColor: '#fff', 
+          padding: '20px', 
+          borderRadius: '5px', 
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)', 
+          zIndex: '999' 
+          }}
+          >
           <Calendar />
         </div>
       )}
