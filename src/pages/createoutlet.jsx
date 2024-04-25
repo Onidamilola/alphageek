@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import { GET_OUTLET } from '../utils/constant';
 import { GET_OUTLETCHANNEL } from '../utils/constant'
 import { CREATE_WEB_OUTLET, PROFILE } from '../utils/constant';
+import LoadingScreen from '../components/LoadingScreen';
 
 
 
@@ -27,6 +28,7 @@ const CreateOutlet = () => {
   const [countryId, setCountryId] = useState('');
   const [stateId, setStateId] = useState('');
   const [loadingText, setLoadingText] = useState(false);
+  const [loading, setLoading] = useState(true);
   const Navigate = useNavigate();
 
  
@@ -34,31 +36,25 @@ const CreateOutlet = () => {
   const handleFileInput = useRef(null);
 
   useEffect(() => {
-    const fetchOutlet = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(GET_OUTLET);
-        console.log("Outlets Data:", response.data.data);
-        setOutletType(response.data.data);
-        sessionStorage.setItem('outletData', JSON.stringify(response.data.data)); // Save outlet data to sessionStorage
+        // Fetch outlet and outlet channel data
+        const [outletResponse, outletChannelResponse] = await Promise.all([
+          axiosInstance.get(GET_OUTLET),
+          axiosInstance.get(GET_OUTLETCHANNEL)
+        ]);
+
+        setOutletType(outletResponse.data.data);
+        setOutletChannel(outletChannelResponse.data.data);
+        setLoading(false); // Set loading to false after data fetching is done
       } catch (error) {
-        console.error("Error fetching Outlets:", error);
+        console.error('Error fetching data:', error);
       }
     };
 
-    const fetchOutletChannel = async () => {
-      try {
-        const response = await axiosInstance.get(GET_OUTLETCHANNEL);
-        console.log("Outlets Data:", response.data.data);
-        setOutletChannel(response.data.data);
-        sessionStorage.setItem('outletChannelData', JSON.stringify(response.data.data)); // Save outlet channel data to sessionStorage
-      } catch (error) {
-        console.error("Error fetching Outlets:", error);
-      }
-    };
-
-    fetchOutlet();
-    fetchOutletChannel();
+    fetchData();
   }, []);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -158,7 +154,10 @@ const CreateOutlet = () => {
     handleFileInput.current.click();
   };
 
- 
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
 
   
   return (

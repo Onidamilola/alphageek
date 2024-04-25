@@ -4,11 +4,13 @@ import Sidebar from '../components/Sidebar';
 import Button from '../components/button';
 import OutletListModal from '../components/modal/outletlistmodel';
 import { USER_OUTLETS } from '../utils/constant';
+import LoadingScreen from '../components/LoadingScreen';
 
 
 const OutletList = () => {
   const [outlets, setOutlets] = useState([]);
   const [showOutletModal, setShowOutletModal] = useState(false);
+  const [loading, setLoading] = useState(true);
  
 
   // useEffect(() => {
@@ -29,14 +31,15 @@ const OutletList = () => {
       .get(USER_OUTLETS)
       .then((response) => {
         const data = response.data.data;
-        // Check if the new data is different from the current outlets state
-        if (JSON.stringify(data) !== JSON.stringify(outlets)) {
-          setOutlets(data);
-        }
+        setOutlets(data);
+        setLoading(false); // Set loading to false after data is fetched
         console.log(data);
       })
-      .catch((err) => console.log(err));
-  }, [outlets]); // Add outlets to the dependency array
+      .catch((err) => {
+        console.error('Error fetching outlets:', err);
+        setLoading(false); // Set loading to false on error as well
+      });
+  }, []); // Add outlets to the dependency array
   
 
   const handleCreateOutlet = () => {
@@ -44,7 +47,9 @@ const OutletList = () => {
     // After creating outlet, you can set setShowOutletModal(true) to display the modal
   };
   
-
+  if (loading) {
+    return <LoadingScreen />;
+  }
  
 
   return (

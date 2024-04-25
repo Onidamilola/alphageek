@@ -4,6 +4,7 @@ import axiosInstance from '../utils/AxiosInstance'
 import { CREATE_SCHEDULE } from '../utils/constant'
 import { USER_OUTLETS, PROFILE } from '../utils/constant'
 import { useNavigate } from 'react-router-dom'
+import LoadingScreen from '../components/LoadingScreen'
 
 
     const CreateSchedule = () => {
@@ -14,7 +15,8 @@ import { useNavigate } from 'react-router-dom'
         const [countryId, setCountryId] = useState('');
         const [stateId, setStateId] = useState('');
         const [address, setAddress] = useState('');
-        const [loading, setLoading] = useState(false);
+        const [loading, setLoading] = useState(true);
+        const [loadingText, setLoadingText] = useState(false);
         const Navigate = useNavigate();
       
         useEffect(() => {
@@ -23,10 +25,11 @@ import { useNavigate } from 'react-router-dom'
               const response = await axiosInstance.get(USER_OUTLETS);
               const data = response.data.data
               setOutlets(data);
-              
+              setLoading(false);
               console.log(data)
             } catch (error) {
               console.error('Error fetching outlet list:', error);
+              setLoading(false);
             }
           };
       
@@ -58,7 +61,7 @@ import { useNavigate } from 'react-router-dom'
         const handleSubmit = async (event) => {
           event.preventDefault();
           try {
-            setLoading(true); // Set loading to true when API call starts
+            setLoadingText(true); // Set loading to true when API call starts
             if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(async (position) => {
                 const latitude = position.coords.latitude;
@@ -91,10 +94,13 @@ import { useNavigate } from 'react-router-dom'
           } catch (error) {
             console.error('Error creating schedule:', error);
           } finally {
-            setLoading(false); // Set loading to false after API call finishes
+            setLoadingText(false); // Set loading to false after API call finishes
           }
         };
-        
+
+        if (loading) {
+          return <LoadingScreen />;
+        }
       
 
         return(
@@ -153,7 +159,7 @@ import { useNavigate } from 'react-router-dom'
               cursor: 'pointer',
             }}
           >
-            {loading ? 'Loading...' : 'SAVE'}
+            {loadingText ? 'Loading...' : 'SAVE'}
           </button>
           </form>
       </div>

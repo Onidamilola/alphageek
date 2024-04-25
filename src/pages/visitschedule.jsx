@@ -13,33 +13,24 @@ const VisitSchedule = () => {
   const [showCalendar, setShowCalendar] = useState(false);
   const [isScheduleCreated, setIsScheduleCreated] = useState(false); // State to track schedule creation
   const [visitSchedule, setVisitSchedule] = useState([]);
-  const [buttonColor, setButtonColor] = useState('blue');
-  const [buttonText, setButtonText] = useState('Click me');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch all schedules created by the user
     axiosInstance.get(GET_SCHEDULES)
       .then(response => {
         const newData = response.data.data;
-        // Check if the new data is different from the current visitSchedule state
-        if (JSON.stringify(newData) !== JSON.stringify(visitSchedule)) {
-          setVisitSchedule(newData);
-        }
+        setVisitSchedule(newData);
+        setLoading(false); // Set loading to false when data is fetched
         console.log('Received schedules:', newData);
       })
       .catch(error => {
         console.error('Error fetching schedules:', error);
+        setLoading(false); // Set loading to false on error
         setVisitSchedule([]);
       });
-  }, [visitSchedule]); // Include visitSchedule in the dependency array
+  }, []);  // Include visitSchedule in the dependency array
   
    // Empty dependency array to ensure the effect runs only once on component mount
-
-   const updateButton = (color, text) => {
-    setButtonColor(color);
-    setButtonText(text);
-  };
   
   const openCity = (cityName) => {
     setActiveTab(cityName);
@@ -57,20 +48,9 @@ const VisitSchedule = () => {
 
   console.log('Visit schedule:', visitSchedule.length);
 
-  setTimeout(() => {
-    setLoading((loading) => !loading);
-  }, 2000);
-
   if (loading) {
-    return <h3>
-      <>
-      <LoadingScreen />
-      </>
-    </h3>;
-}
-
-// If page is not in loading state, display page.
-else {
+    return <LoadingScreen />;
+  }
 
   return (
     <div>
@@ -152,6 +132,6 @@ else {
     </div>
   );
 };
-};
+
 
 export default VisitSchedule;
