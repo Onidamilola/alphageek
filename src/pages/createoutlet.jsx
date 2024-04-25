@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 import { GET_OUTLET } from '../utils/constant';
 import { GET_OUTLETCHANNEL } from '../utils/constant'
 import { CREATE_WEB_OUTLET, PROFILE } from '../utils/constant';
-import LoadingScreen from '../components/LoadingScreen';
+
 
 
 
@@ -27,7 +27,6 @@ const CreateOutlet = () => {
   const [countryId, setCountryId] = useState('');
   const [stateId, setStateId] = useState('');
   const [loadingText, setLoadingText] = useState(false);
-  const [loading, setLoading] = useState(true);
   const Navigate = useNavigate();
 
  
@@ -159,20 +158,7 @@ const CreateOutlet = () => {
     handleFileInput.current.click();
   };
 
-  setTimeout(() => {
-    setLoading((loading) => !loading);
-  }, 2000);
-
-  if (loading) {
-    return <h3>
-      <>
-      <LoadingScreen />
-      </>
-    </h3>;
-}
-
-// If page is not in loading state, display page.
-else {
+ 
 
   
   return (
@@ -315,6 +301,6 @@ else {
     </div>
   )
 }
-};
+
 
 export default CreateOutlet;

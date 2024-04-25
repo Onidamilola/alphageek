@@ -4,12 +4,12 @@ import Sidebar from '../components/Sidebar';
 import Button from '../components/button';
 import OutletListModal from '../components/modal/outletlistmodel';
 import { USER_OUTLETS } from '../utils/constant';
-import LoadingScreen from '../components/LoadingScreen';
+
 
 const OutletList = () => {
   const [outlets, setOutlets] = useState([]);
   const [showOutletModal, setShowOutletModal] = useState(false);
-  const [loading, setLoading] = useState(true);
+ 
 
   // useEffect(() => {
   //   const fetchOutlets = async () => {
@@ -45,21 +45,6 @@ const OutletList = () => {
   };
   
 
-
-  setTimeout(() => {
-    setLoading((loading) => !loading);
-  }, 2000);
-
-  if (loading) {
-    return <h3>
-      <>
-      <LoadingScreen />
-      </>
-    </h3>;
-}
-
-// If page is not in loading state, display page.
-else {
  
 
   return (
@@ -81,6 +66,6 @@ else {
     </div>
   );
 };
-};
+
 
 export default OutletList;
