@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axiosInstance from '../utils/AxiosInstance';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -6,61 +6,46 @@ import { useNavigate } from 'react-router';
 import { VERIFY_CODE } from '../utils/constant';
 import LoadingScreen from '../components/LoadingScreen';
 
-
 const Verify = () => {
   const [code, setCode] = useState('');
-  const Navigate = useNavigate();
-  const [hasRefreshed, setHasRefreshed] = useState(false); // Flag for one-time refresh
-  const [loading, setLoading] = useState(true);
-
-  
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleCodeChange = (e) => {
     setCode(e.target.value);
   };
-const verified = new FormData();
-verified.append("code", code)
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axiosInstance.post( VERIFY_CODE, verified )
-      .then(response => {
-        // Handle successful registration
+    setLoading(true); // Start loading
 
-        console.log(response.data);
+    const verified = new FormData();
+    verified.append("code", code);
+
+    axiosInstance.post(VERIFY_CODE, verified)
+      .then(response => {
         if (response.status === 200) {
           toast.success('Login successful!');
-          Navigate('/homepage');
+          navigate('/homepage');
         }
       })
       .catch(error => {
-        // Handle registration error
         console.log('Error:', error);
         if (error.response && error.response.data && error.response.data.message) {
           toast.error(error.response.data.message);
         } else {
-          toast.error("Failed to register. Please try again.");
+          toast.error("Failed to verify code. Please try again.");
         }
+      })
+      .finally(() => {
+        setLoading(false); // Stop loading
       });
   };
-
-  setTimeout(() => {
-    setLoading((loading) => !loading);
-  }, 2000);
-
-  if (loading) {
-    return <h3>
-      <>
-      <LoadingScreen />
-      </>
-    </h3>;
-}
 
   return (
     <div className="bg-cover bg-center bg-no-repeat min-h-screen relative flex flex-col items-center justify-center px-4">
       <h2 className="font-bold text-3xl mb-5">Verify Client</h2>
-      <form onSubmit={handleSubmit} className="w-full max-w-sm">
-        
+      <form onSubmit={handleSubmit} className="w-full max-w-sm"> 
         <div className="relative mb-5">
           <input
             type="text"
@@ -73,8 +58,8 @@ verified.append("code", code)
         </div>
         <button type="submit" className="w-full py-2 px-4 bg-[#7563d0] text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Verify</button>
       </form>
+      {loading && <LoadingScreen />}
       <ToastContainer position="top-right" autoClose={2000} hideProgressBar newestOnTop closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
-
     </div>
   );
 };
