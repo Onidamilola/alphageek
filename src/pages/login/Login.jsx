@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axiosInstance from '../../utils/AxiosInstance';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -19,7 +19,28 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [loginError, setLoginError] = useState("");
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const requestLocation = () => {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            console.log("Latitude:", position.coords.latitude);
+            console.log("Longitude:", position.coords.longitude);
+            // Do something with the user's location if needed
+          },
+          (error) => {
+            console.error("Error getting user location:", error);
+          }
+        );
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+    };
+
+    requestLocation();
+  }, []);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
