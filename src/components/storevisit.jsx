@@ -31,10 +31,12 @@ const StoreVisit = () => {
         console.log(employee)
         setCountryId(employee.country.id);
         setStateId(employee.state.id);
-        setAddress(employee.address)
+        setAddress(employee.address);
+        setLoading(false);
         console.log(employee.country.id, employee.state.id, address);
       } catch (error) {
         console.error('Error fetching country and state IDs:', error);
+        setLoading(false);
       }
     };
 
@@ -131,20 +133,10 @@ const StoreVisit = () => {
     }
   };
   
-  setTimeout(() => {
-    setLoading((loading) => !loading);
-  }, 2000);
-
   if (loading) {
-    return <h3>
-      <>
-      <LoadingScreen />
-      </>
-    </h3>;
-}
-
-// If page is not in loading state, display page.
-else {
+    return <LoadingScreen />;
+  }
+  
   
   return (
     <div>
@@ -232,6 +224,5 @@ else {
     </div>
   );
 }
-};
 
 export default StoreVisit;
