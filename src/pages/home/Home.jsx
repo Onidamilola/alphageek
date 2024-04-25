@@ -15,17 +15,19 @@ import { Link } from 'react-router-dom';
 import Profile from '../../components/modal/Profile';
 import LoadingScreen from '../../components/LoadingScreen';
 
+
 const Home = () => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [formData, setFormData] = useState(null);
   const [firstName, setFirstName] = useState('');
   const [userImage, setUserImage] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+ 
 
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-
+        setLoading(true);
         const response = await axiosInstance.get(PROFILE);
         const data = response.data.data;
         const reg_info = data.reg_info;
@@ -34,9 +36,11 @@ const Home = () => {
         console.log(employee)
         setFirstName(employee.firstname);
         setUserImage(employee.image);
+        setLoading(false);
         console.log('user image and name: ', formData.personal.firstname, userImage)
       } catch (error) {
         console.error('Error fetching profile data:', error);
+        setLoading(false);
       }
     };
 
@@ -49,6 +53,11 @@ const Home = () => {
 setPopupVisible(true)
 console.log("helo");
    
+};
+
+const handleLinkClick = () => {
+  setLoading(true); // Start loading
+  // Add any additional logic if needed before navigation
 };
 
 
@@ -107,23 +116,12 @@ console.log("helo");
     },
   ];
 
-  setTimeout(() => {
-    setLoading((loading) => !loading);
-  }, 2000);
+ 
 
-  if (loading) {
-    return <h3>
-      <>
-      <LoadingScreen />
-      </>
-    </h3>;
-}
-
-// If page is not in loading state, display page.
-else {
   
   return (
     <div className="flex justify-center items-center h-screen">
+      {loading && <LoadingScreen />}
       <div className="text-xl bg-gray-100 font-roboto m-auto w-full px-6">
         <div className='flex justify-between items-center my-6'>
           <img src={logo} alt="logo" className='w-20'/>
@@ -135,14 +133,18 @@ else {
           </div>
           
             <img src={userImage ? userImage : "faUserCircle"} alt="User Profile" className="rounded-full w-16 h-16" onClick={handleModal}/>
-         
-          {/* <FontAwesomeIcon icon={faUserCircle} className='text-8xl text-gray-400'  /> */}
+
        
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-lg">
-          {components.map((component, index)=>(
-            <Link key={index} to={component.link} className="rounded-lg border border-gray-400 p-4 underline ">
-              <img src={component.image} alt={component.name} className=" mx-auto"/>
+          {components.map((component, index) => (
+            <Link
+              key={index}
+              to={component.link}
+              className="rounded-lg border border-gray-400 p-4 underline"
+              onClick={handleLinkClick} // Handle link click
+            >
+              <img src={component.image} alt={component.name} className="mx-auto" />
               <p className="text-center font-bold">{component.name}</p>
             </Link>
           ))}
@@ -152,5 +154,5 @@ else {
     </div>
   );
 };
-};
+
 export default Home;
