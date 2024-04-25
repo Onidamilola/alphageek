@@ -7,6 +7,7 @@ import Calendar from '../components/calendar'
 import ScheduleModal from '../components/modal/schedulemodal'
 import axiosInstance from "../utils/AxiosInstance";
 import { GET_SCHEDULES, DOWN_SYNC } from "../utils/constant";
+import LoadingScreen from './LoadingScreen';
 
 
 const Dashboard = () => {
@@ -23,6 +24,7 @@ const Dashboard = () => {
   const [actual, setActual] = useState('');
   const [pending, setPending] =useState('');
   const [planned, setPlanned] = useState('');
+  const [loading, setLoading] = useState(true);
   
 
   useEffect(() => {
@@ -33,11 +35,13 @@ const Dashboard = () => {
         // Check if the new data is different from the current visitSchedule state
         if (JSON.stringify(newData) !== JSON.stringify(visitSchedule)) {
           setVisitSchedule(newData);
+          setLoading(false);
         }
         console.log('Received schedules:', newData);
       })
       .catch(error => {
         console.error('Error fetching schedules:', error);
+        setLoading(false);
         setVisitSchedule([]);
       });
 
@@ -64,7 +68,10 @@ const Dashboard = () => {
     setShowCalendar(!showCalendar); // Toggle calendar pop-up visibility
   };
 
-
+  if (loading) {
+    return <LoadingScreen />;
+  }
+  
   return (
     <div>
       <div style={{ flex: '1', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', padding: '20px' }}>
