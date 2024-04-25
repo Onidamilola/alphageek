@@ -6,6 +6,7 @@ import Calendar from '../components/calendar';
 import ScheduleModal from '../components/modal/schedulemodal';
 import axiosInstance from "../utils/AxiosInstance";
 import { GET_SCHEDULES } from "../utils/constant";
+import LoadingScreen from '../components/LoadingScreen';
 
 const VisitSchedule = () => {
   const [activeTab, setActiveTab] = useState('Today');
@@ -14,6 +15,7 @@ const VisitSchedule = () => {
   const [visitSchedule, setVisitSchedule] = useState([]);
   const [buttonColor, setButtonColor] = useState('blue');
   const [buttonText, setButtonText] = useState('Click me');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch all schedules created by the user
@@ -54,6 +56,21 @@ const VisitSchedule = () => {
   };
 
   console.log('Visit schedule:', visitSchedule.length);
+
+  setTimeout(() => {
+    setLoading((loading) => !loading);
+  }, 2000);
+
+  if (loading) {
+    return <h3>
+      <>
+      <LoadingScreen />
+      </>
+    </h3>;
+}
+
+// If page is not in loading state, display page.
+else {
 
   return (
     <div>
@@ -134,6 +151,7 @@ const VisitSchedule = () => {
       </div>
     </div>
   );
+};
 };
 
 export default VisitSchedule;

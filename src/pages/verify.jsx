@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axiosInstance from '../utils/AxiosInstance';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from 'react-router';
 import { VERIFY_CODE } from '../utils/constant';
+import LoadingScreen from '../components/LoadingScreen';
 
 
 const Verify = () => {
   const [code, setCode] = useState('');
   const Navigate = useNavigate();
+  const [hasRefreshed, setHasRefreshed] = useState(false); // Flag for one-time refresh
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    if (!hasRefreshed) {
+      // Trigger refresh logic here (e.g., fetch data, perform actions)
+      console.log('Page refreshed once'); // Simulate your refresh logic (replace with actual code)
+      setHasRefreshed(true);
+    }
+  }, [hasRefreshed]); 
 
   const handleCodeChange = (e) => {
     setCode(e.target.value);
@@ -39,6 +49,18 @@ verified.append("code", code)
         }
       });
   };
+
+  setTimeout(() => {
+    setLoading((loading) => !loading);
+  }, 2000);
+
+  if (loading) {
+    return <h3>
+      <>
+      <LoadingScreen />
+      </>
+    </h3>;
+}
 
   return (
     <div className="bg-cover bg-center bg-no-repeat min-h-screen relative flex flex-col items-center justify-center px-4">

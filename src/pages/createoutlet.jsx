@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import { GET_OUTLET } from '../utils/constant';
 import { GET_OUTLETCHANNEL } from '../utils/constant'
 import { CREATE_WEB_OUTLET, PROFILE } from '../utils/constant';
+import LoadingScreen from '../components/LoadingScreen';
 
 
 
@@ -25,7 +26,8 @@ const CreateOutlet = () => {
   const [newoutletchannel, setNewOutletChannel] = useState('');
   const [countryId, setCountryId] = useState('');
   const [stateId, setStateId] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState(false);
+  const [loading, setLoading] = useState(true);
   const Navigate = useNavigate();
 
  
@@ -101,7 +103,7 @@ const CreateOutlet = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      setLoading(true);
+      setLoadingText(true);
       // Retrieve user's geolocation
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(async (position) => {
@@ -147,7 +149,7 @@ const CreateOutlet = () => {
     } catch (error) {
       console.error('Error:', error);
     } finally {
-      setLoading(false);
+      setLoadingText(false);
     }
   };
   
@@ -156,6 +158,21 @@ const CreateOutlet = () => {
   const handleClick = () => {
     handleFileInput.current.click();
   };
+
+  setTimeout(() => {
+    setLoading((loading) => !loading);
+  }, 2000);
+
+  if (loading) {
+    return <h3>
+      <>
+      <LoadingScreen />
+      </>
+    </h3>;
+}
+
+// If page is not in loading state, display page.
+else {
 
   
   return (
@@ -245,9 +262,9 @@ const CreateOutlet = () => {
           borderRadius: '5px', 
           cursor: 'pointer' 
         }}
-        disabled={loading}
+        disabled={loadingText}
           >
-            {loading ? 'Loading...' : 'SAVE'}
+            {loadingText ? 'Loading...' : 'SAVE'}
             </button>
 
        </form>
@@ -298,5 +315,6 @@ const CreateOutlet = () => {
     </div>
   )
 }
+};
 
 export default CreateOutlet;

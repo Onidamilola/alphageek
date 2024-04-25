@@ -7,6 +7,7 @@ import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import CompleteVisitButton from './Completevisitbutton';
+import LoadingScreen from './LoadingScreen';
 
 const StoreVisit = () => {
   const [imageObject, setImageObject] = useState(null);
@@ -15,8 +16,9 @@ const StoreVisit = () => {
   const [stateId, setStateId] = useState('');
   const [address, setAddress] = useState('');
   const [note, setNote] = useState('');
-  const [loading, setLoading] = useState(false); // State for loading indicator
+  const [loadingText, setLoadingText] = useState(false); // State for loading indicator
   const navigate = useNavigate(); // Hook for navigation
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -84,7 +86,7 @@ const StoreVisit = () => {
 
     if (!selectedSchedule) {
       console.error('Schedule not found for schedule_id:', scheduleId);
-      setLoading(false); // Set loading state back to false
+      setLoadingText(false); // Set loading state back to false
       return;
     }
 
@@ -125,11 +127,24 @@ const StoreVisit = () => {
       console.error('Error:', error);
       // Handle error response
     } finally {
-      setLoading(false); // Set loading state back to false after request completes
+      setLoadingText(false); // Set loading state back to false after request completes
     }
   };
   
+  setTimeout(() => {
+    setLoading((loading) => !loading);
+  }, 2000);
 
+  if (loading) {
+    return <h3>
+      <>
+      <LoadingScreen />
+      </>
+    </h3>;
+}
+
+// If page is not in loading state, display page.
+else {
   
   return (
     <div>
@@ -217,5 +232,6 @@ const StoreVisit = () => {
     </div>
   );
 }
+};
 
 export default StoreVisit;

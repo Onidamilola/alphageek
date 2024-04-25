@@ -13,12 +13,14 @@ import frame6 from '../../assets/images/Frame6.png';
 import frame2 from '../../assets/images/Frame2.png';
 import { Link } from 'react-router-dom';
 import Profile from '../../components/modal/Profile';
+import LoadingScreen from '../../components/LoadingScreen';
 
 const Home = () => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [formData, setFormData] = useState(null);
   const [firstName, setFirstName] = useState('');
   const [userImage, setUserImage] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -48,6 +50,8 @@ setPopupVisible(true)
 console.log("helo");
    
 };
+
+
 
 
   const components = [
@@ -102,6 +106,21 @@ console.log("helo");
       image: frame2,
     },
   ];
+
+  setTimeout(() => {
+    setLoading((loading) => !loading);
+  }, 2000);
+
+  if (loading) {
+    return <h3>
+      <>
+      <LoadingScreen />
+      </>
+    </h3>;
+}
+
+// If page is not in loading state, display page.
+else {
   
   return (
     <div className="flex justify-center items-center h-screen">
@@ -133,5 +152,5 @@ console.log("helo");
     </div>
   );
 };
-
+};
 export default Home;

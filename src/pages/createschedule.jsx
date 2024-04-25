@@ -146,13 +146,12 @@ import { useNavigate } from 'react-router-dom'
             style={{
               width: '100%',
               padding: '10px 20px',
-              backgroundColor: '#502ef1',
+              backgroundColor: loading ? '#7563d0' : '#502ef1',
               color: '#fff',
               border: 'none',
               borderRadius: '5px',
               cursor: 'pointer',
             }}
-            disabled={loading} // Disable button when loading
           >
             {loading ? 'Loading...' : 'SAVE'}
           </button>

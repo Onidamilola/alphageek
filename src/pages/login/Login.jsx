@@ -9,6 +9,7 @@ import Open from '../../assets/images/open.png';
 import { LOGIN } from '../../utils/constant';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import LoadingScreen from '../../components/LoadingScreen';
 
 
 
@@ -81,6 +82,18 @@ const Login = () => {
         } 
       });
   };
+
+  setTimeout(() => {
+    setLoading((loading) => !loading);
+  }, 2000);
+
+  if (loading) {
+    return <h3>
+      <>
+      <LoadingScreen />
+      </>
+    </h3>;
+}
 
   return (
     <div style={{
@@ -164,7 +177,20 @@ const Login = () => {
           )}
         </div>
         {/* <ButtonLogin /> */}
-        <button type="submit" style={{ width: '100%', padding: '10px 20px', justifyContent: 'center', alignItems: 'center',         backgroundColor: loading ? '#7563d0' : '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
+        <button 
+        type="submit" 
+        style={{ 
+          width: '100%', 
+          padding: '10px 20px', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+        backgroundColor: loading ? '#7563d0' : '#007bff', 
+        color: '#fff', 
+        border: 'none', 
+        borderRadius: '5px', 
+        cursor: 'pointer' 
+        }}
+        >
           
         {loading ? "loading..." : "Login"}
 

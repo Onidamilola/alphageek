@@ -1,5 +1,4 @@
 import React,  {useState, useEffect} from 'react';
-import Sidebar1 from '../components/sidebar1'
 import Outlet from '../assets/images/outlet.png'
 import Product from '../assets/images/product.png'
 import User from '../assets/images/user.png'
@@ -8,6 +7,7 @@ import Calendar from '../components/calendar'
 import ScheduleModal from '../components/modal/schedulemodal'
 import axiosInstance from "../utils/AxiosInstance";
 import { GET_SCHEDULES, DOWN_SYNC } from "../utils/constant";
+
 
 const Dashboard = () => {
     const [isMenuClicked, setIsMenuClicked] = useState(false);
@@ -18,6 +18,12 @@ const Dashboard = () => {
   const [outlets, setOutles] = useState('');
   const [visited, setVisited] = useState('');
   const [loginCount, setLoginCount] = useState('');
+  const [posm, setPosm] = useState('');
+  const [products, setProducts] = useState('');
+  const [actual, setActual] = useState('');
+  const [pending, setPending] =useState('');
+  const [planned, setPlanned] = useState('');
+  
 
   useEffect(() => {
     // Fetch all schedules created by the user
@@ -42,7 +48,12 @@ const Dashboard = () => {
         const Dashboard = data.dashboard;
         setOutles(Dashboard.outlets);
         setLoginCount(Dashboard.login_count);
-        setVisited(Dashboard.visited)
+        setVisited(Dashboard.visited);
+        setPosm(Dashboard.posms_product.posm_product);
+        setProducts(Dashboard.products);
+        setActual(Dashboard.actual);
+        setPending(Dashboard.pending);
+        setPlanned(Dashboard.planned_visit)
       })
       .catch(error => {
         console.error('Error fetching data from DOWN_SYNC:', error);
@@ -53,6 +64,7 @@ const Dashboard = () => {
     setShowCalendar(!showCalendar); // Toggle calendar pop-up visibility
   };
 
+
   return (
     <div>
       <div style={{ flex: '1', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', padding: '20px' }}>
@@ -61,13 +73,9 @@ const Dashboard = () => {
           <img src={Outlet} alt="outlet" style={{ marginRight: '10px', width: '50px', height: '50px' }} />
           <div>
             <h5 style={{ margin: '0', marginBottom: '5px' }}>Outlet Visit</h5>
-            {downSyncData && ( // Check if downSyncData is available
-              <>
-                <p style={{ margin: '0' }}>Planned: {}</p>
-                <p style={{ margin: '0' }}>Actual: {}</p>
-                <p style={{ margin: '0' }}>Pending: {downSyncData.pending}</p>
-              </>
-            )}
+                <p style={{ margin: '0' }}>Planned: {planned}</p>
+                <p style={{ margin: '0' }}>Actual: {actual}</p>
+                <p style={{ margin: '0' }}>Pending: {pending}</p>
           </div>
         </div>
         {/* Item 2 */}
@@ -75,9 +83,9 @@ const Dashboard = () => {
           <img src={Product} alt="product" style={{ marginRight: '10px', width: '50px', height: '50px' }} />
           <div>
             <h5 style={{ margin: '0', marginBottom: '5px' }}>Product</h5>
-            <p style={{ margin: '0' }}>Total: 62</p>
+            <p style={{ margin: '0' }}>Total: {products}</p>
             <h5 style={{ margin: '0', marginBottom: '5px' }}>POSM Product</h5>
-            <p style={{ margin: '0' }}>Total: 0</p>
+            <p style={{ margin: '0' }}>Total: {posm}</p>
           </div>
         </div>
         {/* Item 3 */}
@@ -102,7 +110,7 @@ const Dashboard = () => {
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '20px' }}>
         <h5 style={{ margin: '0' }}>Your Schedule</h5>
-          <p style={{ margin: '0' }}>You have {visited} store visit Today</p>
+          <p style={{ margin: '0' }}>You have {actual} store visit Today</p>
         </div>
         <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingRight: '20px' }}>
           <img src={Calender} alt="calender" style={{ width: '30px', height: '30px', margin: '0' }} onClick={handleCalendarClick} />
@@ -131,5 +139,6 @@ const Dashboard = () => {
     </div>
   );
 };
+
 
 export default Dashboard;
