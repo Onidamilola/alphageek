@@ -9,7 +9,7 @@ import Open from '../../assets/images/open.png';
 import { LOGIN } from '../../utils/constant';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import LoadingScreen from '../../components/LoadingScreen';
+
 
 
 
@@ -83,17 +83,7 @@ const Login = () => {
       });
   };
 
-  setTimeout(() => {
-    setLoading((loading) => !loading);
-  }, 2000);
-
-  if (loading) {
-    return <h3>
-      <>
-      <LoadingScreen />
-      </>
-    </h3>;
-}
+ 
 
   return (
     <div style={{
