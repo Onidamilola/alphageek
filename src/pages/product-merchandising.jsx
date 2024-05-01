@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import Sidebar1 from '../components/sidebar1'
 import Dashboard from '../components/dashboard';
 
@@ -15,7 +15,7 @@ const ProductMerchandising = () => {
       </div>
 
      <div>
-      <Dashboard />
+      <Dashboard LINK={'/productmech'} />
      </div>
 
     </div>

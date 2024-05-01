@@ -1,19 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import Coming from "./pages/coming-soon";
-// import Get-Pos from "./pages/get-pos";
-// import ExchangeRate from "./pages/exchangeRate";
-// import Messages from "./pages/messages";
-// import Roles from "./pages/roles";
-// import Settings from "./pages/settings";
-// import Transactions from "./pages/transactions";
-// import Users from "./pages/users";
-// import CreateUsers from "./components/createUserModal";
-// import RoleDetails from "./pages/roleDetails";
-// import UserDetails from "./pages/usersDetails";
-// import NotFound from "./component/notFound"; // Import the NotFound component
 
-// Lazy load pages/components
 const Home = lazy(() => import(".././src/pages/home/Home.jsx"));
 const Login = lazy(() => import("./pages/login/Login.jsx"));
 const Unique = lazy(() => import("./pages/unique.jsx"));
@@ -45,6 +32,7 @@ const CreateOutlet = lazy(() => import("./pages/createoutlet.jsx"));
 const UpdateOutlet = lazy(() => import("./pages/updateoutlet.jsx"));
 const CreateSchedule = lazy(() => import("./pages/createschedule.jsx"));
 const StoreVisit = lazy(() => import("../src/components/storevisit.jsx"));
+const ProductMech = lazy(() => import("../src/components/productmerc.jsx"));
 
 
 function App() {
@@ -91,6 +79,7 @@ function App() {
         <Route path="/updateoutlet" element={<UpdateOutlet/>} />
         <Route path="/createschedule" element={<CreateSchedule/>} />
         <Route path="/storevisit" element={<StoreVisit/>} />
+        <Route path="/productmech" element={<ProductMech/>} />
           {/* <Route path="/contact" element={<Contact />}  />
           
 

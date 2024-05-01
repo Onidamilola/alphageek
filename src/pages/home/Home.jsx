@@ -19,7 +19,7 @@ import LoadingScreen from '../../components/LoadingScreen';
 const Home = () => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [formData, setFormData] = useState(null);
-  const [firstName, setFirstName] = useState('');
+  const [fullName, setFullName] = useState('');
   const [userImage, setUserImage] = useState(null);
   const [loading, setLoading] = useState(false);
  
@@ -34,10 +34,10 @@ const Home = () => {
         const employee = reg_info.employee;
         // const { firstname, imageUrl } = response.data.data;
         console.log(employee)
-        setFirstName(employee.firstname);
+        setFullName(reg_info.name)
         setUserImage(employee.image);
         setLoading(false);
-        console.log('user image and name: ', formData.personal.firstname, userImage)
+        console.log('user image and name: ', formData.personal.fullname, userImage)
       } catch (error) {
         console.error('Error fetching profile data:', error);
         setLoading(false);
@@ -128,7 +128,7 @@ const handleLinkClick = () => {
         </div>
         <div className='flex justify-between items-center my-8'>
           <div>
-            <p>Hello, {firstName || 'loading....'}</p>
+            <p>Hello, {fullName || 'loading....'}</p>
             <p>Win at work today!</p>
           </div>
           

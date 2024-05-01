@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import CompleteVisitButton from './Completevisitbutton';
 import LoadingScreen from './LoadingScreen';
 
-const StoreVisit = () => {
+const StoreVisit = ({link}) => {
   const [imageObject, setImageObject] = useState(null);
   const handleFileInput = useRef(null);
   const [countryId, setCountryId] = useState('');

@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SchedulePopup from "./schedulepopup";
 // import Map from "../map";
 
-const ScheduleModal = ({ visitSchedules }) => {
+const ScheduleModal = ({ visitSchedules, link }) => {
   const [visited, setVisited] = useState(false); // State to track if store visit is completed for each schedule
   const [outletInfo, setOutletInfo] = useState(' ');
+  const [showPopup, setShowPopup] = useState(false);
   const Navigate = useNavigate();
 
   useEffect(() => {
@@ -38,8 +40,12 @@ const ScheduleModal = ({ visitSchedules }) => {
       const scheduleId = schedule.schedule_id;
       sessionStorage.setItem('schedule_id', JSON.stringify(scheduleId));
 
-      // Navigate to storevisit with schedule_id
-      Navigate("/storevisit", { state: { schedule_id: scheduleId } });
+      // If visit status is greater than 0, show the popup, else navigate to storevisit
+      if (schedule.visit_status > 0) {
+        setShowPopup(true);
+      } else {
+        Navigate(link, { state: { schedule_id: scheduleId } });
+      }
     } catch (error) {
       console.error("Error:", error);
       toast.error("An error occurred. Please try again.");
@@ -84,16 +90,24 @@ const ScheduleModal = ({ visitSchedules }) => {
                 color: '#fff',
                 border: 'none',
                 borderRadius: '5px',
-                cursor: visitSchedule.visit_status > 0 ? 'not-allowed' : 'pointer',
+                cursor: 'pointer',
               }}
               onClick={() => handleClick(visitSchedule)} // Pass the entire schedule object
-              disabled={visitSchedule.visit_status > 0}
+             
             >
               {visitSchedule.visit_status > 0 ? 'Visited' : 'Visit Schedule'}
             </button>
           </div>
         </div>
       ))}
+       <div className="flex items-center justify-center bg-black bg-opacity-50 z-557 absolute top-1/2 left text-center">
+      {showPopup && <SchedulePopup
+      visitSchedules={visitSchedules}
+      scheduleId={(sessionStorage.getItem('schedule_id'))}
+      closeModal={() => setShowPopup(false)}
+      isVisible={showPopup}
+      />}
+      </div>
     </div>
   );
 };

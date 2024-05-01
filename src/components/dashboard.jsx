@@ -4,18 +4,15 @@ import Product from '../assets/images/product.png'
 import User from '../assets/images/user.png'
 import Calender from '../assets/images/calender.png'
 import Calendar from '../components/calendar'
-import ScheduleModal from '../components/modal/schedulemodal'
+import ScheduleModal from './modal/schedulemodal';
 import axiosInstance from "../utils/AxiosInstance";
 import { GET_SCHEDULES, DOWN_SYNC } from "../utils/constant";
 import LoadingScreen from './LoadingScreen';
 
 
-const Dashboard = () => {
-    const [isMenuClicked, setIsMenuClicked] = useState(false);
+const Dashboard = ({LINK}) => {
   const [showCalendar, setShowCalendar] = useState(false);
-  const [isScheduleCreated, setIsScheduleCreated] = useState(false);
   const [visitSchedule, setVisitSchedule] = useState([]);
-  const [downSyncData, setDownSyncData] = useState(null); // State to store data from DOWN_SYNC API
   const [outlets, setOutles] = useState('');
   const [visited, setVisited] = useState('');
   const [loginCount, setLoginCount] = useState('');
@@ -28,26 +25,36 @@ const Dashboard = () => {
   
 
   useEffect(() => {
-    // Fetch all schedules created by the user
-    axiosInstance.get(GET_SCHEDULES)
-      .then(response => {
+    let schedulesFetched = false;
+    let dataFetched = false;
+  
+    const checkLoading = () => {
+      if (schedulesFetched && dataFetched) {
+        setLoading(false);
+      }
+    };
+  
+    const fetchSchedules = async () => {
+      try {
+        const response = await axiosInstance.get(GET_SCHEDULES);
         const newData = response.data.data;
-        // Check if the new data is different from the current visitSchedule state
         if (JSON.stringify(newData) !== JSON.stringify(visitSchedule)) {
           setVisitSchedule(newData);
-          setLoading(false);
         }
+        schedulesFetched = true;
+        checkLoading();
         console.log('Received schedules:', newData);
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('Error fetching schedules:', error);
-        setLoading(false);
+        schedulesFetched = true;
+        checkLoading();
         setVisitSchedule([]);
-      });
-
-    // Fetch data for DOWN_SYNC API
-    axiosInstance.get(DOWN_SYNC)
-      .then(response => {
+      }
+    };
+  
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get(DOWN_SYNC);
         const data = response.data.data;
         const Dashboard = data.dashboard;
         setOutles(Dashboard.outlets);
@@ -57,29 +64,36 @@ const Dashboard = () => {
         setProducts(Dashboard.products);
         setActual(Dashboard.actual);
         setPending(Dashboard.pending);
-        setPlanned(Dashboard.planned_visit)
-      })
-      .catch(error => {
+        setPlanned(Dashboard.planned_visit);
+        dataFetched = true;
+        checkLoading();
+      } catch (error) {
         console.error('Error fetching data from DOWN_SYNC:', error);
-      });
+        dataFetched = true;
+        checkLoading();
+      }
+    };
+  
+    fetchSchedules();
+    fetchData();
   }, []);
+  
 
   const handleCalendarClick = () => {
     setShowCalendar(!showCalendar); // Toggle calendar pop-up visibility
   };
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
+  
   
   return (
     <div>
+       {loading && <LoadingScreen />}
       <div style={{ flex: '1', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', padding: '20px' }}>
         {/* Item 1 */}
         <div style={{ backgroundColor: '#f0f0f0', padding: '10px', textAlign: 'center', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <img src={Outlet} alt="outlet" style={{ marginRight: '10px', width: '50px', height: '50px' }} />
           <div>
-            <h5 style={{ margin: '0', marginBottom: '5px' }}>Outlet Visit</h5>
+            <h5 style={{ margin: '0', marginBottom: '5px', fontWeight: 'bold' }}>Outlet Visit</h5>
                 <p style={{ margin: '0' }}>Planned: {planned}</p>
                 <p style={{ margin: '0' }}>Actual: {actual}</p>
                 <p style={{ margin: '0' }}>Pending: {pending}</p>
@@ -89,7 +103,7 @@ const Dashboard = () => {
         <div style={{ backgroundColor: '#f0f0f0', padding: '10px', textAlign: 'center', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <img src={Product} alt="product" style={{ marginRight: '10px', width: '50px', height: '50px' }} />
           <div>
-            <h5 style={{ margin: '0', marginBottom: '5px' }}>Product</h5>
+            <h5 style={{ margin: '0', marginBottom: '5px', fontWeight: 'bold' }}>Product</h5>
             <p style={{ margin: '0' }}>Total: {products}</p>
             <h5 style={{ margin: '0', marginBottom: '5px' }}>POSM Product</h5>
             <p style={{ margin: '0' }}>Total: {posm}</p>
@@ -99,7 +113,7 @@ const Dashboard = () => {
         <div style={{ backgroundColor: '#f0f0f0', padding: '10px', textAlign: 'center', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <img src={Outlet} alt="outlet" style={{ marginRight: '10px', width: '50px', height: '50px' }} />
           <div>
-            <h5 style={{ margin: '0', marginBottom: '5px' }}>Outlet</h5>
+            <h5 style={{ margin: '0', marginBottom: '5px', fontWeight: 'bold' }}>Outlet</h5>
             <p style={{ margin: '0' }}>Total: {outlets}</p>
           </div>
         </div>
@@ -107,7 +121,7 @@ const Dashboard = () => {
         <div style={{ backgroundColor: '#f0f0f0', padding: '10px', textAlign: 'center', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <img src={User} alt="user" style={{ marginRight: '10px', width: '50px', height: '50px' }} />
           <div>
-            <h5 style={{ margin: '0', marginBottom: '5px' }}>Login</h5>
+            <h5 style={{ margin: '0', marginBottom: '5px', fontWeight: 'bold' }}>Login</h5>
             <p style={{ margin: '0' }}>Total: {loginCount}</p>
           </div>
         </div>
@@ -126,7 +140,7 @@ const Dashboard = () => {
       <div style={{ padding: '20px' }}>
     {visitSchedule.length > 0 ? (
      
-        <ScheduleModal visitSchedules={visitSchedule} />
+        <ScheduleModal visitSchedules={visitSchedule} link={LINK} />
 
     ) : (
       <h2 style={{ textAlign: 'center', fontWeight: 'normal', fontStyle: 'italic', fontSize: '1rem' }}>

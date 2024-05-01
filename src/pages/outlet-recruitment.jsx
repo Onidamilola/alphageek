@@ -1,11 +1,12 @@
 import React from 'react';
 import Sidebar from '../components/Sidebar';
-
 import Dashboard from '../components/dashboard';
 
-const OutletRecruitment = () => {
-  
 
+const OutletRecruitment = () => {
+ 
+
+ 
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '50vh' }}>
@@ -14,7 +15,7 @@ const OutletRecruitment = () => {
       </div>
 
       <div>
-        <Dashboard />
+        <Dashboard LINK={'/storevisit'} />
       </div>
      
     </div>

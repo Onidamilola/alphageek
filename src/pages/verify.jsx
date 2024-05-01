@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axiosInstance from '../utils/AxiosInstance';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -10,6 +10,10 @@ const Verify = () => {
   const [code, setCode] = useState('');
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [hasReloaded, setHasReloaded] = useState(false);
+  
+
+ 
 
   const handleCodeChange = (e) => {
     setCode(e.target.value);
@@ -17,6 +21,7 @@ const Verify = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!hasReloaded) {
     setLoading(true); // Start loading
 
     const verified = new FormData();
@@ -40,7 +45,19 @@ const Verify = () => {
       .finally(() => {
         setLoading(false); // Stop loading
       });
+      setHasReloaded(true); // Set reloaded after first submit
+    }
   };
+
+  useEffect(() => {
+    const storedReloadState = localStorage.getItem('verifyReloaded');
+    setHasReloaded(storedReloadState === 'true');
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('verifyReloaded', hasReloaded.toString());
+  }, [hasReloaded]);
+
 
   return (
     <div className="bg-cover bg-center bg-no-repeat min-h-screen relative flex flex-col items-center justify-center px-4">
