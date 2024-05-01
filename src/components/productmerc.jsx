@@ -1,20 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar1 from './sidebar1';
+import ProductPopup from './modal/productpopup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const ProductMerc = () => {
-  return (
-    <div>
+    const [showPopup, setShowPopup] = useState(false);
+
+    const togglePopup = () => {
+      setShowPopup(!showPopup);
+    };
+  
+    return (
       <div>
-        <Sidebar1 />
-      </div>
-      <div className="flex justify-center mt-3">
-        <button className="bg-white text-black font-bold py-2 px-4 rounded w-full md:w-auto">
-          <FontAwesomeIcon icon={faPlus} style={{ color: "#63E6BE" }} className="mr-2" />
-          Add Product
-        </button>
-      </div>
+        <div>
+          <Sidebar1 />
+        </div>
+        <div className="flex justify-center mt-3">
+          <button 
+            className="bg-white text-black font-bold py-2 px-4 rounded w-full md:w-auto"
+            onClick={togglePopup}
+          >
+            <FontAwesomeIcon icon={faPlus} style={{ color: "#63E6BE" }} className="mr-2" />
+            Add Product
+          </button>
+        </div>
+       
+        {showPopup && <ProductPopup onClose={togglePopup} />} {/* Render the popup component if showPopup is true */}
+        
      
       <div
         style={{

@@ -72,3 +72,6 @@ export const VISIT_DATA = `/visit_data`
 //down sync data api, a get request
 export const DOWN_SYNC = `/downsyncdata`
 
+//get brands api, a get request
+export const BRANDS = `/brands`
+
