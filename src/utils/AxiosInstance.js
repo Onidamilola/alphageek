@@ -1,24 +1,24 @@
+// utils/AxiosInstance.js
+
 import axios from 'axios';
 
-
-// Retrieve token from session storage
-const token = sessionStorage.getItem('token');
-// console.log('token from axios: ' ,token);
-// Define base URLs for different environments
-const baseURLs = `https://d-aggregate.com/Alphageekbackend/api`;
-
-// Create an Axios instance with the appropriate base URL
 const axiosInstance = axios.create({
-  baseURL: baseURLs,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  baseURL: `https://d-aggregate.com/Alphageekbackend/api`,
+  // other default config options...
 });
 
-// Add Authorization header if a token is present
-if (token) {
-  axiosInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
-}
-
+// Interceptor to include bearer token in headers
+axiosInstance.interceptors.request.use(
+  config => {
+    const token = sessionStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
 
 export default axiosInstance;

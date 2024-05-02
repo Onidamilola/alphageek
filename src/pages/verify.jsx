@@ -23,6 +23,8 @@ const Verify = () => {
     e.preventDefault();
     setLoading(true); // Start loading
 
+   
+    
     const verified = new FormData();
     verified.append("code", code);
 
@@ -73,3 +75,6 @@ const Verify = () => {
 };
 
 export default Verify;
+
+
+
