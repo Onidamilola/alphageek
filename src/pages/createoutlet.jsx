@@ -240,6 +240,7 @@ const CreateOutlet = () => {
           type="submit" 
           style={{
           width: '100%', 
+          maxWidth: '200px',
           padding: '10px 20px', 
           backgroundColor: '#007bff', 
           color: '#fff', 
