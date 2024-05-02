@@ -5,6 +5,9 @@ import axios from 'axios';
 const axiosInstance = axios.create({
   baseURL: `https://d-aggregate.com/Alphageekbackend/api`,
   // other default config options...
+  headers: {
+    'Content-Type': 'application/json'
+  }
 });
 
 // Interceptor to include bearer token in headers

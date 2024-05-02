@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Sidebar1 from './sidebar1';
 import ProductPopup from './modal/productpopup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,10 +7,17 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const ProductMerc = () => {
     const [showPopup, setShowPopup] = useState(false);
+    const navigate = useNavigate();
 
     const togglePopup = () => {
       setShowPopup(!showPopup);
     };
+
+    const handleSaveAndContinue = () => {
+        // Navigate to the product page
+        navigate('/product');
+      };
+    
   
     return (
       <div>
@@ -53,6 +61,7 @@ const ProductMerc = () => {
             borderRadius: '5px',
             cursor: 'pointer',
           }}
+          onClick={handleSaveAndContinue}
         >
           SAVE & CONTINUE
         </button>
