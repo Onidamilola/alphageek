@@ -247,6 +247,7 @@ const CreateOutlet = () => {
           border: 'none', 
           borderRadius: '5px', 
           cursor: 'pointer' 
+          fontSize: '16px',
         }}
         disabled={loadingText}
           >

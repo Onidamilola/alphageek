@@ -151,12 +151,14 @@ import LoadingScreen from '../components/LoadingScreen'
             type="submit"
             style={{
               width: '100%',
+              maxWidth: '200px',
               padding: '10px 20px',
               backgroundColor: loading ? '#7563d0' : '#502ef1',
               color: '#fff',
               border: 'none',
               borderRadius: '5px',
               cursor: 'pointer',
+              fontSize: '16px',
             }}
           >
             {loadingText ? 'Loading...' : 'SAVE'}
