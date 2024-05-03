@@ -75,3 +75,6 @@ export const DOWN_SYNC = `/downsyncdata`
 //get brands api, a get request
 export const BRANDS = `/brands`
 
+//post visit image api, a post request
+export const VISIT_IMAGE = `/merchandise_visit_image`
+

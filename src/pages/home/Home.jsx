@@ -129,11 +129,11 @@ const handleLinkClick = () => {
         <div className='flex justify-between items-center my-8'>
           <div>
             <p>Hello, {fullName || 'loading....'}</p>
-            <p>Win at work today!</p>
+            <p style={{ color: 'blue' }}>Win at work today!</p>
           </div>
           
             <img src={userImage ? userImage : "faUserCircle"} alt="User Profile" className="rounded-full w-16 h-16" onClick={handleModal}/>
-
+            
        
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-lg">

@@ -12,7 +12,6 @@ import { v4 as uuidv4 } from 'uuid'; // Import uuid
 import { REGISTER } from '../utils/constant';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import LoadingScreen from '../components/LoadingScreen';
 
 
 const Register = () => {
@@ -22,7 +21,7 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const Navigate = useNavigate();
   const [registerError, setRegisterError] = useState("");
-  const [loading, setLoading] = useState(true);
+  
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -63,21 +62,7 @@ const Register = () => {
       });
   };
 
-  setTimeout(() => {
-    setLoading((loading) => !loading);
-  }, 2000);
-
-  if (loading) {
-    return <h3>
-      <>
-      <LoadingScreen />
-      </>
-    </h3>;
-}
-
-// If page is not in loading state, display page.
-else {
-
+  
   return (
     <div className="bg-cover bg-center bg-no-repeat min-h-screen relative flex flex-col items-center justify-center px-2" style={{ backgroundImage: `url(${Open})` }}>
       <img src={logoImage} alt="" className="w-48 h-48 rounded-full mb-5" />
@@ -140,6 +125,6 @@ else {
     </div>
   );
 };
-};
+
 
 export default Register;

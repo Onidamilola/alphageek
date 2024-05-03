@@ -33,6 +33,7 @@ const UpdateOutlet = lazy(() => import("./pages/updateoutlet.jsx"));
 const CreateSchedule = lazy(() => import("./pages/createschedule.jsx"));
 const StoreVisit = lazy(() => import("../src/components/storevisit.jsx"));
 const ProductMech = lazy(() => import("../src/components/productmerc.jsx"));
+const Product = lazy(() => import("../src/components/product.jsx"));
 
 
 function App() {
@@ -80,6 +81,7 @@ function App() {
         <Route path="/createschedule" element={<CreateSchedule/>} />
         <Route path="/storevisit" element={<StoreVisit/>} />
         <Route path="/productmech" element={<ProductMech/>} />
+        <Route path="/product" element={<Product/>} />
           {/* <Route path="/contact" element={<Contact />}  />
           
 

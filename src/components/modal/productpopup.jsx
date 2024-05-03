@@ -83,6 +83,7 @@ const ProductPopup = () => {
         input[type=text], select, textarea {
           width: 100%;
           padding: 12px;
+          height: 50px;
           border: none;
           border-bottom: 1px solid #ccc;
           border-radius: 4px;

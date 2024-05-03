@@ -77,7 +77,7 @@ const VisitSchedule = () => {
   <div style={{ padding: '20px' }}>
     {visitSchedule.length > 0 ? (
      
-        <ScheduleModal visitSchedules={visitSchedule} />
+        <ScheduleModal visitSchedules={visitSchedule} link={'/storevisit'} />
 
     ) : (
       <h2 style={{ textAlign: 'center', fontWeight: 'normal', fontStyle: 'italic', fontSize: '1rem' }}>
