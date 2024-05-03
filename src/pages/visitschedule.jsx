@@ -127,7 +127,7 @@ const VisitSchedule = () => {
       </div>
 
       <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)' }}>
-        <Button1 onClick={handleScheduleCreation} />
+        <Button1 onClick={handleScheduleCreation} LINK={"/createschedule"} />
       </div>
     </div>
   );

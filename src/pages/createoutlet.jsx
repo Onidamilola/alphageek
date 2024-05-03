@@ -10,7 +10,9 @@ import LoadingScreen from '../components/LoadingScreen';
 
 
 
+
 const CreateOutlet = () => {
+  
   const [imageObject, setImageObject] = useState(null);
   const [outlet, setOutletType] = useState([])
   const [outletChannel, setOutletChannel] = useState([]);
@@ -246,7 +248,9 @@ const CreateOutlet = () => {
           color: '#fff', 
           border: 'none', 
           borderRadius: '5px', 
-          cursor: 'pointer' 
+          cursor: 'pointer',
+          display: 'block', 
+          margin: 'auto', 
           
         }}
         disabled={loadingText}

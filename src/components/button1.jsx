@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Button = () => {
+const Button = ({LINK}) => {
   return (
     <div style={{ 
       width: '100%', 
@@ -10,7 +10,7 @@ const Button = () => {
       alignItems: 'center',
       padding: '20px',
     }}>
-      <Link to="/createschedule">
+      <Link to= {LINK}>
         <button style={buttonStyle}>CREATE SCHEDULE</button>
       </Link>
     </div>

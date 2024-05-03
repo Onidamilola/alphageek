@@ -85,12 +85,15 @@ const ScheduleModal = ({ visitSchedules, link }) => {
               type="button"
               style={{
                 width: '100%',
+                maxWidth: '200px',
                 padding: '10px 20px',
                 backgroundColor: visitSchedule.visit_status > 0 ? 'green' : 'blue',
                 color: '#fff',
                 border: 'none',
                 borderRadius: '5px',
                 cursor: 'pointer',
+                display: 'block', 
+                margin: 'auto',
               }}
               onClick={() => handleClick(visitSchedule)} // Pass the entire schedule object
              
