@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import logoImage from '../assets/images/alpha.png';
 import User from '../assets/images/user.png';
 import Lock from '../assets/images/lock.png';
 import Open from '../assets/images/open.png';
-import { useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid'; // Import uuid
 import { REGISTER } from '../utils/constant';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,7 +18,7 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const [registerError, setRegisterError] = useState("");
   
 
@@ -46,10 +45,10 @@ const Register = () => {
       .then(response => {
         // Handle successful registration
         console.log(response.data);
-        if (response.status === 201) {
+        
           toast.success('Registration successful!');
-          Navigate('/tabs');
-        }
+          navigate('/tabs');
+        
       })
       .catch(error => {
         // Handle registration error
@@ -97,6 +96,7 @@ const Register = () => {
             placeholder="Password"
             value={password}
             onChange={handlePasswordChange}
+            minLength="6"
             required
             className="w-full py-2 px-10 border border-gray-300 rounded bg-gray-50 focus:outline-none focus:border-blue-500"
           />
