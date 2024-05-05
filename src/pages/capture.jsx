@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import axiosInstance from '../utils/AxiosInstance';
+import axios from 'axios';
 import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
-import { UPDATE_PROFILE } from '../utils/constant';
+import { UPDATE_KYC } from '../utils/constant';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
@@ -18,10 +18,13 @@ const Capture = () => {
   const guarantorData = JSON.parse(sessionStorage.getItem('guarantor'));
   const personalListInfo = JSON.parse(sessionStorage.getItem('personalListInfo'));
   const bankData = JSON.parse(sessionStorage.getItem('bankListInfo'));
-  const dataToStore = JSON.parse(sessionStorage.getItem('uniqueListInfo'));
+  const dataToStore = JSON.parse(sessionStorage.getItem('uniqueList'));
+  const id = JSON.parse(sessionStorage.getItem('id'));
   
   const handleFileChange = (event) => {
+    console.log('Event:', event); // Log the event object
     const selectedFile = event.target.files[0];
+    console.log('Selected File:', selectedFile); // Log the selected file
     // Check for valid image type
     if (!selectedFile.type.match('image/.*')) {
       toast.error("Please select a valid image file");
@@ -30,9 +33,9 @@ const Capture = () => {
     setGuarantorFile(selectedFile);
     const reader = new FileReader();
     reader.readAsDataURL(selectedFile);
-      reader.onload = (e) => console.log(e.target.result);
+    reader.onload = (e) => console.log(e.target.result);
   }
-
+  
  
   
 
@@ -60,13 +63,14 @@ const Capture = () => {
     formData.append('guarantor', JSON.stringify(guarantorData));
     formData.append('personalList', JSON.stringify(personalListInfo));
     formData.append('bankListInfo', JSON.stringify(bankData));
-    formData.append('uniqueListInfo', JSON.stringify(dataToStore));
-    formData.append('guarantor_id', guarantorFile);
+    formData.append('guarantor_id', guarantorFile, guarantorFile.name);
+    formData.append('id', JSON.stringify(id));
     formData.append('image', imageFile);
+    console.log('formData', formData);
 
-  
+    console.log('id', id);
     try {
-      const response = await axiosInstance.post(UPDATE_PROFILE, formData, {
+      const response = await axios.post(UPDATE_KYC, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -77,6 +81,7 @@ const Capture = () => {
       }
     } catch (error) {
       console.error('Error submitting KYC form:', error);
+      console.log('error.response.data:', error);
       toast.error("Error submitting KYC form");
     }
   
@@ -84,6 +89,12 @@ const Capture = () => {
     setImageUrl(null);
   };
   console.log(guarantorData);
+  console.log('guarantorFile:', guarantorFile);
+console.log('guarantorData:', guarantorData);
+console.log('personalListInfo:', personalListInfo);
+console.log('bankData:', bankData);
+console.log('id:', id);
+
 
   return (
     <div className="flex flex-col items-center justify-center h-screen relative">
@@ -95,10 +106,7 @@ const Capture = () => {
           <input id="file" type="file" className="hidden" onChange={handleFileChange} />
         </div>
 
-        {/* Display the name of the uploaded file
-        {guarantor.guarantor_id && (
-          <p>Uploaded Document: {guarantor.guarantor_id.name}</p>
-        )} */}
+        
 
       <div className="mb-10 flex justify-center items-center">
         <label htmlFor="imageInput">

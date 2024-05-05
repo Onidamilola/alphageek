@@ -78,3 +78,5 @@ export const BRANDS = `/brands`
 //post visit image api, a post request
 export const VISIT_IMAGE = `/merchandise_visit_image`
 
+//post update kyc api, a post request
+export const UPDATE_KYC = `${path}/update_kyc`

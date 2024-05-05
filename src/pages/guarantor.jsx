@@ -16,6 +16,19 @@ const Guarantor = () => {
  
 
   const navigate = useNavigate();
+
+  // const handleFileChange = (event) => {
+  //   const selectedFile = event.target.files[0];
+  //   // Check for valid image type
+  //   if (!selectedFile.type.match('image/.*')) {
+  //     toast.error("Please select a valid image file");
+  //     return;
+  //   }
+  //   setGuarantor(selectedFile);
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(selectedFile);
+  //     reader.onload = (e) => console.log(e.target.result);
+  // }
  
   // const handleFileChange = (event) => {
   //   console.log('File selected:', event.target.files[0]);
@@ -51,7 +64,7 @@ const Guarantor = () => {
     event.preventDefault();
 
     const formData = new FormData();
-    // formData.append('guarantor_id', sessionStorage.getItem('guarantor_id'));
+    // formData.append('guarantor_id', guarantor.guarantor_id);
     formData.append('guarantor_name', guarantor.guarantor_name);
     formData.append('guarantor_phone', guarantor.guarantor_phone);
     formData.append('guarantor_email', guarantor.guarantor_email);
@@ -124,8 +137,8 @@ const Guarantor = () => {
           <input id="file" type="file" className="hidden" onChange={handleFileChange} />
         </div> */}
 
-        {/* Display the name of the uploaded file
-        {guarantor.guarantor_id && (
+        {/* Display the name of the uploaded file */}
+        {/* {guarantor.guarantor_id && (
           <p>Uploaded Document: {guarantor.guarantor_id.name}</p>
         )} */}
 

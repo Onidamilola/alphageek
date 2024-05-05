@@ -44,11 +44,16 @@ const Register = () => {
     axios.post(REGISTER, { name, email, password, device_id })
       .then(response => {
         // Handle successful registration
-        console.log(response.data);
-        
+        console.log(response.data.data.id);
+        const id = response.data.data.id; // Extract the ID from the response data
+        if (id) {
+          // Save the ID to sessionStorage
+          sessionStorage.setItem('id', JSON.stringify(id));
           toast.success('Registration successful!');
           navigate('/tabs');
-        
+        } else {
+          toast.error("Failed to retrieve user ID. Please try again.");
+        }
       })
       .catch(error => {
         // Handle registration error
@@ -60,6 +65,7 @@ const Register = () => {
         }
       });
   };
+  
 
   
   return (
