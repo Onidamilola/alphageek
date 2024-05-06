@@ -9,6 +9,7 @@ const Unique = ({ nextStep }) => {
   const [states, setStates] = useState([]);
   const [selectedState, setSelectedState] = useState("");
   const [lgas, setLgas] = useState([]);
+  const [selectedLga, setSelectedLga] = useState("");
   const [uniqueList, setUniqueList] = useState({
     country_id: '',
     state_id: '',
@@ -91,7 +92,10 @@ const Unique = ({ nextStep }) => {
 
   const handleLGAChange = (e) => {
     const LGA = +e.target.value;
+    setSelectedLga(LGA);
     setUniqueList({ ...uniqueList, lga: LGA });
+    sessionStorage.setItem('selectedLGA', LGA);
+
   };
 
   const handleSubmit = async (event) => {

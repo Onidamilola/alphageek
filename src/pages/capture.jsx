@@ -24,6 +24,8 @@ const Capture = () => {
   const dataToStore = JSON.parse(sessionStorage.getItem('uniqueList'));
   const id = JSON.parse(sessionStorage.getItem('id'));
   const email = JSON.parse(sessionStorage.getItem('email'));
+  const countryId = JSON.parse(sessionStorage.getItem('selectedCountryId'));
+  const stateId = JSON.parse(sessionStorage.getItem('selectedStateId'));
   
   const handleFileChange = (event) => {
     console.log('Event:', event); // Log the event object
@@ -81,6 +83,8 @@ const Capture = () => {
     formData.append('bank_id', JSON.stringify(bankData.bankId));
     formData.append('account_name', JSON.stringify(bankData.account_name));
     formData.append('account_number', JSON.stringify(bankData.account_number));
+    formData.append('country_id', JSON.stringify(countryId));
+    formData.append('state_id', JSON.stringify(stateId));
     formData.append('guarantor_id', guarantorFile);
     formData.append('id', JSON.stringify(id));
     formData.append('image', imageFile);
