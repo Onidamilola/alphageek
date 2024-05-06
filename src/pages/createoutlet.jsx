@@ -99,8 +99,9 @@ const CreateOutlet = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoadingText(true);
     try {
-      setLoadingText(true);
+      
       // Retrieve user's geolocation
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(async (position) => {
@@ -137,13 +138,14 @@ const CreateOutlet = () => {
           });
   
           console.log('Response:', response.data);
-  
+          setLoadingText(false);
           Navigate('/outlet-list');
         });
       } else {
         console.error('Geolocation is not supported by this browser.');
       }
     } catch (error) {
+      setLoadingText(false);
       console.error('Error:', error);
     } finally {
       setLoadingText(false);

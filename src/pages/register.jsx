@@ -46,9 +46,11 @@ const Register = () => {
         // Handle successful registration
         console.log(response.data.data.id);
         const id = response.data.data.id; // Extract the ID from the response data
+        const email = response.data.data.email;
         if (id) {
           // Save the ID to sessionStorage
           sessionStorage.setItem('id', JSON.stringify(id));
+          sessionStorage.setItem('email', JSON.stringify(email));
           toast.success('Registration successful!');
           navigate('/tabs');
         } else {
