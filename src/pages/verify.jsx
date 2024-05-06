@@ -20,8 +20,9 @@ const Verify = () => {
   };
 
   const handleSubmit = (e) => {
+    setLoading(true);
     e.preventDefault();
-    setLoading(true); // Start loading
+    // Start loading
 
    
     
@@ -34,17 +35,20 @@ const Verify = () => {
           toast.success('Login successful!');
           navigate('/homepage');
         }
+        setLoading(false);
       })
+      
       .catch(error => {
         console.log('Error:', error);
         if (error.response && error.response.data && error.response.data.message) {
           toast.error(error.response.data.message);
         } else {
           toast.error("Failed to verify code. Please try again.");
+          setLoading(false); // Stop loading
         }
       })
       .finally(() => {
-        setLoading(false); // Stop loading
+       
       });
     
   };
@@ -66,7 +70,9 @@ const Verify = () => {
             className="w-full py-2 px-10 border border-gray-300 rounded bg-gray-50 focus:outline-none focus:border-blue-500"
           />
         </div>
-        <button type="submit" className="w-full py-2 px-4 bg-[#7563d0] text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Verify</button>
+        <button type="submit" className="w-full py-2 px-4 bg-[#7563d0] text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+          {loading ? "loading..." : "Verify"}
+          </button>
       </form>
       {loading && <LoadingScreen />}
       <ToastContainer position="top-right" autoClose={2000} hideProgressBar newestOnTop closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />

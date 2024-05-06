@@ -88,11 +88,13 @@ import LoadingScreen from '../components/LoadingScreen'
                 console.log('Schedule created:', response.data);
       
                 Navigate('/visit-schedule');
+                
               });
+              setLoadingText(false);
             } else {
               console.error('Geolocation is not supported by this browser.');
             }
-            setLoadingText(false);
+            
           } catch (error) {
             console.error('Error creating schedule:', error);
             setLoadingText(false);

@@ -34,6 +34,7 @@ const Capture = () => {
       toast.error("Please select a valid image file");
       return;
     }
+    toast.success("Uploaded successfully");
     setGuarantorFile(selectedFile);
     setImageName(selectedFile.name)
     const reader = new FileReader();
@@ -122,12 +123,14 @@ console.log('id:', id);
       {
         step == 1 &&
         <div className="flex flex-col items-center bg-white ">
-          <label htmlFor="file" className="flex items-center gap-2 cursor-pointer">
-            <FontAwesomeIcon icon={faPaperclip} className="text-[#7563d0]"/>
-            Upload Guarantor Document
-          </label>
-          <div>{imagename} file uploaded</div>
-          <input id="file" type="file" className="hidden" onChange={handleFileChange} />
+           <div className="flex flex-col items-center bg-white p-4 border border-blue-500 rounded">
+      <label htmlFor="file" className="flex items-center gap-2 cursor-pointer text-l font-bold">
+      <FontAwesomeIcon icon={faPaperclip} className="text-[#7563d0] text-xl font-bold" />
+        Upload Guarantor Document
+      </label>
+      <div>{imagename && imagename + 'file uploaded'} </div>
+      <input id="file" type="file" className="hidden" onChange={handleFileChange} />
+    </div>
           <button onClick={() => {
               if(imagename) {
                 setStep(2);
