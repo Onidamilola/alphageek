@@ -16,6 +16,7 @@ const Capture = () => {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
   const [imagename, setImageName] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const guarantorData = JSON.parse(sessionStorage.getItem('guarantor'));
   const personalListInfo = JSON.parse(sessionStorage.getItem('personalListInfo'));
@@ -58,6 +59,7 @@ const Capture = () => {
   }
 
   const handleSave = async () => {
+    setLoading(true)
     if (!imageFile) {
       toast.error("Please select an image");
       return;
@@ -95,10 +97,12 @@ const Capture = () => {
         toast.success("KYC form submitted successfully");
         navigate("/");
       }
+      setLoading(false)
     } catch (error) {
       console.error('Error submitting KYC form:', error);
       console.log('error.response.data:', error);
       toast.error("Error submitting KYC form");
+      setLoading(false)
     }
   
     setImageFile(null);
@@ -124,7 +128,13 @@ console.log('id:', id);
           </label>
           <div>{imagename} file uploaded</div>
           <input id="file" type="file" className="hidden" onChange={handleFileChange} />
-          <button onClick={() => setStep(2)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-20">
+          <button onClick={() => {
+              if(imagename) {
+                setStep(2);
+              }else {
+                toast.error('Kindly upload document')
+              }
+           }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-20">
             Next
           </button>
         </div>
@@ -151,15 +161,11 @@ console.log('id:', id);
         </div>
       )}
       <button onClick={handleSave} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-20">
-        Submit
+        {loading ? "loading..." : "submit"}
       </button>
       <ToastContainer position="top-right" autoClose={5000} hideProgressBar newestOnTop closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
-    
         </>
-      }  
-
-      
-      
+      }   
     </div>
   );
 };

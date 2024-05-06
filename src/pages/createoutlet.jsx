@@ -1,4 +1,5 @@
 import React, {useState, useRef, useEffect,useReducer} from 'react'
+import LoadingOverlay from 'react-loading-overlay';
 import axiosInstance from '../utils/AxiosInstance';
 import Sidebar from '../components/Sidebar';
 import { useNavigate } from 'react-router';
@@ -98,8 +99,9 @@ const CreateOutlet = () => {
 
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    setLoading(true);
     setLoadingText(true);
+    event.preventDefault();
     try {
       
       // Retrieve user's geolocation
@@ -138,17 +140,19 @@ const CreateOutlet = () => {
           });
   
           console.log('Response:', response.data);
-          setLoadingText(false);
           Navigate('/outlet-list');
         });
       } else {
         console.error('Geolocation is not supported by this browser.');
       }
+      setLoading(false);
+      setLoadingText(false);
     } catch (error) {
-      setLoadingText(false);
+      
       console.error('Error:', error);
-    } finally {
       setLoadingText(false);
+    } finally {
+      setLoading(false);
     }
   };
   
@@ -165,6 +169,11 @@ const CreateOutlet = () => {
 
   
   return (
+    <LoadingOverlay
+  active={loading}
+  spinner
+  text='Loading...'
+  >
     <div>
       <div style={{ width: '100%', marginBottom: '20px' }}>
         <Sidebar />
@@ -255,9 +264,9 @@ const CreateOutlet = () => {
           margin: 'auto', 
           
         }}
-        disabled={loadingText}
+       
           >
-            {loadingText ? 'Loading...' : 'SAVE'}
+            {loadingText ? "loading..." : "SAVE"}
             </button>
 
        </form>
@@ -306,6 +315,7 @@ const CreateOutlet = () => {
         }
       `}</style>
     </div>
+    </LoadingOverlay>
   )
 }
 

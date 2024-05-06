@@ -59,9 +59,10 @@ import LoadingScreen from '../components/LoadingScreen'
         }, []);
       
         const handleSubmit = async (event) => {
+          setLoadingText(true);
           event.preventDefault();
           try {
-            setLoadingText(true); // Set loading to true when API call starts
+            // Set loading to true when API call starts
             if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(async (position) => {
                 const latitude = position.coords.latitude;
@@ -91,10 +92,12 @@ import LoadingScreen from '../components/LoadingScreen'
             } else {
               console.error('Geolocation is not supported by this browser.');
             }
+            setLoadingText(false);
           } catch (error) {
             console.error('Error creating schedule:', error);
+            setLoadingText(false);
           } finally {
-            setLoadingText(false); // Set loading to false after API call finishes
+            // Set loading to false after API call finishes
           }
         };
 
