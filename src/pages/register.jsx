@@ -18,6 +18,7 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [registerError, setRegisterError] = useState("");
   
@@ -39,6 +40,7 @@ const Register = () => {
   };
 
   const handleSubmit = (e) => {
+    setLoading(true)
     e.preventDefault();
     const device_id = uuidv4(); // Generate random UUID
     axios.post(REGISTER, { name, email, password, device_id })
@@ -53,6 +55,7 @@ const Register = () => {
           sessionStorage.setItem('email', JSON.stringify(email));
           toast.success('Registration successful!');
           navigate('/tabs');
+          setLoading(false)
         } else {
           toast.error("Failed to retrieve user ID. Please try again.");
         }
@@ -64,6 +67,7 @@ const Register = () => {
           toast.error(error.response.data.message);
         } else {
           toast.error("Failed to register. Please try again.");
+          setLoading(false)
         }
       });
   };
@@ -121,7 +125,11 @@ const Register = () => {
             />
           )}
         </div>
-        <button type="submit" className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Register</button>
+        <button type="submit" className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+        >
+          
+          {loading ? "loading..." : "Register"}
+          </button>
       </form>
       <ToastContainer position="top-right" autoClose={2000} hideProgressBar newestOnTop closeOnClick rtl pauseOnFocusLoss draggable pauseOnHover />
 
