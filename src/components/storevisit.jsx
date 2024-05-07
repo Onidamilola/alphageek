@@ -66,43 +66,33 @@ const StoreVisit = ({link}) => {
 
   
   const handleSubmit = async (event) => {
+    setLoadingText(true);
     event.preventDefault();
-
-    // Check if either notes or image is not filled
     if (!note.trim() || !imageObject) {
       // Show error message using toast
       toast.error('Please fill in both notes and select an image.');
       return;
     }
-
     setLoading(true); // Set loading state to true
-
     // Retrieve visit schedule data from sessionStorage
     const visitSchedules = JSON.parse(sessionStorage.getItem('visitSchedules'));
-
     // Retrieve schedule_id from sessionStorage
     const scheduleId = JSON.parse(sessionStorage.getItem('schedule_id'));
-
     // Find the selected schedule from visitSchedules based on schedule_id
     const selectedSchedule = visitSchedules.find(schedule => schedule.schedule_id === scheduleId);
-
     if (!selectedSchedule) {
       console.error('Schedule not found for schedule_id:', scheduleId);
       setLoadingText(false); // Set loading state back to false
       return;
     }
-
     // Prepare FormData object with image, notes, and other necessary data
     const formData = new FormData();
     if (imageObject) {
       formData.append('image', imageObject.imageFile);
     }
-
     formData.append('details_status', '1'); // Add details_status field with value 1
-
     // Include schedule_id separately
     formData.append('schedule_id', scheduleId);
-
     // Include other properties from selectedSchedule
     formData.append('outlet_id', selectedSchedule.outlet_id);
     formData.append('visit_date', selectedSchedule.schedule_date);
@@ -113,7 +103,6 @@ const StoreVisit = ({link}) => {
     formData.append('location_id', address);
     formData.append('notes', note);
     console.log(note);
-
     // Make a POST request using Axios
     try {
       const response = await axiosInstance.post(VISIT_DATA, formData, {
@@ -125,6 +114,7 @@ const StoreVisit = ({link}) => {
       // Handle success response
       // Navigate back to the schedule modal page
       navigate('/visit-schedule');
+      setLoadingText(false);
     } catch (error) {
       console.error('Error:', error);
       // Handle error response
@@ -165,8 +155,13 @@ const StoreVisit = ({link}) => {
               placeholder="Write Something..."
               onChange={handleNote}
               required
-              style={{ height: '100px', marginBottom: '10px' }}
+              style={{ height: '100px', marginBottom: '20px' }}
             />
+          </div>
+
+          <div>
+            <label style={{ color: 'blue' }}>Onga</label>
+            <input type="num" id="value" name="sales volume" placeholder="Sales Volume" maxlength="11" style={{ marginBottom: '20px' }} />
           </div>
 
           <div className="flex justify-center gap-4">

@@ -31,7 +31,7 @@ const CreateOutlet = () => {
   const [countryId, setCountryId] = useState('');
   const [stateId, setStateId] = useState('');
   const [loadingText, setLoadingText] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const Navigate = useNavigate();
 
  
@@ -141,12 +141,13 @@ const CreateOutlet = () => {
   
           console.log('Response:', response.data);
           Navigate('/outlet-list');
+          setLoadingText(false);
         });
       } else {
         console.error('Geolocation is not supported by this browser.');
       }
       setLoading(false);
-      setLoadingText(false);
+      
     } catch (error) {
       
       console.error('Error:', error);

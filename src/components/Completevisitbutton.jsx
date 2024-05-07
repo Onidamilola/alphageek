@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const CompleteVisitButton = ({ Loading }) => {
   const buttonStyle = {
@@ -32,13 +32,8 @@ const CompleteVisitButton = ({ Loading }) => {
       className="hover:bg-blue-700"
       onMouseEnter={(e) => e.target.style.backgroundColor = "#b06ab3"}
       onMouseLeave={(e) => e.target.style.backgroundColor = "#4568dc"}
-      disabled={Loading} // Disable button while loading
     >
-      {Loading ? (
-        <span style={loadingTextStyle}>Loading...</span>
-      ) : (
-        'COMPLETE VISIT'
-      )}
+      {Loading ? "loading...." : "Complete Vist"}
     </button>
   );
 };

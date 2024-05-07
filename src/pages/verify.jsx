@@ -22,10 +22,6 @@ const Verify = () => {
   const handleSubmit = (e) => {
     setLoading(true);
     e.preventDefault();
-    // Start loading
-
-   
-    
     const verified = new FormData();
     verified.append("code", code);
 
@@ -34,8 +30,9 @@ const Verify = () => {
         if (response.status === 200) {
           toast.success('Login successful!');
           navigate('/homepage');
+          setLoading(false);
         }
-        setLoading(false);
+        
       })
       
       .catch(error => {

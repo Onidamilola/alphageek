@@ -59,8 +59,8 @@ import LoadingScreen from '../components/LoadingScreen'
         }, []);
       
         const handleSubmit = async (event) => {
-          setLoadingText(true);
           event.preventDefault();
+          setLoadingText(true);
           try {
             // Set loading to true when API call starts
             if (navigator.geolocation) {
@@ -89,8 +89,9 @@ import LoadingScreen from '../components/LoadingScreen'
       
                 Navigate('/visit-schedule');
                 
+                setLoadingText(false);
               });
-              setLoadingText(false);
+             
             } else {
               console.error('Geolocation is not supported by this browser.');
             }
