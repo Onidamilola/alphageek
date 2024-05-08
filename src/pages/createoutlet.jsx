@@ -7,6 +7,9 @@ import { GET_OUTLET } from '../utils/constant';
 import { GET_OUTLETCHANNEL } from '../utils/constant'
 import { CREATE_WEB_OUTLET, PROFILE } from '../utils/constant';
 import LoadingScreen from '../components/LoadingScreen';
+import ModalLoader from '../components/modal/loader';
+import TitleButton from '../components/buttons';
+import { toast } from 'react-toastify';
 
 
 
@@ -133,28 +136,26 @@ const CreateOutlet = () => {
           }
   
           // Send FormData to the server
-          const response = await axiosInstance.post(CREATE_WEB_OUTLET, formData, {
+          const {data} = await axiosInstance.post(CREATE_WEB_OUTLET, formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
           });
   
-          console.log('Response:', response.data);
+          console.log('Response:', data);
           Navigate('/outlet-list');
           setLoadingText(false);
+          setLoading(false);
         });
       } else {
-        console.error('Geolocation is not supported by this browser.');
+        toast.error('Geolocation is not supported by this browser.');
       }
-      setLoading(false);
       
     } catch (error) {
-      
+      setLoading(false);
       console.error('Error:', error);
       setLoadingText(false);
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
   
 
@@ -163,19 +164,15 @@ const CreateOutlet = () => {
     handleFileInput.current.click();
   };
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
+  // if (loading) {
+  //   return <LoadingScreen />;
+  // }
 
 
   
   return (
-    <LoadingOverlay
-  active={loading}
-  spinner
-  text='Loading...'
-  >
     <div>
+       <ModalLoader visible={loading} />
       <div style={{ width: '100%', marginBottom: '20px' }}>
         <Sidebar />
       </div>
@@ -250,25 +247,7 @@ const CreateOutlet = () => {
           />
           {imageObject && <img src={imageObject.imagePreview} alt="Selected" />}
    
-        <button 
-          type="submit" 
-          style={{
-          width: '100%', 
-          maxWidth: '200px',
-          padding: '10px 20px', 
-          backgroundColor: '#007bff', 
-          color: '#fff', 
-          border: 'none', 
-          borderRadius: '5px', 
-          cursor: 'pointer',
-          display: 'block', 
-          margin: 'auto', 
-          
-        }}
-       
-          >
-            {loadingText ? "loading..." : "SAVE"}
-            </button>
+        <TitleButton title={loading ? 'Loading': 'Save'} handleSubmit={handleSubmit} />
 
        </form>
              </div>
@@ -316,7 +295,6 @@ const CreateOutlet = () => {
         }
       `}</style>
     </div>
-    </LoadingOverlay>
   )
 }
 

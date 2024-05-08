@@ -1,51 +1,45 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from './pages/home/Home.jsx';
+import Login from './pages/login/Login.jsx';
+import Product from './components/product.jsx';
+import Unique from './pages/unique.jsx';
+import Personal from './pages/personal.jsx';
+import Guarantor from './pages/guarantor.jsx';
+import Bank from './pages/bank.jsx';
+import Capture from './pages/capture.jsx';
+import Register from './pages/register.jsx';
+import Tabs from './pages/tabs.jsx';
+import Verify from './pages/verify.jsx';
+import Page1 from './pages/forgot_password/page1.jsx';
+import Page2 from './pages/forgot_password/page2.jsx';
+import OutletRecruitment from './pages/outlet-recruitment.jsx';
+import CompetitionTracking from './pages/competition-tracking.jsx';
+import OOFTracking from './pages/OOF-tracking.jsx';
+import PlanogramChecks from './pages/planogram-checks.jsx';
+import PricingChecks from './pages/pricing-checks.jsx';
+import ProductMerchandising from './pages/product-merchandising.jsx';
+import ProductOrdering from './pages/product-ordering.jsx';
+import ProductsFreshness from './pages/products-freshness.jsx';
+import POSM from './pages/POSM.jsx';
+import StoreDetailing from './pages/store-detailing.jsx';
+import RoutePlan from './pages/routeplan.jsx';
+import OutletList from './pages/outletlist.jsx';
+import VisitSchedule from './pages/visitschedule.jsx';
+import Inbox from './pages/inbox.jsx';
+import Help from './pages/help.jsx';
+import CreateOutlet from './pages/createoutlet.jsx';
+import UpdateOutlet from './pages/updateoutlet.jsx';
+import CreateSchedule from './pages/createschedule.jsx';
+import StoreVisit from './components/storevisit.jsx';
+import ProductMech from './components/productmerc.jsx';
 
-const Home = lazy(() => import(".././src/pages/home/Home.jsx"));
-const Login = lazy(() => import("./pages/login/Login.jsx"));
-const Unique = lazy(() => import("./pages/unique.jsx"));
-const Personal = lazy(() => import("./pages/personal.jsx"));
-const Guarantor = lazy(() => import("./pages/guarantor.jsx"));
-const Bank = lazy(() => import("./pages/bank.jsx"));
-const Capture = lazy(() => import("./pages/capture.jsx"));
-const Register = lazy(() => import("./pages/register.jsx"));
-const Tabs = lazy(() => import("./pages/tabs.jsx"));
-const Verify = lazy(() => import("./pages/verify.jsx"));
-const Page1 = lazy(() => import("./pages/forgot_password/page1.jsx"));
-const Page2 = lazy(() => import("./pages/forgot_password/page2.jsx"));
-const OutletRecruitment = lazy(() => import("./pages/outlet-recruitment.jsx"));
-const CompetitionTracking = lazy(() => import("./pages/competition-tracking.jsx"));
-const OOFTracking = lazy(() => import("./pages/OOF-tracking.jsx"));
-const PlanogramChecks = lazy(() => import("./pages/planogram-checks.jsx"));
-const PricingChecks = lazy(() => import("./pages/pricing-checks.jsx"));
-const ProductMerchandising = lazy(() => import("./pages/product-merchandising.jsx"));
-const ProductOrdering = lazy(() => import("./pages/product-ordering.jsx"));
-const ProductsFreshness = lazy(() => import("./pages/products-freshness.jsx"));
-const POSM = lazy(() => import("./pages/POSM.jsx"));
-const StoreDetailing = lazy(() => import("./pages/store-detailing.jsx"));
-const RoutePlan = lazy(() => import("./pages/routeplan.jsx"));
-const OutletList = lazy(() => import("./pages/outletlist.jsx"));
-const VisitSchedule = lazy(() => import("./pages/visitschedule.jsx"));
-const Inbox = lazy(() => import("./pages/inbox.jsx"));
-const Help = lazy(() => import("./pages/help.jsx"));
-const CreateOutlet = lazy(() => import("./pages/createoutlet.jsx"));
-const UpdateOutlet = lazy(() => import("./pages/updateoutlet.jsx"));
-const CreateSchedule = lazy(() => import("./pages/createschedule.jsx"));
-const StoreVisit = lazy(() => import("../src/components/storevisit.jsx"));
-const ProductMech = lazy(() => import("../src/components/productmerc.jsx"));
-const Product = lazy(() => import("../src/components/product.jsx"));
 
 
 function App() {
   return (
     <Router>
-      <Suspense
-        fallback={
-          <div className="container">
-            <div className="loader"></div>
-          </div>
-        }
-      >
+      
         <Routes>
 
           {/* <Route path="/" element={<Home />}  /> */}
@@ -89,7 +83,6 @@ function App() {
 
           {/* <Route element={<NotFound />} path="*" /> */}
         </Routes>
-      </Suspense>
     </Router>
   );
 }

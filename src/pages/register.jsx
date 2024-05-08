@@ -84,7 +84,6 @@ const Register = () => {
             type="text"
             placeholder="Name"
             value={name}
-            autoComplete="off"
             onChange={handleNameChange}
             required
             className="w-full py-2 px-10 border border-gray-300 rounded bg-gray-50 focus:outline-none focus:border-blue-500"

@@ -7,27 +7,34 @@ import ScheduleModal from '../components/modal/schedulemodal';
 import axiosInstance from "../utils/AxiosInstance";
 import { GET_SCHEDULES } from "../utils/constant";
 import LoadingScreen from '../components/LoadingScreen';
+import ModalLoader from '../components/modal/loader';
 
 const VisitSchedule = () => {
   const [activeTab, setActiveTab] = useState('Today');
   const [showCalendar, setShowCalendar] = useState(false);
   const [isScheduleCreated, setIsScheduleCreated] = useState(false); // State to track schedule creation
   const [visitSchedule, setVisitSchedule] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    axiosInstance.get(GET_SCHEDULES)
-      .then(response => {
-        const newData = response.data.data;
+
+  const fetchSchedules =  async () => {
+    setLoading(true);
+    try {
+      const {data} = await axiosInstance.get(GET_SCHEDULES);
+
+      const newData = data.data;
         setVisitSchedule(newData);
         setLoading(false); // Set loading to false when data is fetched
         console.log('Received schedules:', newData);
-      })
-      .catch(error => {
-        console.error('Error fetching schedules:', error);
+
+    }catch(err) {
+      console.error('Error fetching schedules:', err);
         setLoading(false); // Set loading to false on error
         setVisitSchedule([]);
-      });
+    }
+  }
+  useEffect(() => {
+    fetchSchedules();
   }, []);  // Include visitSchedule in the dependency array
   
    // Empty dependency array to ensure the effect runs only once on component mount
@@ -48,12 +55,14 @@ const VisitSchedule = () => {
 
   console.log('Visit schedule:', visitSchedule.length);
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
+  // if (loading) {
+  //   return <LoadingScreen />;
+  // }
 
   return (
     <div>
+      
+      <ModalLoader visible={loading} />
       <div>
         <Sidebar />
       </div>

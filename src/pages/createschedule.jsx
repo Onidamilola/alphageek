@@ -5,6 +5,8 @@ import { CREATE_SCHEDULE } from '../utils/constant'
 import { USER_OUTLETS, PROFILE } from '../utils/constant'
 import { useNavigate } from 'react-router-dom'
 import LoadingScreen from '../components/LoadingScreen'
+import TitleButton from '../components/buttons'
+import ModalLoader from '../components/modal/loader';
 
 
     const CreateSchedule = () => {
@@ -59,6 +61,7 @@ import LoadingScreen from '../components/LoadingScreen'
         }, []);
       
         const handleSubmit = async (event) => {
+          setLoading(true);
           event.preventDefault();
           setLoadingText(true);
           try {
@@ -88,7 +91,7 @@ import LoadingScreen from '../components/LoadingScreen'
                 console.log('Schedule created:', response.data);
       
                 Navigate('/visit-schedule');
-                
+                setLoading(false);
                 setLoadingText(false);
               });
              
@@ -97,6 +100,7 @@ import LoadingScreen from '../components/LoadingScreen'
             }
             
           } catch (error) {
+            setLoading(false);
             console.error('Error creating schedule:', error);
             setLoadingText(false);
           } finally {
@@ -104,13 +108,14 @@ import LoadingScreen from '../components/LoadingScreen'
           }
         };
 
-        if (loading) {
-          return <LoadingScreen />;
-        }
+        // if (loading) {
+        //   return <LoadingScreen />;
+        // }
       
 
         return(
             <div>
+              <ModalLoader visible={loading} />
                  <div style={{ width: '100%', marginBottom: '20px' }}>
         <Sidebar />
       </div>
@@ -153,22 +158,7 @@ import LoadingScreen from '../components/LoadingScreen'
             style={{ marginBottom: '10px' }}
           />
 
-        <button
-            type="submit"
-            style={{
-              width: '100%',
-              maxWidth: '200px',
-              padding: '10px 20px',
-              backgroundColor: loading ? '#7563d0' : '#502ef1',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer',
-              fontSize: '16px',
-            }}
-          >
-            {loadingText ? 'Loading...' : 'SAVE'}
-          </button>
+        <TitleButton title={loading ? 'Loading': 'Save'} handleSubmit={handleSubmit} /> 
           </form>
       </div>
       

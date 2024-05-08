@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SchedulePopup from "./schedulepopup";
+import TitleButton from "../buttons";
 // import Map from "../map";
 
 const ScheduleModal = ({ visitSchedules, link }) => {
@@ -81,25 +82,8 @@ const ScheduleModal = ({ visitSchedules, link }) => {
             )}
           </div>
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <button
-              type="button"
-              style={{
-                width: '100%',
-                maxWidth: '200px',
-                padding: '10px 20px',
-                backgroundColor: visitSchedule.visit_status > 0 ? 'green' : 'blue',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                display: 'block', 
-                margin: 'auto',
-              }}
-              onClick={() => handleClick(visitSchedule)} // Pass the entire schedule object
-             
-            >
-              {visitSchedule.visit_status > 0 ? 'Visited' : 'Visit Schedule'}
-            </button>
+            <TitleButton bgC={true} visit={visitSchedule.visit_status} title={visitSchedule.visit_status > 0 ? 'Visited' : 'Visit Schedule'} handleSubmit={() => handleClick(visitSchedule)} />
+            
           </div>
         </div>
       ))}
