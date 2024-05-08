@@ -1,5 +1,4 @@
 import React, {useState, useRef, useEffect,useReducer} from 'react'
-import LoadingOverlay from 'react-loading-overlay';
 import axiosInstance from '../utils/AxiosInstance';
 import Sidebar from '../components/Sidebar';
 import { useNavigate } from 'react-router';
