@@ -1,0 +1,131 @@
+.sidebar {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .menu-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .dashboard-text {
+    margin-left: 10px;
+    font-weight: bold;
+  }
+  
+  .burger-menu {
+    height: 2em;
+    width: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .burger-bar {
+    width: 80%;
+    height: 3px;
+    background-color: blue;
+    border-radius: 3px;
+    margin: 2px 0;
+    transition: all 0.3s ease;
+  }
+
+  .burger-visible {
+    display: flex; 
+  }
+
+  .clicked:nth-child(1) {
+    transform: rotate(45deg) translate(3px, 5px);
+  }
+  
+  .clicked:nth-child(2) {
+    transform: scale(0);
+  }
+  
+  .clicked:nth-child(3) {
+    transform: rotate(-45deg) translate(3px, -5px);
+  }
+
+  .x-icon {
+    position: relative;
+  }
+  
+  .x-icon:before, .x-icon:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: blue;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+  }
+  
+  .x-icon:before {
+    transform: rotate(45deg);
+  }
+  
+  .x-icon:after {
+    transform: rotate(-45deg);
+  }
+
+  .image-container {
+    background-color: #502ef1;
+    padding: 10px;
+    width: fit-content;
+  }
+  
+  .image-container img {
+    width: 100%; 
+    display: block; 
+  }
+  
+  .menu {
+    width: 250%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    opacity: .5;
+    overflow-x: hidden;
+    inset: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    transition: all 0.3s ease;
+  }
+ 
+  
+  .menu-item {
+    margin-bottom: 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px;
+    display: flex; 
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .sidebar.menu-open {
+    transform: translateX(250px); /* Adjust the value as needed */
+  }
+
+  
+  .menu-item:hover {
+    text-decoration: underline;
+  }
+  
+  .hidden {
+    transform: translateX(-250px);
+  }
+  
+  .visible {
+    transform: translateX(250px);
+  }
+  
